@@ -9,13 +9,13 @@ public class Users {
 
     private int user_ID;
     private String user_Name;
-    private Text password;
-    private Date create_Date;
+    private String password;
+    private java.sql.Date create_Date;
     private String created_By;
-    private Time last_Update;
+    private java.sql.Time last_Update;
     private String last_Updated_By;
 
-    public Users(int user_ID, String user_Name, Text password, Date create_Date, String created_By, Time last_Update, String last_Updated_By){
+    public Users(int user_ID, String user_Name, String password, java.sql.Date create_Date, String created_By, java.sql.Time last_Update, String last_Updated_By){
         this.user_ID = user_ID;
         this.user_Name = user_Name;
         this.password = password;
@@ -41,19 +41,19 @@ public class Users {
         this.user_Name = user_Name;
     }
 
-    public Text getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(Text password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public Date getCreate_Date() {
+    public java.sql.Date getCreate_Date() {
         return create_Date;
     }
 
-    public void setCreate_Date(Date create_Date) {
+    public void setCreate_Date(java.sql.Date create_Date) {
         this.create_Date = create_Date;
     }
 
@@ -65,11 +65,11 @@ public class Users {
         this.created_By = created_By;
     }
 
-    public Time getLast_Update() {
+    public java.sql.Time getLast_Update() {
         return last_Update;
     }
 
-    public void setLast_Update(Time last_update) {
+    public void setLast_Update(java.sql.Time last_update) {
         this.last_Update = last_update;
     }
 
