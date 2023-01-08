@@ -1,13 +1,32 @@
 package Controllers;
 
-import javafx.fxml.Initializable;
+import DBQueries.LoginQuery;
+import Objects.Users;
+import javafx.event.ActionEvent;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+public abstract class LoginController {
 
-public class LoginController implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    public TextField enteredUserName;
+    public PasswordField enteredPassword;
+
+    public void onEnteredUserName(ActionEvent actionEvent) {
+    }
+
+    public void onEnteredPassword(ActionEvent actionEvent) {
+    }
+
+    public void loginAttempt() {
 
     }
+
+
+
+
 }
+
+
+
+
