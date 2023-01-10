@@ -16,7 +16,7 @@ public class AppointmentQuery {
         ObservableList<Appointments> aptList = FXCollections.observableArrayList();
 
         try{
-            String sql = "SELECT Appointment_ID FROM appointments";
+            String sql = "SELECT * FROM appointments";
 
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
 

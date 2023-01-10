@@ -15,18 +15,18 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="345.0" prefWidth="576.0">
                      <children>
-                        <TableView layoutX="14.0" layoutY="14.0" prefHeight="240.0" prefWidth="990.0">
+                        <TableView fx:id="weeklyViewSchedule" layoutX="14.0" layoutY="14.0" prefHeight="240.0" prefWidth="990.0">
                           <columns>
-                            <TableColumn prefWidth="101.0" text="Appointment ID" />
-                            <TableColumn prefWidth="98.0" text="Title" />
-                              <TableColumn minWidth="0.0" prefWidth="176.0" text="Description" />
-                              <TableColumn minWidth="0.0" prefWidth="102.0" text="Location" />
-                              <TableColumn minWidth="0.0" prefWidth="95.0" text="Contact" />
-                              <TableColumn minWidth="0.0" prefWidth="74.0" text="Type" />
-                              <TableColumn minWidth="0.0" prefWidth="101.0" text="Start Date/Time" />
-                              <TableColumn minWidth="0.0" prefWidth="105.0" text="End Date/Time" />
-                              <TableColumn minWidth="0.0" prefWidth="82.0" text="Customer ID" />
-                              <TableColumn minWidth="0.0" prefWidth="55.0" text="User ID" />
+                            <TableColumn fx:id="weeklyAptID" prefWidth="101.0" text="Appointment ID" />
+                            <TableColumn fx:id="weeklyAptTitle" prefWidth="98.0" text="Title" />
+                              <TableColumn fx:id="weeklyAptDescription" minWidth="0.0" prefWidth="112.0" text="Description" />
+                              <TableColumn fx:id="weeklyAptLocation" minWidth="0.0" prefWidth="142.0" text="Location" />
+                              <TableColumn fx:id="weeklyContact" minWidth="0.0" prefWidth="85.0" text="Contact" />
+                              <TableColumn fx:id="weeklyType" minWidth="0.0" prefWidth="111.0" text="Type" />
+                              <TableColumn fx:id="weeklyStart" minWidth="0.0" prefWidth="98.0" text="Start Date/Time" />
+                              <TableColumn fx:id="weeklyEnd" minWidth="0.0" prefWidth="110.0" text="End Date/Time" />
+                              <TableColumn fx:id="weeklyCustId" minWidth="0.0" prefWidth="77.0" text="Customer ID" />
+                              <TableColumn fx:id="weeklyUserId" minWidth="0.0" prefWidth="55.0" text="User ID" />
                           </columns>
                         </TableView>
                         <Button layoutX="444.0" layoutY="279.0" mnemonicParsing="false" text="Update Appointment" />
@@ -40,7 +40,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="348.0" prefWidth="1017.0">
                      <children>
-                        <TableView layoutX="14.0" layoutY="14.0" prefHeight="240.0" prefWidth="990.0">
+                        <TableView fx:id="monthlyViewSchedule" layoutX="14.0" layoutY="14.0" prefHeight="240.0" prefWidth="990.0">
                            <columns>
                               <TableColumn prefWidth="101.0" text="Appointment ID" />
                               <TableColumn prefWidth="98.0" text="Title" />
