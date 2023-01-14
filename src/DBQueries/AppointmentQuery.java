@@ -11,35 +11,34 @@ import java.sql.SQLException;
 
 public class AppointmentQuery {
 
-    public static ObservableList<Appointments> allAppointmentsList() {
+    public static ObservableList<Appointments> allAppointmentsList() throws SQLException {
 
-        ObservableList<Appointments> aptList = FXCollections.observableArrayList();
+        ObservableList<Appointments> allAptList = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM appointments";
+
+        PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM appointments");
 
         try{
-            String sql = "SELECT * FROM appointments";
-
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
 
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
-                int aptID = rs.getInt("Appointment_ID");
-                String aptTitle = rs.getString("Title");
-                String aptDescription = rs.getString("Description");
-                String aptLocation = rs.getString("Location");
-                String aptType = rs.getString("Type");
-                java.sql.Date aptStart = rs.getDate("Start");
-                java.sql.Date aptEnd = rs.getDate("End");
-                java.sql.Date createDate = rs.getDate("Create_Date");
-                String createdBy = rs.getString("Created_By");
-                java.sql.Date lastUpdated = rs.getDate("Last_Update");
-                String lastUpdatedBy = rs.getString("Last_Updated_By");
-                int customerId = rs.getInt("Customer_ID");
-                int userID = rs.getInt("User_ID");
-                int contactId = rs.getInt("Contact_ID");
-                Appointments apt = new Appointments(aptID, aptTitle, aptDescription, aptLocation, aptType, aptStart,
-                        aptEnd, createDate, createdBy, lastUpdated, lastUpdatedBy, customerId, userID, contactId);
-                aptList.add(apt);
+                Appointments apt = new Appointments(
+                rs.getInt("Appointment_ID"),
+                rs.getString("Title"),
+                rs.getString("Description"),
+                rs.getString("Location"),
+                rs.getString("Type"),
+                rs.getDate("Start"),
+                rs.getDate("End"),
+                rs.getDate("Create_Date"),
+                rs.getString("Created_By"),
+                rs.getDate("Last_Update"),
+                rs.getString("Last_Updated_By"),
+                rs.getInt("Customer_ID"),
+                rs.getInt("User_ID"),
+                rs.getInt("Contact_ID"));
+                allAptList.add(apt);
 
             }
         } catch (
@@ -47,7 +46,7 @@ public class AppointmentQuery {
             e.printStackTrace();
         }
 
-        return aptList;
+        return allAptList;
 
     }
 

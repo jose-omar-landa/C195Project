@@ -1,68 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="421.0" prefWidth="1037.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AppointmentScreenController">
+<AnchorPane prefHeight="434.0" prefWidth="1037.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AppointmentScreenController">
    <children>
-      <TabPane layoutX="12.0" layoutY="14.0" prefHeight="347.0" prefWidth="1017.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Week View">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="345.0" prefWidth="576.0">
-                     <children>
-                        <TableView fx:id="weeklyViewSchedule" layoutX="14.0" layoutY="14.0" prefHeight="240.0" prefWidth="990.0">
-                          <columns>
-                            <TableColumn fx:id="weeklyAptID" prefWidth="101.0" text="Appointment ID" />
-                            <TableColumn fx:id="weeklyAptTitle" prefWidth="98.0" text="Title" />
-                              <TableColumn fx:id="weeklyAptDescription" minWidth="0.0" prefWidth="112.0" text="Description" />
-                              <TableColumn fx:id="weeklyAptLocation" minWidth="0.0" prefWidth="142.0" text="Location" />
-                              <TableColumn fx:id="weeklyContact" minWidth="0.0" prefWidth="85.0" text="Contact" />
-                              <TableColumn fx:id="weeklyType" minWidth="0.0" prefWidth="111.0" text="Type" />
-                              <TableColumn fx:id="weeklyStart" minWidth="0.0" prefWidth="98.0" text="Start Date/Time" />
-                              <TableColumn fx:id="weeklyEnd" minWidth="0.0" prefWidth="110.0" text="End Date/Time" />
-                              <TableColumn fx:id="weeklyCustId" minWidth="0.0" prefWidth="77.0" text="Customer ID" />
-                              <TableColumn fx:id="weeklyUserId" minWidth="0.0" prefWidth="55.0" text="User ID" />
-                          </columns>
-                        </TableView>
-                        <Button layoutX="444.0" layoutY="279.0" mnemonicParsing="false" text="Update Appointment" />
-                        <Button layoutX="323.0" layoutY="279.0" mnemonicParsing="false" text="Add Appointment" />
-                        <Button layoutX="582.0" layoutY="279.0" mnemonicParsing="false" text="Remove Appointment" />
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Month View">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="348.0" prefWidth="1017.0">
-                     <children>
-                        <TableView fx:id="monthlyViewSchedule" layoutX="14.0" layoutY="14.0" prefHeight="240.0" prefWidth="990.0">
-                           <columns>
-                              <TableColumn prefWidth="101.0" text="Appointment ID" />
-                              <TableColumn prefWidth="98.0" text="Title" />
-                              <TableColumn minWidth="0.0" prefWidth="176.0" text="Description" />
-                              <TableColumn minWidth="0.0" prefWidth="102.0" text="Location" />
-                              <TableColumn minWidth="0.0" prefWidth="95.0" text="Contact" />
-                              <TableColumn minWidth="0.0" prefWidth="74.0" text="Type" />
-                              <TableColumn minWidth="0.0" prefWidth="101.0" text="Start Date/Time" />
-                              <TableColumn minWidth="0.0" prefWidth="105.0" text="End Date/Time" />
-                              <TableColumn minWidth="0.0" prefWidth="82.0" text="Customer ID" />
-                              <TableColumn minWidth="0.0" prefWidth="55.0" text="User ID" />
-                           </columns>
-                        </TableView>
-                        <Button layoutX="444.0" layoutY="279.0" mnemonicParsing="false" text="Update Appointment" />
-                        <Button layoutX="323.0" layoutY="279.0" mnemonicParsing="false" text="Add Appointment" />
-                        <Button layoutX="582.0" layoutY="279.0" mnemonicParsing="false" text="Remove Appointment" />
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-        </tabs>
-      </TabPane>
       <Button layoutX="875.0" layoutY="382.0" mnemonicParsing="false" text="View Customer Directory" />
+      <TableView fx:id="tableViewSchedule" layoutX="24.0" layoutY="84.0" prefHeight="256.0" prefWidth="990.0">
+         <columns>
+            <TableColumn fx:id="tableAptID" prefWidth="101.0" text="Appointment ID" />
+            <TableColumn fx:id="tableAptTitle" prefWidth="98.0" text="Title" />
+            <TableColumn fx:id="tableAptDescription" minWidth="0.0" prefWidth="112.0" text="Description" />
+            <TableColumn fx:id="tableAptLocation" minWidth="0.0" prefWidth="142.0" text="Location" />
+            <TableColumn fx:id="tableContact" minWidth="0.0" prefWidth="85.0" text="Contact" />
+            <TableColumn fx:id="tableType" minWidth="0.0" prefWidth="111.0" text="Type" />
+            <TableColumn fx:id="tableStart" minWidth="0.0" prefWidth="98.0" text="Start Date/Time" />
+            <TableColumn fx:id="tableEnd" minWidth="0.0" prefWidth="110.0" text="End Date/Time" />
+            <TableColumn fx:id="tableCustId" minWidth="0.0" prefWidth="77.0" text="Customer ID" />
+            <TableColumn fx:id="tableUserId" minWidth="0.0" prefWidth="55.0" text="User ID" />
+         </columns>
+      </TableView>
+      <Label layoutX="449.0" layoutY="47.0" text="Currently Viewing All Appointments:" />
+      <CheckBox fx:id="weeklyAptCheckbox" layoutX="21.0" layoutY="374.0" mnemonicParsing="false" onAction="#onWeekCheckboxClick" prefHeight="17.0" prefWidth="168.0" text="This Week's Appointments" />
+      <CheckBox fx:id="monthlyAptCheckbox" layoutX="21.0" layoutY="399.0" mnemonicParsing="false" onAction="#onMonthCheckboxClick" text="This Month's Appointments" />
+      <CheckBox fx:id="allAptCheckbox" layoutX="21.0" layoutY="350.0" mnemonicParsing="false" onAction="#onAllAptCheckboxClick" selected="true" text="All Appointments" />
    </children>
 </AnchorPane>
