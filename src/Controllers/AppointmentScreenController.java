@@ -4,11 +4,10 @@ import DBQueries.AppointmentQuery;
 import Objects.Appointments;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import Controllers.MainController;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputMethodEvent;
 
 import java.awt.event.ActionEvent;
 import java.lang.reflect.AccessibleObject;
@@ -30,15 +29,105 @@ public class AppointmentScreenController implements Initializable {
     public TableColumn<Appointments, Date> tableEnd;
     public TableColumn<Appointments, Integer> tableCustId;
     public TableColumn<Appointments, Integer> tableUserId;
-    public CheckBox weeklyAptCheckbox;
-    public CheckBox monthlyAptCheckbox;
-    public CheckBox allAptCheckbox;
+    public RadioButton allAptRadio;
+    public ToggleGroup aptRadioToggleGroup;
+    public RadioButton weeklyAptRadio;
+    public RadioButton monthlyAptRadio;
+    public Label titleLabel;
+
+    public void onChangeLabelText(InputMethodEvent inputMethodEvent) {
+        aptRadioToggleGroup.getSelectedToggle();
+        if(allAptRadio.isSelected()) {
+            titleLabel.setText("Currently Viewing All Appointments:");
+        }
+        else if(weeklyAptRadio.isSelected()) {
+            titleLabel.setText("Currently Viewing This Week's Appointments:");
+        }
+        else if (monthlyAptRadio.isSelected()) {
+            titleLabel.setText("Currently Viewing This Month's Appointments:");
+        }
+    }
+
+
+    public void onAllSelected(javafx.event.ActionEvent actionEvent) {
+        aptRadioToggleGroup.getSelectedToggle();
+        if(allAptRadio.isSelected()) {
+            try {
+                titleLabel.setText("Currently Viewing All Appointments:");
+
+                tableViewSchedule.setItems(AppointmentQuery.allAppointmentsList());
+                tableAptID.setCellValueFactory(new PropertyValueFactory<>("aptID"));
+                tableAptTitle.setCellValueFactory(new PropertyValueFactory<>("aptTitle"));
+                tableAptDescription.setCellValueFactory(new PropertyValueFactory<>("aptDescription"));
+                tableAptLocation.setCellValueFactory(new PropertyValueFactory<>("aptLocation"));
+                tableContact.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+                tableType.setCellValueFactory(new PropertyValueFactory<>("aptType"));
+                tableStart.setCellValueFactory(new PropertyValueFactory<>("aptStart"));
+                tableEnd.setCellValueFactory(new PropertyValueFactory<>("aptEnd"));
+                tableCustId.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+                tableUserId.setCellValueFactory(new PropertyValueFactory<>("userID"));
+            }
+            catch (SQLException e){
+                e.printStackTrace();
+            }
+            }
+        }
+
+
+    public void onWeeklySelected(javafx.event.ActionEvent actionEvent) {
+        aptRadioToggleGroup.getSelectedToggle();
+        if (weeklyAptRadio.isSelected()) {
+            try {
+                titleLabel.setText("Currently Viewing This Week's Appointments:");
+
+                tableViewSchedule.setItems(AppointmentQuery.weeklyAppointmentsList());
+                tableAptID.setCellValueFactory(new PropertyValueFactory<>("aptID"));
+                tableAptTitle.setCellValueFactory(new PropertyValueFactory<>("aptTitle"));
+                tableAptDescription.setCellValueFactory(new PropertyValueFactory<>("aptDescription"));
+                tableAptLocation.setCellValueFactory(new PropertyValueFactory<>("aptLocation"));
+                tableContact.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+                tableType.setCellValueFactory(new PropertyValueFactory<>("aptType"));
+                tableStart.setCellValueFactory(new PropertyValueFactory<>("aptStart"));
+                tableEnd.setCellValueFactory(new PropertyValueFactory<>("aptEnd"));
+                tableCustId.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+                tableUserId.setCellValueFactory(new PropertyValueFactory<>("userID"));
+            }
+            catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void onMonthlySelected(javafx.event.ActionEvent actionEvent) {
+        aptRadioToggleGroup.getSelectedToggle();
+        if (monthlyAptRadio.isSelected()) {
+            try {
+                titleLabel.setText("Currently Viewing This Month's Appointments:");
+
+                tableViewSchedule.setItems(AppointmentQuery.monthlyAppointmentsList());
+                tableAptID.setCellValueFactory(new PropertyValueFactory<>("aptID"));
+                tableAptTitle.setCellValueFactory(new PropertyValueFactory<>("aptTitle"));
+                tableAptDescription.setCellValueFactory(new PropertyValueFactory<>("aptDescription"));
+                tableAptLocation.setCellValueFactory(new PropertyValueFactory<>("aptLocation"));
+                tableContact.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+                tableType.setCellValueFactory(new PropertyValueFactory<>("aptType"));
+                tableStart.setCellValueFactory(new PropertyValueFactory<>("aptStart"));
+                tableEnd.setCellValueFactory(new PropertyValueFactory<>("aptEnd"));
+                tableCustId.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+                tableUserId.setCellValueFactory(new PropertyValueFactory<>("userID"));
+            }
+            catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
         try {
+            titleLabel.setText("Currently Viewing All Appointments:");
+
             tableViewSchedule.setItems(AppointmentQuery.allAppointmentsList());
             tableAptID.setCellValueFactory(new PropertyValueFactory<>("aptID"));
             tableAptTitle.setCellValueFactory(new PropertyValueFactory<>("aptTitle"));
@@ -50,17 +139,10 @@ public class AppointmentScreenController implements Initializable {
             tableEnd.setCellValueFactory(new PropertyValueFactory<>("aptEnd"));
             tableCustId.setCellValueFactory(new PropertyValueFactory<>("customerID"));
             tableUserId.setCellValueFactory(new PropertyValueFactory<>("userID"));
-        } catch (SQLException e) {
+        }
+        catch (SQLException e){
             e.printStackTrace();
         }
-
-
-
-
-
-
-
-
     }
 
     public void showAppointments(ActionEvent actionEvent) throws SQLException {
@@ -69,13 +151,5 @@ public class AppointmentScreenController implements Initializable {
     }
 
 
-    public void onWeekCheckboxClick(javafx.event.ActionEvent actionEvent) {
 
-    }
-
-    public void onMonthCheckboxClick(javafx.event.ActionEvent actionEvent) {
-    }
-
-    public void onAllAptCheckboxClick(javafx.event.ActionEvent actionEvent) {
-    }
 }
