@@ -3,13 +3,19 @@ package Controllers;
 import DBQueries.AppointmentQuery;
 import Objects.Appointments;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import Controllers.MainController;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputMethodEvent;
+import javafx.stage.Stage;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.lang.reflect.AccessibleObject;
 import java.net.URL;
 import java.sql.SQLException;
@@ -34,6 +40,10 @@ public class AppointmentScreenController implements Initializable {
     public RadioButton weeklyAptRadio;
     public RadioButton monthlyAptRadio;
     public Label titleLabel;
+    public Button addAptButton;
+    public Button updateAptButton;
+    public Button deleteAptButton;
+    public Button viewDirectoryButton;
 
     public void onChangeLabelText(InputMethodEvent inputMethodEvent) {
         aptRadioToggleGroup.getSelectedToggle();
@@ -151,5 +161,16 @@ public class AppointmentScreenController implements Initializable {
     }
 
 
+    public void onAddAptButtonClick(javafx.event.ActionEvent actionEvent)  {
 
+    }
+
+    public void onUpdateAptButtonClick(javafx.event.ActionEvent actionEvent) {
+    }
+
+    public void onDeleteAptButtonClick(javafx.event.ActionEvent actionEvent) {
+    }
+
+    public void onViewDirectoryButtonClick(javafx.event.ActionEvent actionEvent) {
+    }
 }
