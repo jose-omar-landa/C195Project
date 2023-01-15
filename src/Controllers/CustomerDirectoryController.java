@@ -35,9 +35,27 @@ public class CustomerDirectoryController implements Initializable {
     public Button aptScheduleButton;
 
     public void onAddCustButtonClicked(ActionEvent actionEvent) {
+        try {
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AddCustomerScreen.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.setTitle("Add New Customer");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onUpdateCustButtonClicked(ActionEvent actionEvent) {
+        try {
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/UpdateCustomerScreen.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.setTitle("Update Customer Information");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onRemoveCustButtonClicked(ActionEvent actionEvent) {
