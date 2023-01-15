@@ -6,27 +6,26 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="671.0" prefWidth="883.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FXML_Files.CustomerDirectory">
+<AnchorPane prefHeight="671.0" prefWidth="883.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CustomerDirectoryController">
    <children>
       <TitledPane prefHeight="617.0" prefWidth="883.0" text="Customer Directory">
          <content>
-            <TableView prefHeight="591.0" prefWidth="889.0">
+            <TableView fx:id="customerDirectoryTable" prefHeight="591.0" prefWidth="889.0">
               <columns>
-                <TableColumn prefWidth="89.0" text="Customer ID" />
-                <TableColumn prefWidth="113.0" text="Customer Name" />
-                  <TableColumn prefWidth="205.0" text="Customer Address" />
-                  <TableColumn text="Postal Code" />
-                  <TableColumn prefWidth="129.0" text="Phone Number" />
-                  <TableColumn prefWidth="150.0" text="First-Level Division" />
-                  <TableColumn prefWidth="115.0" text="Country" />
+                <TableColumn fx:id="tableCustID" prefWidth="89.0" text="Customer ID" />
+                <TableColumn fx:id="tableCustName" prefWidth="113.0" text="Customer Name" />
+                  <TableColumn fx:id="tableCustAddress" prefWidth="205.0" text="Customer Address" />
+                  <TableColumn fx:id="tablePostalCode" text="Postal Code" />
+                  <TableColumn fx:id="tablePhoneNumber" prefWidth="129.0" text="Phone Number" />
+                  <TableColumn fx:id="tableDivision" prefWidth="150.0" text="First-Level Division" />
+                  <TableColumn fx:id="tableCountry" prefWidth="115.0" text="Country" />
               </columns>
             </TableView>
          </content>
       </TitledPane>
-      <Button layoutX="286.0" layoutY="632.0" mnemonicParsing="false" text="Add Customer" />
-      <Button layoutX="387.0" layoutY="632.0" mnemonicParsing="false" text="Update Customer" />
-      <Button layoutX="504.0" layoutY="632.0" mnemonicParsing="false" text="Remove Customer" />
-      <Button layoutX="702.0" layoutY="632.0" mnemonicParsing="false" text="View Appointment Schedule" />
+      <Button fx:id="addCustButton" layoutX="287.0" layoutY="632.0" mnemonicParsing="false" onAction="#onAddCustButtonClicked" text="Add Customer" />
+      <Button fx:id="updateCustButton" layoutX="387.0" layoutY="632.0" mnemonicParsing="false" onAction="#onUpdateCustButtonClicked" text="Update Customer" />
+      <Button fx:id="removeCustButton" layoutX="504.0" layoutY="632.0" mnemonicParsing="false" onAction="#onRemoveCustButtonClicked" text="Remove Customer" />
+      <Button fx:id="aptScheduleButton" layoutX="702.0" layoutY="632.0" mnemonicParsing="false" onAction="#onAptScheduleClick" text="View Appointment Schedule" />
    </children>
 </AnchorPane>

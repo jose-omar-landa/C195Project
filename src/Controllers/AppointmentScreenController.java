@@ -187,5 +187,14 @@ public class AppointmentScreenController implements Initializable {
     }
 
     public void onViewDirectoryButtonClick(javafx.event.ActionEvent actionEvent) {
+        try {
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/CustomerDirectory.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.setTitle("Customer Directory");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
