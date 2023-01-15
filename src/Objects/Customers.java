@@ -13,6 +13,7 @@ public class Customers {
     private String lastUpdatedBy;
     private int divisionID;
 
+
     public Customers(int customerID, String customerName, String customerAddress, String postalCode, String customerPhone,
                      java.sql.Date createDate, String createdBy, java.sql.Date lastUpdated, String lastUpdatedBy, int divisionID) {
 
@@ -107,5 +108,6 @@ public class Customers {
     public void setDivisionID(int divisionID) {
         this.divisionID = divisionID;
     }
+
 
 }
