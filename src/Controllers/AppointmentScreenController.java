@@ -44,6 +44,7 @@ public class AppointmentScreenController implements Initializable {
     public Button updateAptButton;
     public Button deleteAptButton;
     public Button viewDirectoryButton;
+    private Object Stage;
 
     public void onChangeLabelText(InputMethodEvent inputMethodEvent) {
         aptRadioToggleGroup.getSelectedToggle();
@@ -155,17 +156,31 @@ public class AppointmentScreenController implements Initializable {
         }
     }
 
-    public void showAppointments(ActionEvent actionEvent) throws SQLException {
-        ObservableList<Appointments> aptList = AppointmentQuery.allAppointmentsList();
-        System.out.println(AppointmentQuery.allAppointmentsList());
-    }
 
 
-    public void onAddAptButtonClick(javafx.event.ActionEvent actionEvent)  {
+    public void onAddAptButtonClick(javafx.event.ActionEvent actionEvent) {
+        try {
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AddAppointmentScreen.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.setTitle("Update Appointment");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void onUpdateAptButtonClick(javafx.event.ActionEvent actionEvent) {
+        try {
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/UpdateAppointmentScreen.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.setTitle("Add Appointment");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onDeleteAptButtonClick(javafx.event.ActionEvent actionEvent) {
