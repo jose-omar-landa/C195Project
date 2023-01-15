@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="602.0" prefWidth="403.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddAppointmentController">
    <children>
       <Label layoutX="133.0" layoutY="49.0" text="Add Appointment">
@@ -37,6 +36,6 @@
       <TextField layoutX="171.0" layoutY="462.0" />
       <TextField layoutX="171.0" layoutY="506.0" />
       <Button layoutX="288.0" layoutY="554.0" mnemonicParsing="false" text="Save" />
-      <Button layoutX="337.0" layoutY="554.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="cancelButton" layoutX="337.0" layoutY="554.0" mnemonicParsing="false" onAction="#onCancelClicked" text="Cancel" />
    </children>
 </AnchorPane>
