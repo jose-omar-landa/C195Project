@@ -2,6 +2,7 @@ package Controllers;
 
 import DBQueries.AppointmentQuery;
 import DBQueries.CustomerQuery;
+import Objects.Countries;
 import Objects.Customers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +28,7 @@ public class CustomerDirectoryController implements Initializable {
     public TableColumn<Customers, String> tablePostalCode;
     public TableColumn<Customers, String> tablePhoneNumber;
     public TableColumn<Customers, Integer> tableDivision;
-    public TableColumn tableCountry;
+    public TableColumn<Customers, String> tableCountry;
     public Button addCustButton;
     public Button updateCustButton;
     public Button removeCustButton;
@@ -65,6 +66,7 @@ public class CustomerDirectoryController implements Initializable {
             tablePostalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
             tablePhoneNumber.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
             tableDivision.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
+            tableCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
 
         }
         catch (SQLException e){

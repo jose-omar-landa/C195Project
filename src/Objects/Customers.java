@@ -12,10 +12,11 @@ public class Customers {
     private java.sql.Date lastUpdated;
     private String lastUpdatedBy;
     private int divisionID;
+    private String country;
 
 
     public Customers(int customerID, String customerName, String customerAddress, String postalCode, String customerPhone,
-                     java.sql.Date createDate, String createdBy, java.sql.Date lastUpdated, String lastUpdatedBy, int divisionID) {
+                     java.sql.Date createDate, String createdBy, java.sql.Date lastUpdated, String lastUpdatedBy, int divisionID, String country) {
 
         this.customerID = customerID;
         this.customerName = customerName;
@@ -27,6 +28,7 @@ public class Customers {
         this.lastUpdated = lastUpdated;
         this.lastUpdatedBy = lastUpdatedBy;
         this.divisionID = divisionID;
+        this.country = country;
     }
 
     public int getCustomerID() {
@@ -107,6 +109,14 @@ public class Customers {
 
     public void setDivisionID(int divisionID) {
         this.divisionID = divisionID;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
 

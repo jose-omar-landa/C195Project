@@ -20,9 +20,10 @@ public class CustomerQuery {
     public static ObservableList<Customers> allCustomersList() throws SQLException {
 
         ObservableList<Customers> allCustList = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM customers";
+        String sql = "SELECT * FROM customers JOIN countries";
 
-        PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM customers");
+        PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM customers AS cust INNER JOIN first_level_divisions AS " +
+                "divisions ON cust.Division_ID = divisions.Division_ID INNER JOIN countries AS country ON country.Country_ID = divisions.Country_ID;");
 
         try{
 
@@ -39,7 +40,8 @@ public class CustomerQuery {
                         rs.getString("Created_By"),
                         rs.getDate("Last_Update"),
                         rs.getString("Last_Updated_By"),
-                        rs.getInt("Division_ID"));
+                        rs.getInt("Division_ID"),
+                        rs.getString("Country"));
                 allCustList.add(cust);
 
             }
