@@ -17,7 +17,6 @@ public class AppointmentQuery {
     public static ObservableList<Appointments> allAppointmentsList() throws SQLException {
 
         ObservableList<Appointments> allAptList = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM appointments";
 
         PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM appointments");
 
