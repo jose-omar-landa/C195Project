@@ -34,20 +34,21 @@ public class DivisionQuery {
         return divisionsList;
     }
 
-    public static Divisions pullDivisionID(String divisionName) throws SQLException {
+    public static Divisions pullDivisionID(String division) throws SQLException {
         PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM first_level_divisions WHERE Division = ?;");
-        ps.setString(1, divisionName);
+        ps.setString(1, division);
 
         try{
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
-                Divisions divisionID = new Divisions(
+                Divisions divID = new Divisions(
                         rs.getInt("Division_ID"),
                         rs.getString("Division"),
                         rs.getInt("Country_ID"));
-                return divisionID;
+                return divID;
             }
+
         } catch (
                 SQLException e) {
             e.printStackTrace();
