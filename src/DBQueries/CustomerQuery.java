@@ -45,14 +45,14 @@ public class CustomerQuery {
 
     public static boolean createNewCustomer(String custName, String custAddress, String postalCode, String phoneNum, String division) throws SQLException {
 
-        Divisions newDivision = DivisionQuery.pullDivisionID(division);
+        Divisions newDivID = DivisionQuery.pullDivisionID(division);
 
         PreparedStatement ps = JDBC.getConnection().prepareStatement("INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?);");
         ps.setString(1, custName);
         ps.setString(2, custAddress);
         ps.setString(3, postalCode);
         ps.setString(4, phoneNum);
-        ps.setInt(5, newDivision.getDivisionID());
+        ps.setInt(5, newDivID.getDivisionID());
 
 
         try {

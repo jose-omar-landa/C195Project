@@ -1,7 +1,6 @@
 package DBQueries;
 
 import DBConnection.JDBC;
-import Objects.Contacts;
 import Objects.Divisions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,14 +26,16 @@ public class DivisionQuery {
                         rs.getInt("Country_ID"));
                 divisionsList.add(division);
             }
+            return divisionsList;
         } catch (
                 SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return divisionsList;
     }
 
     public static Divisions pullDivisionID(String division) throws SQLException {
+
         PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM first_level_divisions WHERE Division = ?;");
         ps.setString(1, division);
 
@@ -42,11 +43,11 @@ public class DivisionQuery {
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
-                Divisions divID = new Divisions(
+                Divisions newDivision = new Divisions(
                         rs.getInt("Division_ID"),
                         rs.getString("Division"),
                         rs.getInt("Country_ID"));
-                return divID;
+                return newDivision;
             }
 
         } catch (
