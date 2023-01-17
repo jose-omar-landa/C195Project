@@ -1,34 +1,26 @@
 package DBQueries;
 
 import DBConnection.JDBC;
-import Objects.Appointments;
 import Objects.Customers;
-import Objects.Users;
+import Objects.Divisions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import static javafx.collections.FXCollections.*;
 
 public class CustomerQuery {
 
 
     public static ObservableList<Customers> allCustomersList() throws SQLException {
-
         ObservableList<Customers> allCustList = FXCollections.observableArrayList();
-
         PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM customers AS cust INNER JOIN first_level_divisions AS " +
                 "divisions ON cust.Division_ID = divisions.Division_ID INNER JOIN countries AS country ON country.Country_ID = divisions.Country_ID;");
 
-        try{
-
+        try {
             ResultSet rs = ps.executeQuery();
-
-            while(rs.next()){
+            while (rs.next()) {
                 Customers cust = new Customers(
                         rs.getInt("Customer_ID"),
                         rs.getString("Customer_Name"),
@@ -42,16 +34,40 @@ public class CustomerQuery {
                         rs.getInt("Division_ID"),
                         rs.getString("Country"));
                 allCustList.add(cust);
-
             }
         } catch (
                 SQLException e) {
             e.printStackTrace();
         }
-
         return allCustList;
+    }
+
+    public static boolean createNewCustomer(String custName, String custAddress, String postalCode, String phoneNum, String division) throws SQLException {
+
+        Divisions newDivisionPull = DivisionQuery.pullDivisionID(division);
+
+        PreparedStatement ps = JDBC.getConnection().prepareStatement("INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?);");
+        ps.setString(1, custName);
+        ps.setString(2, custAddress);
+        ps.setString(3, postalCode);
+        ps.setString(4, phoneNum);
+        ps.setInt(5, newDivisionPull.getDivisionID());
+
+
+        try {
+            ps.executeQuery();
+            if (ps.getUpdateCount() > 0) {
+                System.out.println("Affected rows: " + ps.getUpdateCount());
+            } else {
+                System.out.println("No Change Occurred");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
 
     }
+
 
 
 
