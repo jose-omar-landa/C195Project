@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -44,7 +45,7 @@ public class AddCustomerController implements Initializable {
         }
     }
 
-    public void onAddCustSaveClicked(ActionEvent actionEvent) throws SQLException {
+    public void onAddCustSaveClicked(ActionEvent actionEvent) throws IOException {
 
         int id = customerIDNum++;
         String customerName = custNameTextField.getText();
@@ -74,9 +75,9 @@ public class AddCustomerController implements Initializable {
                         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                         Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/CustomerDirectory.fxml"));
                         stage.setScene(new Scene(scene));
-                        stage.setTitle("Scheduled Appointments");
+                        stage.setTitle("Customer Directory");
                         stage.show();
-                    } catch (Exception e) {
+                    } catch (IOException | SQLException e) {
                         e.printStackTrace();
                     }
                 }

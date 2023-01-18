@@ -46,7 +46,7 @@ public class CustomerQuery {
     public static void createNewCustomer(String custName, String custAddress, String postalCode, String phoneNum, int division) throws SQLException {
 
         try {
-            PreparedStatement ps = JDBC.getConnection().prepareStatement("INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?);");
+            PreparedStatement ps = JDBC.getConnection().prepareStatement("INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?);");
 
             ps.setString(1, custName);
             ps.setString(2, custAddress);
@@ -54,7 +54,7 @@ public class CustomerQuery {
             ps.setString(4, phoneNum);
             ps.setInt(5, division);
 
-            ps.executeQuery();
+            ps.execute();
 
         } catch (Exception e) {
             e.printStackTrace();
