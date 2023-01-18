@@ -13,8 +13,8 @@
       <Pane layoutX="200.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0">
          <children>
             <TextField fx:id="enteredUserName" alignment="CENTER" layoutX="26.0" layoutY="88.0" onAction="#onEnteredUserName" promptText="USERNAME" />
-            <Button fx:id="loginButton" layoutX="74.0" layoutY="155.0" mnemonicParsing="false" onAction="#onLoginButtonClicked" text="LOGIN" />
             <PasswordField fx:id="enteredPassword" alignment="CENTER" layoutX="26.0" layoutY="120.0" onAction="#onEnteredPassword" promptText="PASSWORD" />
+            <Button fx:id="loginButton" layoutX="74.0" layoutY="155.0" mnemonicParsing="false" onAction="#onLoginButtonClicked" text="LOGIN" />
             <Label alignment="CENTER" layoutX="41.0" layoutY="22.0" prefHeight="42.0" prefWidth="119.0" text="Schedule NOW&#10;Employee Login">
                <font>
                   <Font name="System Bold Italic" size="14.0" />

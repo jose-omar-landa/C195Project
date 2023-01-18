@@ -4,6 +4,7 @@ import DBQueries.CountriesQuery;
 import DBQueries.CustomerQuery;
 import DBQueries.DivisionQuery;
 import Objects.Countries;
+import Objects.Customers;
 import Objects.Divisions;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +31,7 @@ public class AddCustomerController implements Initializable {
     public ComboBox<Divisions> addCustDivisionComboBox;
     public ComboBox<Countries> addCustCountryComboBox;
 
-    public static int customerIDNum;
+    public static int customerIDNum = 0;
     public TextField addCustIDTextField;
 
     public void onCancelClicked(ActionEvent actionEvent) {

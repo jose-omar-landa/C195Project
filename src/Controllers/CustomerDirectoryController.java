@@ -89,7 +89,16 @@ public class CustomerDirectoryController implements Initializable {
                 CustomerQuery.deleteCustomerRecord(custIDNum);
 
                 customerDirectoryTable.setItems(allCustomers);
-                customerDirectoryTable.refresh();
+                try {
+                    Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                    Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/CustomerDirectory.fxml"));
+                    stage.setScene(new Scene(scene));
+                    stage.setTitle("Update Customer Information");
+                    stage.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+//
             }
         } catch (Exception e) {
             e.printStackTrace();
