@@ -43,30 +43,22 @@ public class CustomerQuery {
         return allCustList;
     }
 
-    public static boolean createNewCustomer(String custName, String custAddress, String postalCode, String phoneNum, String division) throws SQLException {
-
-        Divisions newDivID = DivisionQuery.pullDivisionID(division);
-
-        PreparedStatement ps = JDBC.getConnection().prepareStatement("INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?);");
-        ps.setString(1, custName);
-        ps.setString(2, custAddress);
-        ps.setString(3, postalCode);
-        ps.setString(4, phoneNum);
-        ps.setInt(5, newDivID.getDivisionID());
-
+    public static void createNewCustomer(String custName, String custAddress, String postalCode, String phoneNum, int division) throws SQLException {
 
         try {
+            PreparedStatement ps = JDBC.getConnection().prepareStatement("INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?);");
+
+            ps.setString(1, custName);
+            ps.setString(2, custAddress);
+            ps.setString(3, postalCode);
+            ps.setString(4, phoneNum);
+            ps.setInt(5, division);
+
             ps.executeQuery();
-            if (ps.getUpdateCount() > 0) {
-                System.out.println("Affected rows: " + ps.getUpdateCount());
-            } else {
-                System.out.println("No Change Occurred");
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
-
     }
 
 
