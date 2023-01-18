@@ -61,6 +61,25 @@ public class CustomerQuery {
         }
     }
 
+    public static boolean deleteCustomerRecord(int customerIDNum) throws SQLException {
+        try {
+            PreparedStatement ps = JDBC.getConnection().prepareStatement("DELETE from customers WHERE Customer_ID = ?;");
+
+            ps.setInt(1,customerIDNum);
+
+            ps.executeUpdate();
+            if (ps.getUpdateCount() > 0 ) {
+                System.out.println(ps.getUpdateCount() + " rows affected by change.");
+            } else {
+                System.out.println("No changes to rows have occurred");
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
 
 

@@ -2,22 +2,23 @@ package Controllers;
 
 import DBQueries.AppointmentQuery;
 import DBQueries.CustomerQuery;
+import Objects.Appointments;
 import Objects.Countries;
 import Objects.Customers;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import javax.print.attribute.standard.ColorSupported;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomerDirectoryController implements Initializable {
@@ -58,7 +59,41 @@ public class CustomerDirectoryController implements Initializable {
         }
     }
 
-    public void onRemoveCustButtonClicked(ActionEvent actionEvent) {
+    public void onRemoveCustButtonClicked(ActionEvent actionEvent) throws SQLException {
+        Customers currentSelectedCustomer = customerDirectoryTable.getSelectionModel().getSelectedItem();;
+        ObservableList<Appointments> customerAppointments = AppointmentQuery.allAppointmentsList();
+        ObservableList<Customers> allCustomers = CustomerQuery.allCustomersList();
+
+        if (currentSelectedCustomer == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR!");
+            alert.setContentText("A customer must be selected first!");
+            alert.showAndWait();
+        }
+        try {
+            int custIDNum = currentSelectedCustomer.getCustomerID();
+            for (Appointments selectedCustomersAppointments : customerAppointments) {
+                if (selectedCustomersAppointments.getCustomerID() == currentSelectedCustomer.getCustomerID()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Appointments Present");
+                    alert.setContentText("The selected customer currently has scheduled appointments! Please delete current appointments prior to deleting customer record!");
+                    alert.showAndWait();
+                }
+            }
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Are You Sure?");
+            alert.setContentText("Are you sure you want to delete the customer record?");
+            Optional<ButtonType> deleteCustomerConfirmation = alert.showAndWait();
+
+            if (deleteCustomerConfirmation.isPresent() && deleteCustomerConfirmation.get() == ButtonType.OK) {
+                CustomerQuery.deleteCustomerRecord(custIDNum);
+
+                customerDirectoryTable.setItems(allCustomers);
+                customerDirectoryTable.refresh();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onAptScheduleClick(ActionEvent actionEvent) {
