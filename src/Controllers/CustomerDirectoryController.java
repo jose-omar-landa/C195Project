@@ -34,6 +34,7 @@ public class CustomerDirectoryController implements Initializable {
     public Button updateCustButton;
     public Button removeCustButton;
     public Button aptScheduleButton;
+    public static Customers updateCustomerRecord;
 
     public void onAddCustButtonClicked(ActionEvent actionEvent) {
         try {
@@ -48,15 +49,29 @@ public class CustomerDirectoryController implements Initializable {
     }
 
     public void onUpdateCustButtonClicked(ActionEvent actionEvent) {
+
+        updateCustomerRecord = customerDirectoryTable.getSelectionModel().getSelectedItem();
+
         try {
-            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/UpdateCustomerScreen.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.setTitle("Update Customer Information");
-            stage.show();
-        } catch (Exception e) {
+            if (updateCustomerRecord == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("No Customer Selected!");
+                alert.setContentText("A Customer Record Must Be Selected!");
+                alert.showAndWait();
+            } else {
+                Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/UpdateCustomerScreen.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.setTitle("Update Customer Information");
+                stage.show();
+            }
+        }catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static  Customers getUpdateCustomerRecordData() {
+        return updateCustomerRecord;
     }
 
     public void onRemoveCustButtonClicked(ActionEvent actionEvent) throws SQLException {
