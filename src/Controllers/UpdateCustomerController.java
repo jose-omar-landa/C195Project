@@ -61,7 +61,7 @@ public class UpdateCustomerController implements Initializable {
             updateCustomerPostalCode.setText(selectedCustomerRecord.getPostalCode());
             updateCustomerPhoneNumber.setText(selectedCustomerRecord.getCustomerPhone());
 //            updateCustomerCountry.getSelectionModel().select(selectedCustomerRecord.getCountry());
-            updateCustomerDivision.getSelectionModel().select(selectedCustomerRecord.getDivisionID());
+//            updateCustomerDivision.getSelectionModel().select(selectedCustomerRecord.getDivisionID());
 
 
         } catch (SQLException e) {
