@@ -119,5 +119,10 @@ public class Customers {
         this.country = country;
     }
 
+    @Override
+    public String toString() {
+        return customerName;
+    }
+
 
 }
