@@ -31,6 +31,7 @@ public class UpdateCustomerController implements Initializable {
     public TextField updateCustomerPhoneNumber;
     public ComboBox<Countries> updateCustomerCountry;
 
+
     public void onCancelClicked(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -59,7 +60,7 @@ public class UpdateCustomerController implements Initializable {
             updateCustomerAddress.setText(selectedCustomerRecord.getCustomerAddress());
             updateCustomerPostalCode.setText(selectedCustomerRecord.getPostalCode());
             updateCustomerPhoneNumber.setText(selectedCustomerRecord.getCustomerPhone());
-            updateCustomerCountry.getSelectionModel().select(selectedCustomerRecord.getCountry());
+//            updateCustomerCountry.getSelectionModel().select(selectedCustomerRecord.getCountry());
             updateCustomerDivision.getSelectionModel().select(selectedCustomerRecord.getDivisionID());
 
 
@@ -69,6 +70,7 @@ public class UpdateCustomerController implements Initializable {
     }
 
     public void onUpdateCustomerDivisionComboBox(ActionEvent actionEvent) {
+
     }
 
     public void onUpdateCustomerCountryComboBox(ActionEvent actionEvent) throws SQLException {
