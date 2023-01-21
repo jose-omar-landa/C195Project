@@ -1,12 +1,11 @@
 package Controllers;
 
 
+import DBQueries.AppointmentQuery;
 import DBQueries.ContactsQuery;
 import DBQueries.CustomerQuery;
 import DBQueries.UsersQuery;
-import Objects.Contacts;
-import Objects.Customers;
-import Objects.Users;
+import Objects.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,13 +13,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
@@ -109,6 +108,52 @@ public class AddAppointmentController implements Initializable {
 
 
     public void onAddAptSaveButtonClicked(ActionEvent actionEvent) {
+
+        int id = appointmentIDNum++;
+        String aptTitle = addAptTitle.getText();
+        String aptDescription = addAptDescription.getText();
+        String aptLocation =addAptLocation.getText() ;
+        String aptType = addAptType.getText();
+        LocalDate aptStart = addAptStartDateTime.getValue();
+        LocalDate aptEnd = addAptEndDateTime.getValue();
+        int customerID = addAptCustomerID.getValue();
+        int userID = addAptUserID.getValue();
+        int contactID = addAptContact.getValue();
+
+
+        if (addAptTitle.getText().isEmpty() ||
+                addAptDescription.getText().isEmpty() ||
+                addAptLocation.getText().isEmpty() ||
+                addAptType.getText().isEmpty() ||
+                addAptStartDateTime.getControlCssMetaData().isEmpty() ||
+                addAptEndDateTime.getControlCssMetaData().isEmpty() ||
+                addAptCustomerID.getSelectionModel().isEmpty() ||
+                addAptUserID.getSelectionModel().isEmpty() ||
+                addAptContact.getSelectionModel().isEmpty()
+        ){
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setContentText("All fields required!");
+            alert.showAndWait();
+
+        } else {
+            try {
+                AppointmentQuery.createNewAppointment(id, aptTitle, aptDescription, aptLocation, aptType,
+                        aptStart, aptEnd, customerID, userID, contactID);
+                Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.setTitle("Customer Directory");
+                stage.show();
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
     }
 
     @Override
