@@ -1,7 +1,9 @@
 package Controllers;
 
 import DBQueries.AppointmentQuery;
+import DBQueries.CustomerQuery;
 import Objects.Appointments;
+import Objects.Customers;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +22,7 @@ import java.lang.reflect.AccessibleObject;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AppointmentScreenController implements Initializable {
@@ -183,7 +186,49 @@ public class AppointmentScreenController implements Initializable {
         }
     }
 
-    public void onDeleteAptButtonClick(javafx.event.ActionEvent actionEvent) {
+    public void onDeleteAptButtonClick(javafx.event.ActionEvent actionEvent) throws SQLException{
+        Appointments currentSelectedAppointment = tableViewSchedule.getSelectionModel().getSelectedItem();;
+        ObservableList<Appointments> allAppointments = AppointmentQuery.allAppointmentsList();
+
+        if (currentSelectedAppointment == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR!");
+            alert.setContentText("An appointment must be selected first!");
+            alert.showAndWait();
+        }
+        try {
+            int appointmentID = currentSelectedAppointment.getAptID();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Are You Sure?");
+            alert.setContentText("Are you sure you want to delete the customer record?");
+            Optional<ButtonType> deleteAppointmentConfirmation = alert.showAndWait();
+
+            if (deleteAppointmentConfirmation.isPresent() && deleteAppointmentConfirmation.get() == ButtonType.OK) {
+                AppointmentQuery.deleteAppointmentRecord(appointmentID);
+
+                tableViewSchedule.setItems(allAppointments);
+                try {
+                    Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                    Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));
+                    stage.setScene(new Scene(scene));
+                    stage.setTitle("Update Customer Information");
+                    stage.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+//
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
+
     }
 
     public void onViewDirectoryButtonClick(javafx.event.ActionEvent actionEvent) {

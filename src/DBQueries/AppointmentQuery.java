@@ -66,9 +66,7 @@ public class AppointmentQuery {
         LocalDateTime currentDate = LocalDateTime.now();
         LocalDateTime oneWeekAgo = currentDate.minusDays(7);
 
-        String sql = "SELECT * FROM appointments WHERE Start < ? AND Start > ?";
-
-        PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM appointments WHERE Start < ? AND Start > ?");
+        PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM appointments WHERE Start <= ? AND Start >= ?");
 
         ps.setDate(1, java.sql.Date.valueOf(currentDate.toLocalDate()));
         ps.setDate(2, java.sql.Date.valueOf(oneWeekAgo.toLocalDate()));
@@ -115,9 +113,7 @@ public class AppointmentQuery {
         LocalDateTime currentDate = LocalDateTime.now();
         LocalDateTime oneMonthAgo = currentDate.minusDays(30);
 
-        String sql = "SELECT * FROM appointments WHERE Start < ? AND Start > ?";
-
-        PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM appointments WHERE Start < ? AND Start > ?");
+        PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM appointments WHERE Start <= ? AND Start >= ?");
 
         ps.setDate(1, java.sql.Date.valueOf(currentDate.toLocalDate()));
         ps.setDate(2, java.sql.Date.valueOf(oneMonthAgo.toLocalDate()));
@@ -180,6 +176,27 @@ public class AppointmentQuery {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+
+    public static boolean deleteAppointmentRecord(int appointmentIDNum) throws SQLException {
+        try {
+            PreparedStatement ps = JDBC.getConnection().prepareStatement("DELETE from appointments WHERE Appointment_ID = ?;");
+
+            ps.setInt(1,appointmentIDNum);
+
+            ps.executeUpdate();
+            if (ps.getUpdateCount() > 0 ) {
+                System.out.println(ps.getUpdateCount() + " rows affected by change.");
+            } else {
+                System.out.println("No changes to rows have occurred");
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 
