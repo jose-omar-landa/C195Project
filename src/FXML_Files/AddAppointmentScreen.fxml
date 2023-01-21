@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="602.0" prefWidth="403.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddAppointmentController">
+<AnchorPane prefHeight="602.0" prefWidth="511.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddAppointmentController">
    <children>
       <Label layoutX="133.0" layoutY="49.0" text="Add Appointment">
          <font>
@@ -33,9 +33,11 @@
       <TextField fx:id="addAptType" layoutX="171.0" layoutY="333.0" />
       <DatePicker fx:id="addAptStartDateTime" layoutX="171.0" layoutY="379.0" onAction="#onStartDateTimeBox" prefHeight="25.0" prefWidth="149.0" />
       <DatePicker fx:id="addAptEndDateTime" layoutX="170.0" layoutY="421.0" onAction="#onEndDateTimeBox" prefHeight="25.0" prefWidth="149.0" />
-      <Button fx:id="addAptSaveButton" layoutX="288.0" layoutY="554.0" mnemonicParsing="false" onAction="#onAddAptSaveButtonClicked" text="Save" />
-      <Button fx:id="cancelButton" layoutX="337.0" layoutY="554.0" mnemonicParsing="false" onAction="#onCancelClicked" text="Cancel" />
+      <Button fx:id="addAptSaveButton" layoutX="395.0" layoutY="554.0" mnemonicParsing="false" onAction="#onAddAptSaveButtonClicked" text="Save" />
+      <Button fx:id="cancelButton" layoutX="445.0" layoutY="554.0" mnemonicParsing="false" onAction="#onCancelClicked" text="Cancel" />
       <ComboBox fx:id="addAptCustomerID" layoutX="170.0" layoutY="462.0" onAction="#onAddAptCustomerIDComboBox" prefWidth="150.0" />
       <ComboBox fx:id="addAptUserID" layoutX="171.0" layoutY="506.0" onAction="#onAddAptUserIDComboBox" prefWidth="150.0" />
+      <ComboBox fx:id="startTimeCombo" layoutX="327.0" layoutY="379.0" onAction="#onStartTimeComboBox" prefHeight="25.0" prefWidth="82.0" />
+      <ComboBox fx:id="endTimeCombo" layoutX="327.0" layoutY="421.0" onAction="#onEndTimeComboBox" prefHeight="25.0" prefWidth="82.0" />
    </children>
 </AnchorPane>

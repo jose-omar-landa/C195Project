@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
@@ -38,6 +39,8 @@ public class AddAppointmentController implements Initializable {
     public TextField addAptIDTextField;
 
     public static int appointmentIDNum = 0;
+    public ComboBox<String> startTimeCombo;
+    public ComboBox<String> endTimeCombo;
 
     public void onCancelClicked(ActionEvent actionEvent) {
         try {
@@ -165,6 +168,28 @@ public class AddAppointmentController implements Initializable {
         onAddAptCustomerIDComboBox();
         onAddAptUserIDComboBox();
 
+
+        ObservableList<String> time = FXCollections.observableArrayList();
+        LocalTime startTime = LocalTime.of(7, 0);
+        LocalTime endTime = LocalTime.of(23, 0);
+        time.add(startTime.toString());
+
+        while (startTime.isBefore(endTime)) {
+            startTime = startTime.plusMinutes(15);
+            time.add(startTime.toString());
+        }
+        startTimeCombo.setItems(time);
+        endTimeCombo.setItems(time);
+
+
+
+    }
+
+    public void onStartTimeComboBox() {
+
+    }
+
+    public void onEndTimeComboBox() {
 
     }
 }
