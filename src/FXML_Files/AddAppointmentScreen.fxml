@@ -25,17 +25,17 @@
       <Label layoutX="54.0" layoutY="425.0" text="End Date/Time:" />
       <Label layoutX="54.0" layoutY="466.0" text="Customer ID:" />
       <Label layoutX="54.0" layoutY="510.0" text="User ID:" />
-      <ComboBox layoutX="170.0" layoutY="291.0" prefWidth="150.0" />
-      <TextField layoutX="170.0" layoutY="121.0" />
-      <TextField layoutX="170.0" layoutY="161.0" />
-      <TextField layoutX="170.0" layoutY="202.0" />
-      <TextField layoutX="171.0" layoutY="247.0" />
-      <TextField layoutX="171.0" layoutY="333.0" />
-      <DatePicker layoutX="171.0" layoutY="379.0" prefHeight="25.0" prefWidth="149.0" />
-      <DatePicker layoutX="170.0" layoutY="421.0" prefHeight="25.0" prefWidth="149.0" />
-      <TextField layoutX="171.0" layoutY="462.0" />
-      <TextField layoutX="171.0" layoutY="506.0" />
-      <Button layoutX="288.0" layoutY="554.0" mnemonicParsing="false" text="Save" />
+      <ComboBox fx:id="addAptContact" layoutX="170.0" layoutY="291.0" onAction="#onAddAptContactComboBox" prefWidth="150.0" />
+      <TextField fx:id="addAptIDTextField" disable="true" editable="false" layoutX="170.0" layoutY="121.0" promptText="APT ID AUTO GENERATED..." />
+      <TextField fx:id="addAptTitle" layoutX="170.0" layoutY="161.0" />
+      <TextField fx:id="addAptDescription" layoutX="170.0" layoutY="202.0" />
+      <TextField fx:id="addAptLocation" layoutX="171.0" layoutY="247.0" />
+      <TextField fx:id="addAptType" layoutX="171.0" layoutY="333.0" />
+      <DatePicker fx:id="addAptStartDateTime" layoutX="171.0" layoutY="379.0" onAction="#onStartDateTimeBox" prefHeight="25.0" prefWidth="149.0" />
+      <DatePicker fx:id="addAptEndDateTime" layoutX="170.0" layoutY="421.0" onAction="#onEndDateTimeBox" prefHeight="25.0" prefWidth="149.0" />
+      <Button fx:id="addAptSaveButton" layoutX="288.0" layoutY="554.0" mnemonicParsing="false" onAction="#onAddAptSaveButtonClicked" text="Save" />
       <Button fx:id="cancelButton" layoutX="337.0" layoutY="554.0" mnemonicParsing="false" onAction="#onCancelClicked" text="Cancel" />
+      <ComboBox fx:id="addAptCustomerID" layoutX="170.0" layoutY="462.0" onAction="#onAddAptCustomerIDComboBox" prefWidth="150.0" />
+      <ComboBox fx:id="addAptUserID" layoutX="171.0" layoutY="506.0" onAction="#onAddAptUserIDComboBox" prefWidth="150.0" />
    </children>
 </AnchorPane>
