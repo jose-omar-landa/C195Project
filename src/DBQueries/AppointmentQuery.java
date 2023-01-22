@@ -5,10 +5,7 @@ import Objects.Appointments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -33,8 +30,8 @@ public class AppointmentQuery {
                 rs.getString("Description"),
                 rs.getString("Location"),
                 rs.getString("Type"),
-                rs.getDate("Start").toLocalDate(),
-                rs.getDate("End").toLocalDate(),
+                rs.getTimestamp("Start").toLocalDateTime(),
+                rs.getTimestamp("End").toLocalDateTime(),
                 rs.getDate("Create_Date"),
                 rs.getString("Created_By"),
                 rs.getDate("Last_Update"),
@@ -82,8 +79,8 @@ public class AppointmentQuery {
                         rs.getString("Description"),
                         rs.getString("Location"),
                         rs.getString("Type"),
-                        rs.getDate("Start").toLocalDate(),
-                        rs.getDate("End").toLocalDate(),
+                        rs.getTimestamp("Start").toLocalDateTime(),
+                        rs.getTimestamp("End").toLocalDateTime(),
                         rs.getDate("Create_Date"),
                         rs.getString("Created_By"),
                         rs.getDate("Last_Update"),
@@ -129,8 +126,8 @@ public class AppointmentQuery {
                         rs.getString("Description"),
                         rs.getString("Location"),
                         rs.getString("Type"),
-                        rs.getDate("Start").toLocalDate(),
-                        rs.getDate("End").toLocalDate(),
+                        rs.getTimestamp("Start").toLocalDateTime(),
+                        rs.getTimestamp("End").toLocalDateTime(),
                         rs.getDate("Create_Date"),
                         rs.getString("Created_By"),
                         rs.getDate("Last_Update"),
@@ -155,7 +152,7 @@ public class AppointmentQuery {
 
 
     public static void createNewAppointment(int aptID, String aptTitle, String aptDescription, String aptLocation, String aptType,
-                                            LocalDate aptStart, LocalDate aptEnd, int customerID, int userID, int contactID) throws SQLException {
+                                            Timestamp aptStart, Timestamp aptEnd, int customerID, int userID, int contactID) throws SQLException {
 
         try {
             PreparedStatement ps = JDBC.getConnection().prepareStatement("INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
@@ -165,8 +162,8 @@ public class AppointmentQuery {
             ps.setString(3, aptDescription);
             ps.setString(4, aptLocation);
             ps.setString(5, aptType);
-            ps.setDate(6, Date.valueOf(aptStart));
-            ps.setDate(7, Date.valueOf(aptEnd));
+            ps.setTimestamp(6, aptStart);
+            ps.setTimestamp(7, aptEnd);
             ps.setInt(8, customerID);
             ps.setInt(9, userID);
             ps.setInt(10, contactID);

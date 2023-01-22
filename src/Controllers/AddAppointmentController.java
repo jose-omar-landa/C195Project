@@ -19,8 +19,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.*;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
@@ -41,6 +42,11 @@ public class AddAppointmentController implements Initializable {
     public static int appointmentIDNum = 0;
     public ComboBox<String> startTimeCombo;
     public ComboBox<String> endTimeCombo;
+
+
+    private ZoneId zoneID = ZoneId.of("UTC");
+    private ZoneId zoneIdEasternStandardTime = ZoneId.of("America/New_York");
+    private ZoneId zoneIdDefault = ZoneId.systemDefault();
 
     public void onCancelClicked(ActionEvent actionEvent) {
         try {
@@ -117,11 +123,15 @@ public class AddAppointmentController implements Initializable {
         String aptDescription = addAptDescription.getText();
         String aptLocation =addAptLocation.getText() ;
         String aptType = addAptType.getText();
-        LocalDate aptStart = addAptStartDateTime.getValue();
-        LocalDate aptEnd = addAptEndDateTime.getValue();
+        LocalDateTime aptStart = LocalDateTime.of(addAptStartDateTime.getValue(), LocalTime.parse(startTimeCombo.getSelectionModel().getSelectedItem()));
+        LocalDateTime aptEnd = LocalDateTime.of(addAptEndDateTime.getValue(), LocalTime.parse(endTimeCombo.getSelectionModel().getSelectedItem()));
         int customerID = addAptCustomerID.getValue();
         int userID = addAptUserID.getValue();
         int contactID = addAptContact.getValue();
+        ZonedDateTime startUTC = aptStart.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
+        ZonedDateTime endUTC = aptEnd.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
+        Timestamp startTimeStamp = Timestamp.valueOf(startUTC.toLocalDateTime());
+        Timestamp endTimeStamp = Timestamp.valueOf(endUTC.toLocalDateTime());
 
 
         if (addAptTitle.getText().isEmpty() ||
@@ -143,7 +153,7 @@ public class AddAppointmentController implements Initializable {
         } else {
             try {
                 AppointmentQuery.createNewAppointment(id, aptTitle, aptDescription, aptLocation, aptType,
-                        aptStart, aptEnd, customerID, userID, contactID);
+                        startTimeStamp, endTimeStamp, customerID, userID, contactID);
                 Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                 Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));
                 stage.setScene(new Scene(scene));

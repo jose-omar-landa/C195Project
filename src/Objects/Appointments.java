@@ -2,6 +2,7 @@ package Objects;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Appointments {
 
@@ -10,8 +11,8 @@ public class Appointments {
     private String aptDescription;
     private String aptLocation;
     private String aptType;
-    private LocalDate aptStart;
-    private LocalDate aptEnd;
+    private LocalDateTime aptStart;
+    private LocalDateTime aptEnd;
     private java.sql.Date createDate;
     private String createdBy;
     private java.sql.Date lastUpdated;
@@ -22,7 +23,7 @@ public class Appointments {
 
 
     public Appointments(int aptID, String aptTitle, String aptDescription, String aptLocation, String aptType,
-                             LocalDate aptStart, LocalDate aptEnd, java.sql.Date createDate, String createdBy,
+                             LocalDateTime aptStart, LocalDateTime aptEnd, java.sql.Date createDate, String createdBy,
                              java.sql.Date lastUpdated, String lastUpdatedBy, int customerID, int userID, int contactID) {
 
         this.aptID = aptID;
@@ -81,19 +82,19 @@ public class Appointments {
         this.aptType = aptType;
     }
 
-    public LocalDate getAptStart() {
+    public LocalDateTime getAptStart() {
         return aptStart;
     }
 
-    public void setAptStart(LocalDate aptStart) {
+    public void setAptStart(LocalDateTime aptStart) {
         this.aptStart = aptStart;
     }
 
-    public LocalDate getAptEnd() {
+    public LocalDateTime getAptEnd() {
         return aptEnd;
     }
 
-    public void setAptEnd(LocalDate aptEnd) {
+    public void setAptEnd(LocalDateTime aptEnd) {
         this.aptEnd = aptEnd;
     }
 
