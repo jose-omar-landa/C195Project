@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="602.0" prefWidth="403.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.UpdateAppointmentController">
+<AnchorPane prefHeight="602.0" prefWidth="485.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.UpdateAppointmentController">
    <children>
-      <Label layoutX="122.0" layoutY="49.0" text="Update Appointment">
+      <Label layoutX="165.0" layoutY="45.0" text="Update Appointment">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -25,17 +25,19 @@
       <Label layoutX="54.0" layoutY="425.0" text="End Date/Time:" />
       <Label layoutX="54.0" layoutY="466.0" text="Customer ID:" />
       <Label layoutX="54.0" layoutY="510.0" text="User ID:" />
-      <ComboBox layoutX="170.0" layoutY="291.0" prefWidth="150.0" />
-      <TextField layoutX="170.0" layoutY="121.0" />
-      <TextField layoutX="170.0" layoutY="161.0" />
-      <TextField layoutX="170.0" layoutY="202.0" />
-      <TextField layoutX="171.0" layoutY="247.0" />
-      <TextField layoutX="171.0" layoutY="333.0" />
-      <DatePicker layoutX="171.0" layoutY="379.0" prefHeight="25.0" prefWidth="149.0" />
-      <DatePicker layoutX="170.0" layoutY="421.0" prefHeight="25.0" prefWidth="149.0" />
-      <TextField layoutX="171.0" layoutY="462.0" />
-      <TextField layoutX="171.0" layoutY="506.0" />
-      <Button fx:id="cancelButton" layoutX="337.0" layoutY="554.0" mnemonicParsing="false" onAction="#onCancelClicked" text="Cancel" />
-      <Button layoutX="288.0" layoutY="554.0" mnemonicParsing="false" text="Save" />
+      <ComboBox fx:id="updateAptContactComboBox" layoutX="170.0" layoutY="291.0" onAction="#onUpdateAptContactComboBoxClicked" prefWidth="150.0" />
+      <TextField fx:id="updateAptIDTextField" layoutX="170.0" layoutY="121.0" />
+      <TextField fx:id="updateAptTitleTextField" layoutX="170.0" layoutY="161.0" />
+      <TextField fx:id="updateAptDescriptionTextField" layoutX="170.0" layoutY="202.0" />
+      <TextField fx:id="updateAptLocationTextField" layoutX="171.0" layoutY="247.0" />
+      <TextField fx:id="updateAptTypeTextField" layoutX="171.0" layoutY="333.0" />
+      <DatePicker fx:id="updateAptStartDate" layoutX="171.0" layoutY="379.0" onAction="#onUpdateAptStartDateClicked" prefHeight="25.0" prefWidth="149.0" />
+      <DatePicker fx:id="updateAptEndDate" layoutX="170.0" layoutY="421.0" onAction="#onUpdateAptEndDateClicked" prefHeight="25.0" prefWidth="149.0" />
+      <Button fx:id="cancelButton" layoutX="419.0" layoutY="554.0" mnemonicParsing="false" onAction="#onCancelClicked" text="Cancel" />
+      <Button fx:id="updateAptSaveButton" layoutX="364.0" layoutY="554.0" mnemonicParsing="false" onAction="#onUpdateAptSaveButtonClicked" text="Save" />
+      <ComboBox fx:id="updateAptCustomerIdComboBox" layoutX="171.0" layoutY="462.0" onAction="#onUpdateAptCustomerIDComboBoxClicked" prefWidth="150.0" />
+      <ComboBox fx:id="updateAptUserIdComboBox" layoutX="171.0" layoutY="506.0" onAction="#onUpdateAptUserIDComboBoxClicked" prefWidth="150.0" />
+      <ComboBox fx:id="updateAptStartTime" layoutX="329.0" layoutY="379.0" onAction="#onUpdateAptStartTimeComboClicked" prefHeight="25.0" prefWidth="69.0" />
+      <ComboBox fx:id="updateAptEndTime" layoutX="329.0" layoutY="421.0" onAction="#onUpdateAptEndTimeComboClicked" prefHeight="25.0" prefWidth="69.0" />
    </children>
 </AnchorPane>
