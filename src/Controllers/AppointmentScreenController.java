@@ -48,6 +48,9 @@ public class AppointmentScreenController implements Initializable {
     public Button deleteAptButton;
     public Button viewDirectoryButton;
     private Object Stage;
+    public static Appointments selectedAppointmentData;
+
+
 
     public void onChangeLabelText(InputMethodEvent inputMethodEvent) {
         aptRadioToggleGroup.getSelectedToggle();
@@ -175,12 +178,23 @@ public class AppointmentScreenController implements Initializable {
     }
 
     public void onUpdateAptButtonClick(javafx.event.ActionEvent actionEvent) {
+
+        selectedAppointmentData = tableViewSchedule.getSelectionModel().getSelectedItem();
+
         try {
-            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/UpdateAppointmentScreen.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.setTitle("Add Appointment");
-            stage.show();
+            if (selectedAppointmentData == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("No Appoimtment Selected!");
+                alert.setContentText("An existing appointment must be selected!");
+                alert.showAndWait();
+
+            } else {
+                Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/UpdateAppointmentScreen.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.setTitle("Add Appointment");
+                stage.show();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -222,14 +236,14 @@ public class AppointmentScreenController implements Initializable {
             e.printStackTrace();
         }
 
-
-
-
-
-
-
-
     }
+
+
+    public static Appointments getSelectedAppointmentData() {
+        return selectedAppointmentData;
+    }
+
+
 
     public void onViewDirectoryButtonClick(javafx.event.ActionEvent actionEvent) {
         try {

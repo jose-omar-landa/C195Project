@@ -1,7 +1,9 @@
 package Controllers;
 
+import Objects.Appointments;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,7 +12,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class UpdateAppointmentController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class UpdateAppointmentController implements Initializable {
     public Button cancelButton;
     public ComboBox updateAptContactComboBox;
     public TextField updateAptIDTextField;
@@ -60,5 +65,25 @@ public class UpdateAppointmentController {
     }
 
     public void onUpdateAptEndTimeComboClicked(ActionEvent actionEvent) {
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        try {
+
+            Appointments selectedAppointment = AppointmentScreenController.getSelectedAppointmentData();
+            updateAptIDTextField.setText(String.valueOf(selectedAppointment.getAptID()));
+            updateAptDescriptionTextField.setText(String.valueOf(selectedAppointment.getAptDescription()));
+            updateAptTitleTextField.setText(String.valueOf(selectedAppointment.getAptTitle()));
+            updateAptTypeTextField.setText(String.valueOf(selectedAppointment.getAptType()));
+            updateAptLocationTextField.setText(String.valueOf(selectedAppointment.getAptLocation()));
+
+
+
+        } catch (Exception e) {
+
+        }
+
     }
 }
