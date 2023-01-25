@@ -152,7 +152,7 @@ public class AddAppointmentController implements Initializable {
 
         } else {
             try {
-                AppointmentQuery.createNewAppointment(id, aptTitle, aptDescription, aptLocation, aptType,
+                AppointmentQuery.createNewAppointment(String.valueOf(id), aptTitle, aptDescription, aptLocation, aptType,
                         startTimeStamp, endTimeStamp, customerID, userID, contactID);
                 Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                 Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));

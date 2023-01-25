@@ -1,5 +1,6 @@
 package Controllers;
 
+import DBQueries.AppointmentQuery;
 import DBQueries.ContactsQuery;
 import DBQueries.CustomerQuery;
 import DBQueries.UsersQuery;
@@ -14,14 +15,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
-import java.time.LocalTime;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.*;
 import java.util.ResourceBundle;
 
 public class UpdateAppointmentController implements Initializable {
@@ -39,6 +40,10 @@ public class UpdateAppointmentController implements Initializable {
     public ComboBox<Integer> updateAptUserIdComboBox;
     public ComboBox<String> updateAptStartTime;
     public ComboBox<String> updateAptEndTime;
+
+    private ZoneId zoneID = ZoneId.of("UTC");
+    private ZoneId zoneIdEasternStandardTime = ZoneId.of("America/New_York");
+    private ZoneId zoneIdDefault = ZoneId.systemDefault();
 
     public void onCancelClicked(ActionEvent actionEvent) {
         try {
@@ -76,7 +81,59 @@ public class UpdateAppointmentController implements Initializable {
     }
 
     public void onUpdateAptSaveButtonClicked(ActionEvent actionEvent) {
+
+        String appointmentID = updateAptIDTextField.getText();
+        String appointmentTitle = updateAptTitleTextField.getText();
+        String appointmendDescription = updateAptDescriptionTextField.getText();
+        String appointmentLocation = updateAptLocationTextField.getText();
+        String appointmentType = updateAptTypeTextField.getText();
+        int contacts = updateAptContactComboBox.getValue();
+        LocalDateTime aptStart = LocalDateTime.of(updateAptStartDate.getValue(), LocalTime.parse(updateAptStartTime.getSelectionModel().getSelectedItem()));
+        LocalDateTime aptEnd = LocalDateTime.of(updateAptEndDate.getValue(), LocalTime.parse(updateAptEndTime.getSelectionModel().getSelectedItem()));
+        int customerID = updateAptCustomerIdComboBox.getValue();
+        int userID = updateAptUserIdComboBox.getValue();
+        ZonedDateTime startUTC = aptStart.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
+        ZonedDateTime endUTC = aptEnd.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
+        Timestamp startTimeStamp = Timestamp.valueOf(startUTC.toLocalDateTime());
+        Timestamp endTimeStamp = Timestamp.valueOf(endUTC.toLocalDateTime());
+
+        if (updateAptDescriptionTextField.getText().isEmpty() ||
+                updateAptTitleTextField.getText().isEmpty() ||
+                updateAptLocationTextField.getText().isEmpty() ||
+                updateAptTypeTextField.getText().isEmpty() ||
+                updateAptStartTime.getSelectionModel().isEmpty() ||
+                updateAptEndTime.getSelectionModel().isEmpty() ||
+                updateAptStartDate.getControlCssMetaData().isEmpty() ||
+                updateAptEndDate.getControlCssMetaData().isEmpty() ||
+                updateAptContactComboBox.getSelectionModel().isEmpty() ||
+                updateAptCustomerIdComboBox.getSelectionModel().isEmpty() ||
+                updateAptUserIdComboBox.getSelectionModel().isEmpty()
+        ) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setContentText("All fields required!");
+            alert.showAndWait();
+
+        } else {
+
+            try {
+                int id = AppointmentScreenController.getSelectedAppointmentData().getAptID();
+                AppointmentQuery.deleteAppointmentRecord(id);
+
+                AppointmentQuery.createNewAppointment(appointmentID, appointmentTitle, appointmendDescription, appointmentLocation, appointmentType, startTimeStamp, endTimeStamp, customerID, userID, contacts);
+                Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.setTitle("Customer Directory");
+                stage.show();
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
+
 
     public void onUpdateAptCustomerIDComboBoxClicked() {
 

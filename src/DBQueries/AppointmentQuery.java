@@ -151,13 +151,13 @@ public class AppointmentQuery {
 
 
 
-    public static void createNewAppointment(int aptID, String aptTitle, String aptDescription, String aptLocation, String aptType,
+    public static void createNewAppointment(String aptID, String aptTitle, String aptDescription, String aptLocation, String aptType,
                                             Timestamp aptStart, Timestamp aptEnd, int customerID, int userID, int contactID) throws SQLException {
 
         try {
             PreparedStatement ps = JDBC.getConnection().prepareStatement("INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
-            ps.setInt(1, aptID);
+            ps.setString(1, aptID);
             ps.setString(2, aptTitle);
             ps.setString(3, aptDescription);
             ps.setString(4, aptLocation);
