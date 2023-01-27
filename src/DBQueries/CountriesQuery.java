@@ -40,29 +40,29 @@ public class CountriesQuery {
 
 
 
-    public static ObservableList<Countries> pullCountryDivision(int divisionID) throws SQLException {
+    public static Countries pullCountryDivision(int divisionID) throws SQLException {
 
-        ObservableList<Countries> countryDivIDList = FXCollections.observableArrayList();
-
+//        ObservableList<Countries> countryDivIDList = FXCollections.observableArrayList();
+        try{
         PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM countries AS country INNER JOIN first_level_divisions AS division ON country.Country_ID WHERE division.Division_ID = ?;");
         ps.setInt(1, divisionID);
 
-        try{
+
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
-                int countryID = rs.getInt("Country_ID");
-                String country = rs.getString("Country");
+                Countries countries = new Countries(
+                        rs.getInt("Country_ID"),
+                        rs.getString("Country"));
 
-                Countries newCountryList = new Countries(countryID, country);
-                countryDivIDList.add(newCountryList);
+                return countries;
             }
 
         } catch (
                 SQLException e) {
             e.printStackTrace();
         }
-        return countryDivIDList;
+        return null;
     }
 
 

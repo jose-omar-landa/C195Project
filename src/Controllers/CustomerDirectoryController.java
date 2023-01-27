@@ -52,6 +52,7 @@ public class CustomerDirectoryController implements Initializable {
 
         updateCustomerRecord = customerDirectoryTable.getSelectionModel().getSelectedItem();
 
+
         try {
             if (updateCustomerRecord == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

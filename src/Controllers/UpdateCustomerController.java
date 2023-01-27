@@ -34,6 +34,8 @@ public class UpdateCustomerController implements Initializable {
     public TextField updateCustomerPhoneNumber;
     public ComboBox<Countries> updateCustomerCountry;
     public Button updateCustomerSave;
+    private ObservableList<Customers> setCustomers;
+    private Customers customer;
 
 
     public void onCancelClicked(ActionEvent actionEvent) {
@@ -48,29 +50,71 @@ public class UpdateCustomerController implements Initializable {
         }
     }
 
+//    public Customers gettingSelectedCustomer(Customers customer) throws SQLException {
+//        Customers getCustomer = customer;
+//        Countries c = CountriesQuery.pullCountryDivision(getCustomer.getDivisionID());
+//        ObservableList<Countries> countries = CountriesQuery.allCountriesList();
+//        ObservableList<Divisions> divisions = DivisionQuery.pullDivisionByCountry(c.getCountryID());
+//
+//        updateCustomerID.setText(String.valueOf(getCustomer.getCustomerID()));
+//        updateCustomerName.setText(getCustomer.getCustomerName());
+//        updateCustomerAddress.setText(getCustomer.getCustomerAddress());
+//        updateCustomerPostalCode.setText(getCustomer.getPostalCode());
+//        updateCustomerPhoneNumber.setText(getCustomer.getCustomerPhone());
+//
+//        updateCustomerDivision.setItems(divisions);
+//        divisions.forEach(Divisions -> {
+//            if (Divisions.getDivisionID() == customer.getDivisionID()) {
+//                updateCustomerDivision.setValue(Divisions);
+//            }
+//        });
+//        updateCustomerCountry.setItems(countries);
+//        updateCustomerCountry.setValue(c);
+//
+//        return getCustomer;
+//    }
+
+
+
+
+
+
 
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle){
 
+
+        Customers selectedCustomer = CustomerDirectoryController.getUpdateCustomerRecordData();
+        Countries c = null;
         try {
-
-            Customers selectedCustomerRecord = CustomerDirectoryController.getUpdateCustomerRecordData();
-
-            updateCustomerCountry.setItems(CountriesQuery.allCountriesList());
-
-            updateCustomerID.setText(String.valueOf(selectedCustomerRecord.getCustomerID()));
-            updateCustomerName.setText(selectedCustomerRecord.getCustomerName());
-            updateCustomerAddress.setText(selectedCustomerRecord.getCustomerAddress());
-            updateCustomerPostalCode.setText(selectedCustomerRecord.getPostalCode());
-            updateCustomerPhoneNumber.setText(selectedCustomerRecord.getCustomerPhone());
-//            updateCustomerCountry.getSelectionModel().select(selectedCustomerRecord.getCountry());
-//            updateCustomerDivision.getSelectionModel().select(selectedCustomerRecord.getDivisionID());
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+            c = CountriesQuery.pullCountryDivision(selectedCustomer.getDivisionID());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+        ObservableList<Countries> countries = null;
+        try {
+            countries = CountriesQuery.allCountriesList();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        ObservableList<Divisions> divisions = null;
+        try {
+            divisions = DivisionQuery.pullDivisionByCountry(selectedCustomer.getDivisionID());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        updateCustomerID.setText(String.valueOf(selectedCustomer.getCustomerID()));
+        updateCustomerName.setText(selectedCustomer.getCustomerName());
+        updateCustomerAddress.setText(selectedCustomer.getCustomerAddress());
+        updateCustomerPostalCode.setText(selectedCustomer.getPostalCode());
+        updateCustomerPhoneNumber.setText(selectedCustomer.getCustomerPhone());
+
+        updateCustomerDivision.setItems(divisions);
+        updateCustomerCountry.setItems(countries);
+        updateCustomerCountry.setValue(c);
+
     }
 
     public void onUpdateCustomerDivisionComboBox(ActionEvent actionEvent) {
