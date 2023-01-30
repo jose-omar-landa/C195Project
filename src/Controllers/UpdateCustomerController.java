@@ -49,6 +49,22 @@ public class UpdateCustomerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        try {
+            Customers selectedCustomerData = CustomerDirectoryController.getCustomerData();
+
+            updateCustomerID.setText(String.valueOf(selectedCustomerData.getCustomerID()));
+            updateCustomerName.setText(selectedCustomerData.getCustomerName());
+            updateCustomerAddress.setText(selectedCustomerData.getCustomerAddress());
+            updateCustomerPhoneNumber.setText(selectedCustomerData.getCustomerAddress());
+            updateCustomerPostalCode.setText(selectedCustomerData.getCustomerAddress());
+            updateCustomerCountry.getSelectionModel().getSelectedItem();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
 
     }
 

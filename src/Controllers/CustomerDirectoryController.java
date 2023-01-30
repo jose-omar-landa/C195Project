@@ -34,8 +34,10 @@ public class CustomerDirectoryController implements Initializable {
     public Button updateCustButton;
     public Button removeCustButton;
     public Button aptScheduleButton;
+    public static Customers getCustomerData;
 
     public void onAddCustButtonClicked(ActionEvent actionEvent) {
+
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AddCustomerScreen.fxml"));
@@ -48,6 +50,9 @@ public class CustomerDirectoryController implements Initializable {
     }
 
     public void onUpdateCustButtonClicked(ActionEvent actionEvent) {
+
+        getCustomerData = customerDirectoryTable.getSelectionModel().getSelectedItem();
+
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/UpdateCustomerScreen.fxml"));
@@ -117,6 +122,9 @@ public class CustomerDirectoryController implements Initializable {
         }
     }
 
+    public static Customers getCustomerData() {
+        return getCustomerData;
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
