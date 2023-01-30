@@ -118,10 +118,8 @@ public class UpdateAppointmentController implements Initializable {
         } else {
 
             try {
-                int id = AppointmentScreenController.getSelectedAppointmentData().getAptID();
-                AppointmentQuery.deleteAppointmentRecord(id);
 
-                AppointmentQuery.createNewAppointment(appointmentID, appointmentTitle, appointmendDescription, appointmentLocation, appointmentType, startTimeStamp, endTimeStamp, customerID, userID, contacts);
+                AppointmentQuery.updateAppointmentRecord(appointmentID, appointmentTitle, appointmendDescription, appointmentLocation, appointmentType, startTimeStamp, endTimeStamp, customerID, userID, contacts);
                 Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                 Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));
                 stage.setScene(new Scene(scene));

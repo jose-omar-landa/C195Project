@@ -81,6 +81,34 @@ public class CustomerQuery {
     }
 
 
+    public static boolean updateCustomerAccount(String custID, String custName, String custAddress, String postalCode, String phoneNum, int division) throws SQLException {
+
+        try {
+            PreparedStatement ps = JDBC.getConnection().prepareStatement("UPDATE customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?) WHERE Customer_ID = ?;");
+
+            ps.setString(1, custName);
+            ps.setString(2, custAddress);
+            ps.setString(3, postalCode);
+            ps.setString(4, phoneNum);
+            ps.setInt(5, division);
+            ps.setString(6, custID);
+
+            ps.execute();
+
+            if (ps.getUpdateCount() > 0 ) {
+                System.out.println(ps.getUpdateCount() + " rows affected by change.");
+            } else {
+                System.out.println("No changes to rows have occurred");
+            }
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 
 
 

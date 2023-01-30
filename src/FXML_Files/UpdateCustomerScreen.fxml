@@ -21,7 +21,7 @@
       <Label layoutX="54.0" layoutY="295.0" text="Phone Number:" />
       <Label layoutX="54.0" layoutY="337.0" text="Country:" />
       <ComboBox fx:id="updateCustomerDivision" layoutX="171.0" layoutY="376.0" onAction="#onUpdateCustomerDivisionComboBox" prefWidth="150.0" />
-      <TextField fx:id="updateCustomerID" layoutX="170.0" layoutY="121.0" />
+      <TextField fx:id="updateCustomerID" disable="true" editable="false" layoutX="170.0" layoutY="121.0" />
       <TextField fx:id="updateCustomerName" layoutX="170.0" layoutY="161.0" />
       <TextField fx:id="updateCustomerAddress" layoutX="170.0" layoutY="202.0" />
       <TextField fx:id="updateCustomerPostalCode" layoutX="171.0" layoutY="247.0" />

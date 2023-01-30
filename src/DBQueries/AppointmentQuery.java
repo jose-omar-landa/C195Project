@@ -197,5 +197,40 @@ public class AppointmentQuery {
     }
 
 
+    public static boolean updateAppointmentRecord(String aptID, String aptTitle, String aptDescription, String aptLocation, String aptType,
+                                            Timestamp aptStart, Timestamp aptEnd, int customerID, int userID, int contactID) throws SQLException {
+
+        try {
+            PreparedStatement ps = JDBC.getConnection().prepareStatement("UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Customer_ID=?, User_ID=?, Contact_ID=? WHERE Appointment_ID = ?;");
+
+
+            ps.setString(1, aptTitle);
+            ps.setString(2, aptDescription);
+            ps.setString(3, aptLocation);
+            ps.setString(4, aptType);
+            ps.setTimestamp(5, aptStart);
+            ps.setTimestamp(6, aptEnd);
+            ps.setInt(7, customerID);
+            ps.setInt(8, userID);
+            ps.setInt(9, contactID);
+            ps.setString(10, aptID);
+
+            ps.execute();
+
+            if (ps.getUpdateCount() > 0 ) {
+                System.out.println(ps.getUpdateCount() + " rows affected by change.");
+            } else {
+                System.out.println("No changes to rows have occurred");
+            }
+            return true;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 
 }
