@@ -30,6 +30,7 @@ public class UpdateCustomerController implements Initializable {
     public TextField updateCustomerPostalCode;
     public TextField updateCustomerPhoneNumber;
     public ComboBox<Countries> updateCustomerCountry;
+    public Button updateCustomerSave;
 
 
     public void onCancelClicked(ActionEvent actionEvent) {
@@ -45,45 +46,18 @@ public class UpdateCustomerController implements Initializable {
     }
 
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        try {
 
-            Customers selectedCustomerRecord = CustomerDirectoryController.getUpdateCustomerRecordData();
-
-            updateCustomerCountry.setItems(CountriesQuery.allCountriesList());
-
-            updateCustomerID.setText(String.valueOf(selectedCustomerRecord.getCustomerID()));
-            updateCustomerName.setText(selectedCustomerRecord.getCustomerName());
-            updateCustomerAddress.setText(selectedCustomerRecord.getCustomerAddress());
-            updateCustomerPostalCode.setText(selectedCustomerRecord.getPostalCode());
-            updateCustomerPhoneNumber.setText(selectedCustomerRecord.getCustomerPhone());
-//            updateCustomerCountry.getSelectionModel().select(selectedCustomerRecord.getCountry());
-//            updateCustomerDivision.getSelectionModel().select(selectedCustomerRecord.getDivisionID());
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public void onUpdateCustomerDivisionComboBox(ActionEvent actionEvent) {
-
     }
 
-    public void onUpdateCustomerCountryComboBox(ActionEvent actionEvent) throws SQLException {
-        int countryID = updateCustomerCountry.getValue().getCountryID();
-
-        try {
-            updateCustomerDivision.setItems(DivisionQuery.pullDivisionByCountry(countryID));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public void onUpdateCustomerSaveButtonClicked(ActionEvent actionEvent) {
     }
 
-
-
+    public void onUpdateCustomerCountryComboBox(ActionEvent actionEvent) {
+    }
 }
