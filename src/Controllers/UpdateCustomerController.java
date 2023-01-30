@@ -50,6 +50,9 @@ public class UpdateCustomerController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
+            onUpdateCustomerDivisionComboBox();
+            onUpdateCustomerCountryComboBox();
+
             Customers selectedCustomerData = CustomerDirectoryController.getCustomerData();
 
             updateCustomerID.setText(String.valueOf(selectedCustomerData.getCustomerID()));
@@ -68,12 +71,25 @@ public class UpdateCustomerController implements Initializable {
 
     }
 
-    public void onUpdateCustomerDivisionComboBox(ActionEvent actionEvent) {
+    public void onUpdateCustomerDivisionComboBox() throws SQLException {
+        try {
+            updateCustomerDivision.setItems(DivisionQuery.allDivisionsList());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     public void onUpdateCustomerSaveButtonClicked(ActionEvent actionEvent) {
     }
 
-    public void onUpdateCustomerCountryComboBox(ActionEvent actionEvent) {
+    public void onUpdateCustomerCountryComboBox() throws SQLException {
+        try {
+            updateCustomerCountry.setItems(CountriesQuery.allCountriesList());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
