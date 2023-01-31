@@ -1,6 +1,7 @@
 package DBQueries;
 
 import DBConnection.JDBC;
+import Objects.Countries;
 import Objects.Divisions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,33 +35,61 @@ public class DivisionQuery {
         }
     }
 
-    public static ObservableList<Divisions> pullDivisionByCountry(int countryID) throws SQLException {
+    public static ObservableList<Divisions> pullDivisionByCountry(String country) throws SQLException {
+
+        Countries newCountry = CountriesQuery.pullCountryID(country);
 
         ObservableList<Divisions> divCountryIDList = FXCollections.observableArrayList();
 
         PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM first_level_divisions WHERE Country_ID = ?;");
-        ps.setInt(1, countryID);
+        ps.setInt(1, newCountry.getCountryID());
 
         try{
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
-                int divID = rs.getInt("Division_ID");
-                String div = rs.getString("Division");
-                rs.getInt("Country_ID");
 
-                Divisions newDivList = new Divisions(divID, div, countryID);
-                divCountryIDList.add(newDivList);
+                Divisions newDivision = new Divisions(
+                rs.getInt("Division_ID"),
+                rs.getString("Division"),
+                rs.getInt("Country_ID"));
+
+                divCountryIDList.add(newDivision);
+
             }
+            return divCountryIDList;
 
         } catch (
                 SQLException e) {
             e.printStackTrace();
         }
-        return divCountryIDList;
+        return null;
     }
 
 
+
+    public static Divisions pullDivisionID(String division) throws SQLException {
+
+        PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM first_level_divisions WHERE Division = ?;");
+        ps.setString(1, division);
+
+            try{
+                ResultSet rs = ps.executeQuery();
+
+                while(rs.next()){
+
+                    Divisions newDivision = new Divisions(
+                            rs.getInt("Division_ID"),
+                            rs.getString("Division"),
+                            rs.getInt("Country_ID"));
+
+                    return newDivision;
+                }
+                } catch (Exception e) {
+                     e.printStackTrace();
+                }
+            return null;
+    }
 
 
     }

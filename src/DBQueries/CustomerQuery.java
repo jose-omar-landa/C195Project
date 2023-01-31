@@ -44,7 +44,9 @@ public class CustomerQuery {
         return allCustList;
     }
 
-    public static void createNewCustomer(String custName, String custAddress, String postalCode, String phoneNum, int division) throws SQLException {
+    public static void createNewCustomer(String custName, String custAddress, String postalCode, String phoneNum, String division) throws SQLException {
+
+        Divisions newDivison = DivisionQuery.pullDivisionID(division);
 
         try {
             PreparedStatement ps = JDBC.getConnection().prepareStatement("INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?);");
@@ -53,7 +55,7 @@ public class CustomerQuery {
             ps.setString(2, custAddress);
             ps.setString(3, postalCode);
             ps.setString(4, phoneNum);
-            ps.setInt(5, division);
+            ps.setInt(5, newDivison.getDivisionID());
 
             ps.execute();
 
@@ -82,16 +84,17 @@ public class CustomerQuery {
     }
 
 
-    public static boolean updateCustomerAccount(String custID, String custName, String custAddress, String postalCode, String phoneNum, int division) throws SQLException {
+    public static boolean updateCustomerAccount(String custID, String custName, String custAddress, String postalCode, String phoneNum, String division) throws SQLException {
+        Divisions newDivision = DivisionQuery.pullDivisionID(division);
 
         try {
-            PreparedStatement ps = JDBC.getConnection().prepareStatement("UPDATE customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?) WHERE Customer_ID = ?;");
+            PreparedStatement ps = JDBC.getConnection().prepareStatement("UPDATE customers SET Customer_Name=?, Address=?, Postal_Code=?, Phone=?, Division_ID=? WHERE Customer_ID = ?;");
 
             ps.setString(1, custName);
             ps.setString(2, custAddress);
             ps.setString(3, postalCode);
             ps.setString(4, phoneNum);
-            ps.setInt(5, division);
+            ps.setInt(5,newDivision.getDivisionID());
             ps.setString(6, custID);
 
             ps.execute();

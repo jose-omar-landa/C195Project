@@ -90,10 +90,12 @@ public class UpdateCustomerController implements Initializable {
 
     }
 
+
+
     public void onUpdateCustomerDivisionComboBox() throws SQLException {
         ObservableList<String> listOfDivisions = FXCollections.observableArrayList();
         try {
-            ObservableList<Divisions> divisions = DivisionQuery.allDivisionsList();
+            ObservableList<Divisions> divisions = DivisionQuery.pullDivisionByCountry(updateCustomerCountry.getSelectionModel().getSelectedItem());
             if (divisions != null) {
                 for (Divisions division : divisions) {
                     listOfDivisions.add(division.getDivision());
@@ -140,7 +142,6 @@ public class UpdateCustomerController implements Initializable {
         String customerPostalCode =updateCustomerPostalCode.getText() ;
         String customerPhoneNumber = updateCustomerPhoneNumber.getText();
         String divisions = updateCustomerDivision.getValue();
-        int divisionID = Integer.parseInt(divisions);
         String country = updateCustomerCountry.getValue();
 
 
@@ -159,7 +160,7 @@ public class UpdateCustomerController implements Initializable {
         } else {
             try {
 
-                CustomerQuery.updateCustomerAccount(customerID, customerName, customerAddress, customerPostalCode, customerPhoneNumber, divisionID);
+                CustomerQuery.updateCustomerAccount(customerID, customerName, customerAddress, customerPostalCode, customerPhoneNumber, divisions);
                 Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                 Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/CustomerDirectory.fxml"));
                 stage.setScene(new Scene(scene));

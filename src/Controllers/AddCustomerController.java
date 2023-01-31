@@ -6,6 +6,8 @@ import DBQueries.DivisionQuery;
 import Objects.Countries;
 import Objects.Customers;
 import Objects.Divisions;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,8 +30,8 @@ public class AddCustomerController implements Initializable {
     public TextField addCustPostalCodeTextField;
     public TextField addCustPhoneTextField;
     public Button addCustSaveButton;
-    public ComboBox<Divisions> addCustDivisionComboBox;
-    public ComboBox<Countries> addCustCountryComboBox;
+    public ComboBox<String> addCustDivisionComboBox;
+    public ComboBox<String> addCustCountryComboBox;
 
     public TextField addCustIDTextField;
 
@@ -62,9 +64,8 @@ public class AddCustomerController implements Initializable {
         String customerAddress = custAddressTextField.getText();
         String customerPostalCode =addCustPostalCodeTextField.getText() ;
         String customerPhoneNumber = addCustPhoneTextField.getText();
-        Divisions divisions = addCustDivisionComboBox.getValue();
-        int divisionID = divisions.getDivisionID();
-        Countries country = addCustCountryComboBox.getValue();
+        String divisions = addCustDivisionComboBox.getValue();
+        String country = addCustCountryComboBox.getValue();
 
 
                 if (custNameTextField.getText().isEmpty() ||
@@ -81,7 +82,7 @@ public class AddCustomerController implements Initializable {
 
                 } else {
                     try {
-                        CustomerQuery.createNewCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber, divisionID);
+                        CustomerQuery.createNewCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber, divisions);
                         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                         Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/CustomerDirectory.fxml"));
                         stage.setScene(new Scene(scene));
@@ -94,27 +95,59 @@ public class AddCustomerController implements Initializable {
 
             }
 
-    public void onAddCustDivisionComboBoxSelection(ActionEvent actionEvent) {
-    }
-
-    public void onAddCustCountryComboBoxSelection(ActionEvent actionEvent) throws SQLException {
-        int countryID = addCustCountryComboBox.getValue().getCountryID();
-
+    public void onAddCustDivisionComboBoxSelection() {
+        ObservableList<String> listOfDivisions = FXCollections.observableArrayList();
         try {
-            addCustDivisionComboBox.setItems(DivisionQuery.pullDivisionByCountry(countryID));
+            ObservableList<Divisions> divisions = DivisionQuery.pullDivisionByCountry(addCustCountryComboBox.getSelectionModel().getSelectedItem());
+            if (divisions != null) {
+                for (Divisions division : divisions) {
+                    listOfDivisions.add(division.getDivision());
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        addCustDivisionComboBox.setItems(listOfDivisions);
+
+    }
+
+    public void onAddCustCountryComboBoxSelection() {
+        ObservableList<String> listOfCountries = FXCollections.observableArrayList();
+        try {
+            ObservableList<Countries> countries = CountriesQuery.allCountriesList();
+            if (countries != null) {
+                for (Countries country : countries) {
+                    listOfCountries.add(country.getCountry());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        addCustCountryComboBox.setItems(listOfCountries);
+
+
+
+
+//        int countryID = addCustCountryComboBox.getValue().getCountryID();
+//
+//        try {
+//            addCustDivisionComboBox.setItems(DivisionQuery.pullDivisionByCountry(countryID));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        try {
-            addCustCountryComboBox.setItems(CountriesQuery.allCountriesList());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        onAddCustDivisionComboBoxSelection();
+        onAddCustCountryComboBoxSelection();
+
+//        try {
+//            addCustCountryComboBox.setItems(CountriesQuery.allCountriesList());
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
 
     }
 }
