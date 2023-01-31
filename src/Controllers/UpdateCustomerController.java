@@ -65,6 +65,10 @@ public class UpdateCustomerController implements Initializable {
             updateCustomerDivision.getSelectionModel().select(selectedCustomerData.getDivision());
 
 
+            onUpdateCustomerCountryComboBox();
+            onUpdateCustomerDivisionComboBox();
+
+
 
 
 
