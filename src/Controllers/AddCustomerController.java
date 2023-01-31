@@ -31,7 +31,6 @@ public class AddCustomerController implements Initializable {
     public ComboBox<Divisions> addCustDivisionComboBox;
     public ComboBox<Countries> addCustCountryComboBox;
 
-    public static int customerIDNum = 0;
     public TextField addCustIDTextField;
 
     public void onCancelClicked(ActionEvent actionEvent) {
@@ -46,9 +45,19 @@ public class AddCustomerController implements Initializable {
         }
     }
 
-    public void onAddCustSaveClicked(ActionEvent actionEvent) throws IOException {
+    public void onAddCustSaveClicked(ActionEvent actionEvent) throws SQLException {
 
-        int id = customerIDNum++;
+        int id = 0;
+        for (Customers customer : CustomerQuery.allCustomersList()) {
+            if (customer.getCustomerID() < id) {
+                id = customer.getCustomerID();
+            }
+            else {
+                id++;
+            }
+        }
+
+
         String customerName = custNameTextField.getText();
         String customerAddress = custAddressTextField.getText();
         String customerPostalCode =addCustPostalCodeTextField.getText() ;
@@ -100,8 +109,6 @@ public class AddCustomerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        addCustIDTextField.setText(Integer.toString(customerIDNum));
 
         try {
             addCustCountryComboBox.setItems(CountriesQuery.allCountriesList());
