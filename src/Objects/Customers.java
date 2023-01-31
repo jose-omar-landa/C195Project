@@ -13,10 +13,11 @@ public class Customers {
     private String lastUpdatedBy;
     private int divisionID;
     private String country;
+    private String division;
 
 
     public Customers(int customerID, String customerName, String customerAddress, String postalCode, String customerPhone,
-                     java.sql.Date createDate, String createdBy, java.sql.Date lastUpdated, String lastUpdatedBy, int divisionID, String country) {
+                     java.sql.Date createDate, String createdBy, java.sql.Date lastUpdated, String lastUpdatedBy, int divisionID, String country, String division) {
 
         this.customerID = customerID;
         this.customerName = customerName;
@@ -29,6 +30,8 @@ public class Customers {
         this.lastUpdatedBy = lastUpdatedBy;
         this.divisionID = divisionID;
         this.country = country;
+        this.division = division;
+
     }
 
     public int getCustomerID() {
@@ -111,9 +114,7 @@ public class Customers {
         this.divisionID = divisionID;
     }
 
-    public String getCountry() {
-        return country;
-    }
+    public String getCountry() { return country; }
 
     public void setCountry(String country) {
         this.country = country;
@@ -123,6 +124,10 @@ public class Customers {
     public String toString() {
         return country;
     }
+
+    public String getDivision() { return division; }
+
+    public void setDivision(String division) { this.division = division; }
 
 
 }

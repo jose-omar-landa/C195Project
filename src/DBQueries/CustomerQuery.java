@@ -33,7 +33,8 @@ public class CustomerQuery {
                         rs.getDate("Last_Update"),
                         rs.getString("Last_Updated_By"),
                         rs.getInt("Division_ID"),
-                        rs.getString("Country"));
+                        rs.getString("Country"),
+                        rs.getString("Division"));
                 allCustList.add(cust);
             }
         } catch (

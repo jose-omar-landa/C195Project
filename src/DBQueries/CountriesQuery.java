@@ -40,9 +40,8 @@ public class CountriesQuery {
 
 
 
-    public static Countries pullCountryDivision(int divisionID) throws SQLException {
+    public static Countries pullCountryByDivision(int divisionID) throws SQLException {
 
-//        ObservableList<Countries> countryDivIDList = FXCollections.observableArrayList();
         try{
         PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM countries AS country INNER JOIN first_level_divisions AS division ON country.Country_ID WHERE division.Division_ID = ?;");
         ps.setInt(1, divisionID);

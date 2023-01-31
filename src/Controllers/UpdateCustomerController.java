@@ -26,13 +26,13 @@ import java.util.ResourceBundle;
 
 public class UpdateCustomerController implements Initializable {
     public Button cancelButton;
-    public ComboBox<Divisions> updateCustomerDivision;
+    public ComboBox<String> updateCustomerDivision;
     public TextField updateCustomerID;
     public TextField updateCustomerName;
     public TextField updateCustomerAddress;
     public TextField updateCustomerPostalCode;
     public TextField updateCustomerPhoneNumber;
-    public ComboBox<Countries> updateCustomerCountry;
+    public ComboBox<String> updateCustomerCountry;
     public Button updateCustomerSave;
 
 
@@ -61,31 +61,70 @@ public class UpdateCustomerController implements Initializable {
             updateCustomerAddress.setText(selectedCustomerData.getCustomerAddress());
             updateCustomerPhoneNumber.setText(selectedCustomerData.getCustomerAddress());
             updateCustomerPostalCode.setText(selectedCustomerData.getCustomerAddress());
-            updateCustomerCountry.getSelectionModel().getSelectedItem();
+            updateCustomerCountry.getSelectionModel().select(selectedCustomerData.getCountry());
+            updateCustomerDivision.getSelectionModel().select(selectedCustomerData.getDivision());
+
+
+
+
+
+
+
+
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        try {
-            updateCustomerCountry.setItems(CountriesQuery.allCountriesList());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+//        try {
+//            updateCustomerCountry.setItems(CountriesQuery.allCountriesList());
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
 
     }
 
     public void onUpdateCustomerDivisionComboBox() throws SQLException {
-    }
-
-    public void onUpdateCustomerCountryComboBox() throws SQLException {
-        int countryID = updateCustomerCountry.getValue().getCountryID();
-
+        ObservableList<String> listOfDivisions = FXCollections.observableArrayList();
         try {
-            updateCustomerDivision.setItems(DivisionQuery.pullDivisionByCountry(countryID));
+            ObservableList<Divisions> divisions = DivisionQuery.allDivisionsList();
+            if (divisions != null) {
+                for (Divisions division : divisions) {
+                    listOfDivisions.add(division.getDivision());
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        updateCustomerDivision.setItems(listOfDivisions);
+    }
+
+    public void onUpdateCustomerCountryComboBox() throws SQLException {
+        ObservableList<String> listOfCountries = FXCollections.observableArrayList();
+        try {
+            ObservableList<Countries> countries = CountriesQuery.allCountriesList();
+            if (countries != null) {
+                for (Countries country : countries) {
+                    listOfCountries.add(country.getCountry());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        updateCustomerCountry.setItems(listOfCountries);
+
+
+
+
+//        int countryID = updateCustomerCountry.getValue().getCountryID();
+//
+//        try {
+//            updateCustomerDivision.setItems(DivisionQuery.pullDivisionByCountry(countryID));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 
@@ -96,9 +135,9 @@ public class UpdateCustomerController implements Initializable {
         String customerAddress = updateCustomerAddress.getText();
         String customerPostalCode =updateCustomerPostalCode.getText() ;
         String customerPhoneNumber = updateCustomerPhoneNumber.getText();
-        Divisions divisions = updateCustomerDivision.getValue();
-        int divisionID = divisions.getDivisionID();
-        Countries country = updateCustomerCountry.getValue();
+        String divisions = updateCustomerDivision.getValue();
+        int divisionID = Integer.parseInt(divisions);
+        String country = updateCustomerCountry.getValue();
 
 
         if (updateCustomerName.getText().isEmpty() ||
