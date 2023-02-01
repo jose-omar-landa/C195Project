@@ -66,18 +66,18 @@ public class CountriesQuery {
 
 
     public static Countries pullCountryID(String country) throws SQLException {
-        try {
-            PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM countries WHERE Country = ?;");
-            ps.setString(1, country);
+        PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM countries WHERE Country = ?;");
+        ps.setString(1, country);
 
+        try {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Countries countries = new Countries(
+                Countries newCountry = new Countries(
                         rs.getInt("Country_ID"),
                         rs.getString("Country"));
 
-                return countries;
+                return newCountry;
             }
 
         } catch (Exception e) {

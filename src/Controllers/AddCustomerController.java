@@ -95,7 +95,7 @@ public class AddCustomerController implements Initializable {
 
             }
 
-    public void onAddCustDivisionComboBoxSelection() {
+    public void onAddCustDivisionComboBoxSelection() throws SQLException {
         ObservableList<String> listOfDivisions = FXCollections.observableArrayList();
         try {
             ObservableList<Divisions> divisions = DivisionQuery.pullDivisionByCountry(addCustCountryComboBox.getSelectionModel().getSelectedItem());
@@ -111,7 +111,7 @@ public class AddCustomerController implements Initializable {
 
     }
 
-    public void onAddCustCountryComboBoxSelection() {
+    public void onAddCustCountryComboBoxSelection() throws SQLException{
         ObservableList<String> listOfCountries = FXCollections.observableArrayList();
         try {
             ObservableList<Countries> countries = CountriesQuery.allCountriesList();
@@ -140,8 +140,13 @@ public class AddCustomerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        onAddCustDivisionComboBoxSelection();
-        onAddCustCountryComboBoxSelection();
+        try {
+            onAddCustDivisionComboBoxSelection();
+            onAddCustCountryComboBoxSelection();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
 
 //        try {
 //            addCustCountryComboBox.setItems(CountriesQuery.allCountriesList());
