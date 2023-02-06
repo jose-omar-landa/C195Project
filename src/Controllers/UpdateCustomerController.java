@@ -4,6 +4,8 @@ import DBQueries.CountriesQuery;
 import DBQueries.CustomerQuery;
 import DBQueries.DivisionQuery;
 import Objects.Divisions;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -64,16 +66,7 @@ public class UpdateCustomerController implements Initializable {
             updateCustomerCountry.getSelectionModel().select(selectedCustomerData.getCountry());
             updateCustomerDivision.getSelectionModel().select(selectedCustomerData.getDivision());
 
-
             onUpdateCustomerCountryComboBox();
-            onUpdateCustomerDivisionComboBox();
-
-
-
-
-
-
-
 
 
 
@@ -81,12 +74,6 @@ public class UpdateCustomerController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        try {
-//            updateCustomerCountry.setItems(CountriesQuery.allCountriesList());
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
 
     }
 
@@ -120,6 +107,8 @@ public class UpdateCustomerController implements Initializable {
             e.printStackTrace();
         }
         updateCustomerCountry.setItems(listOfCountries);
+        onUpdateCustomerDivisionComboBox();
+
 
 
 
