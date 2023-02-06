@@ -214,7 +214,7 @@ public class AppointmentScreenController implements Initializable {
             int appointmentID = currentSelectedAppointment.getAptID();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Are You Sure?");
-            alert.setContentText("Are you sure you want to delete the customer record?");
+            alert.setContentText("Are you sure you want to delete the selected appointment?");
             Optional<ButtonType> deleteAppointmentConfirmation = alert.showAndWait();
 
             if (deleteAppointmentConfirmation.isPresent() && deleteAppointmentConfirmation.get() == ButtonType.OK) {

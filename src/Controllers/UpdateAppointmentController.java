@@ -45,6 +45,14 @@ public class UpdateAppointmentController implements Initializable {
     private ZoneId zoneIdEasternStandardTime = ZoneId.of("America/New_York");
     private ZoneId zoneIdDefault = ZoneId.systemDefault();
 
+    private ZonedDateTime convertToEastern(LocalDateTime time) {
+        return ZonedDateTime.of(time, ZoneId.of("America/New_York"));
+    }
+
+    private ZonedDateTime convertToTimeZone(LocalDateTime time, String zoneID) {
+        return ZonedDateTime.of(time, ZoneId.of(zoneID));
+    }
+
     public void onCancelClicked(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -194,11 +202,20 @@ public class UpdateAppointmentController implements Initializable {
         try {
 
             Appointments selectedAppointment = AppointmentScreenController.getSelectedAppointmentData();
+
+
             updateAptIDTextField.setText(String.valueOf(selectedAppointment.getAptID()));
             updateAptDescriptionTextField.setText(String.valueOf(selectedAppointment.getAptDescription()));
             updateAptTitleTextField.setText(String.valueOf(selectedAppointment.getAptTitle()));
             updateAptTypeTextField.setText(String.valueOf(selectedAppointment.getAptType()));
             updateAptLocationTextField.setText(String.valueOf(selectedAppointment.getAptLocation()));
+            updateAptContactComboBox.getSelectionModel().select(selectedAppointment.getContactID());
+            updateAptUserIdComboBox.getSelectionModel().select(selectedAppointment.getUserID());
+            updateAptCustomerIdComboBox.getSelectionModel().select(Integer.valueOf(selectedAppointment.getCustomerID()));
+            updateAptStartDate.setValue(selectedAppointment.getAptStart().toLocalDate());
+            updateAptEndDate.setValue(selectedAppointment.getAptEnd().toLocalDate());
+            updateAptStartTime.setValue(String.valueOf(selectedAppointment.getAptStart().toLocalTime()));
+            updateAptEndTime.setValue(String.valueOf(selectedAppointment.getAptEnd().toLocalTime()));
 
 
 

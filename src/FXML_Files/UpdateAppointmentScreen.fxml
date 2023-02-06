@@ -37,7 +37,7 @@
       <Button fx:id="updateAptSaveButton" layoutX="364.0" layoutY="554.0" mnemonicParsing="false" onAction="#onUpdateAptSaveButtonClicked" text="Save" />
       <ComboBox fx:id="updateAptCustomerIdComboBox" layoutX="171.0" layoutY="462.0" onAction="#onUpdateAptCustomerIDComboBoxClicked" prefWidth="150.0" />
       <ComboBox fx:id="updateAptUserIdComboBox" layoutX="171.0" layoutY="506.0" onAction="#onUpdateAptUserIDComboBoxClicked" prefWidth="150.0" />
-      <ComboBox fx:id="updateAptStartTime" layoutX="329.0" layoutY="379.0" onAction="#onUpdateAptStartTimeComboClicked" prefHeight="25.0" prefWidth="69.0" />
-      <ComboBox fx:id="updateAptEndTime" layoutX="329.0" layoutY="421.0" onAction="#onUpdateAptEndTimeComboClicked" prefHeight="25.0" prefWidth="69.0" />
+      <ComboBox fx:id="updateAptStartTime" layoutX="329.0" layoutY="379.0" onAction="#onUpdateAptStartTimeComboClicked" prefHeight="25.0" prefWidth="97.0" />
+      <ComboBox fx:id="updateAptEndTime" layoutX="329.0" layoutY="421.0" onAction="#onUpdateAptEndTimeComboClicked" prefHeight="25.0" prefWidth="97.0" />
    </children>
 </AnchorPane>
