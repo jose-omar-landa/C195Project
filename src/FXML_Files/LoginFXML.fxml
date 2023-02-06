@@ -10,16 +10,18 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.LoginController">
    <children>
-      <Pane layoutX="200.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0">
+      <Pane layoutX="89.0" layoutY="70.0" prefHeight="260.0" prefWidth="423.0">
          <children>
-            <TextField fx:id="enteredUserName" alignment="CENTER" layoutX="26.0" layoutY="88.0" onAction="#onEnteredUserName" promptText="USERNAME" />
-            <PasswordField fx:id="enteredPassword" alignment="CENTER" layoutX="26.0" layoutY="120.0" onAction="#onEnteredPassword" promptText="PASSWORD" />
-            <Button fx:id="loginButton" layoutX="74.0" layoutY="155.0" mnemonicParsing="false" onAction="#onLoginButtonClicked" text="LOGIN" />
-            <Label alignment="CENTER" layoutX="41.0" layoutY="22.0" prefHeight="42.0" prefWidth="119.0" text="Schedule NOW&#10;Employee Login">
+            <TextField fx:id="enteredUserName" alignment="CENTER" layoutX="176.0" layoutY="95.0" onAction="#onEnteredUserName" promptText="USERNAME" />
+            <PasswordField fx:id="enteredPassword" alignment="CENTER" layoutX="176.0" layoutY="130.0" onAction="#onEnteredPassword" promptText="PASSWORD" />
+            <Button fx:id="loginButton" layoutX="186.0" layoutY="175.0" mnemonicParsing="false" onAction="#onLoginButtonClicked" text="LOGIN" />
+            <Label fx:id="titleDescription" alignment="CENTER" layoutX="152.0" layoutY="22.0" prefHeight="42.0" prefWidth="119.0" text="Schedule NOW&#10;Employee Login">
                <font>
                   <Font name="System Bold Italic" size="14.0" />
                </font>
             </Label>
+            <Label fx:id="usernameLabel" layoutX="105.0" layoutY="99.0" text="Username:" />
+            <Label fx:id="passwordLabel" layoutX="106.0" layoutY="134.0" text="Password:" />
          </children>
       </Pane>
    </children>
