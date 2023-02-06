@@ -42,7 +42,7 @@ public class DivisionQuery {
         ObservableList<Divisions> divisions = FXCollections.observableArrayList();
 
         PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM first_level_divisions WHERE Country_ID = ?;");
-        ps.setInt(1, newCountry.getCountryID());
+        ps.setInt(1, newCountry != null ? newCountry.getCountryID() : 0);
 
         try{
             ResultSet rs = ps.executeQuery();

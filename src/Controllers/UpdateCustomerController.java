@@ -80,6 +80,9 @@ public class UpdateCustomerController implements Initializable {
 
 
     public void onUpdateCustomerDivisionComboBox() throws SQLException {
+
+
+
         ObservableList<String> listOfDivisions = FXCollections.observableArrayList();
         try {
             ObservableList<Divisions> divisions = DivisionQuery.pullDivisionByCountry(updateCustomerCountry.getSelectionModel().getSelectedItem());
@@ -93,7 +96,6 @@ public class UpdateCustomerController implements Initializable {
         }
         updateCustomerDivision.setItems(listOfDivisions);
     }
-
     public void onUpdateCustomerCountryComboBox() throws SQLException {
         ObservableList<String> listOfCountries = FXCollections.observableArrayList();
         try {
@@ -109,17 +111,6 @@ public class UpdateCustomerController implements Initializable {
         updateCustomerCountry.setItems(listOfCountries);
         onUpdateCustomerDivisionComboBox();
 
-
-
-
-
-//        int countryID = updateCustomerCountry.getValue().getCountryID();
-//
-//        try {
-//            updateCustomerDivision.setItems(DivisionQuery.pullDivisionByCountry(countryID));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
 

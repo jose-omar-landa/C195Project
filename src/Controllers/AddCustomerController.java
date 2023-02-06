@@ -35,6 +35,7 @@ public class AddCustomerController implements Initializable {
 
     public TextField addCustIDTextField;
 
+
     public void onCancelClicked(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -108,9 +109,7 @@ public class AddCustomerController implements Initializable {
             e.printStackTrace();
         }
         addCustDivisionComboBox.setItems(listOfDivisions);
-
     }
-
     public void onAddCustCountryComboBoxSelection() throws SQLException{
         ObservableList<String> listOfCountries = FXCollections.observableArrayList();
         try {
@@ -124,35 +123,19 @@ public class AddCustomerController implements Initializable {
             e.printStackTrace();
         }
         addCustCountryComboBox.setItems(listOfCountries);
+        onAddCustDivisionComboBoxSelection();
 
-
-
-
-//        int countryID = addCustCountryComboBox.getValue().getCountryID();
-//
-//        try {
-//            addCustDivisionComboBox.setItems(DivisionQuery.pullDivisionByCountry(countryID));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
-            onAddCustDivisionComboBoxSelection();
             onAddCustCountryComboBoxSelection();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
-
-//        try {
-//            addCustCountryComboBox.setItems(CountriesQuery.allCountriesList());
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
 
     }
 }
