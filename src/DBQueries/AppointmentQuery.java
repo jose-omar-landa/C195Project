@@ -19,26 +19,26 @@ public class AppointmentQuery {
 
         PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM appointments");
 
-        try{
+        try {
 
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 Appointments apt = new Appointments(
-                rs.getInt("Appointment_ID"),
-                rs.getString("Title"),
-                rs.getString("Description"),
-                rs.getString("Location"),
-                rs.getString("Type"),
-                rs.getTimestamp("Start").toLocalDateTime(),
-                rs.getTimestamp("End").toLocalDateTime(),
-                rs.getDate("Create_Date"),
-                rs.getString("Created_By"),
-                rs.getDate("Last_Update"),
-                rs.getString("Last_Updated_By"),
-                rs.getInt("Customer_ID"),
-                rs.getInt("User_ID"),
-                rs.getInt("Contact_ID"));
+                        rs.getInt("Appointment_ID"),
+                        rs.getString("Title"),
+                        rs.getString("Description"),
+                        rs.getString("Location"),
+                        rs.getString("Type"),
+                        rs.getTimestamp("Start").toLocalDateTime(),
+                        rs.getTimestamp("End").toLocalDateTime(),
+                        rs.getDate("Create_Date"),
+                        rs.getString("Created_By"),
+                        rs.getDate("Last_Update"),
+                        rs.getString("Last_Updated_By"),
+                        rs.getInt("Customer_ID"),
+                        rs.getInt("User_ID"),
+                        rs.getInt("Contact_ID"));
                 allAptList.add(apt);
 
             }
@@ -50,9 +50,6 @@ public class AppointmentQuery {
         return allAptList;
 
     }
-
-
-
 
 
     //WeeklyAppointments
@@ -68,11 +65,11 @@ public class AppointmentQuery {
         ps.setDate(1, java.sql.Date.valueOf(currentDate.toLocalDate()));
         ps.setDate(2, java.sql.Date.valueOf(oneWeekAgo.toLocalDate()));
 
-        try{
+        try {
 
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 Appointments apt = new Appointments(
                         rs.getInt("Appointment_ID"),
                         rs.getString("Title"),
@@ -115,11 +112,11 @@ public class AppointmentQuery {
         ps.setDate(1, java.sql.Date.valueOf(currentDate.toLocalDate()));
         ps.setDate(2, java.sql.Date.valueOf(oneMonthAgo.toLocalDate()));
 
-        try{
+        try {
 
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 Appointments apt = new Appointments(
                         rs.getInt("Appointment_ID"),
                         rs.getString("Title"),
@@ -148,9 +145,6 @@ public class AppointmentQuery {
     }
 
 
-
-
-
     public static void createNewAppointment(String aptID, String aptTitle, String aptDescription, String aptLocation, String aptType,
                                             Timestamp aptStart, Timestamp aptEnd, int customerID, int userID, int contactID) throws SQLException {
 
@@ -176,15 +170,14 @@ public class AppointmentQuery {
     }
 
 
-
     public static boolean deleteAppointmentRecord(int appointmentIDNum) throws SQLException {
         try {
             PreparedStatement ps = JDBC.getConnection().prepareStatement("DELETE from appointments WHERE Appointment_ID = ?;");
 
-            ps.setInt(1,appointmentIDNum);
+            ps.setInt(1, appointmentIDNum);
 
             ps.executeUpdate();
-            if (ps.getUpdateCount() > 0 ) {
+            if (ps.getUpdateCount() > 0) {
                 System.out.println(ps.getUpdateCount() + " rows affected by change.");
             } else {
                 System.out.println("No changes to rows have occurred");
@@ -198,7 +191,7 @@ public class AppointmentQuery {
 
 
     public static boolean updateAppointmentRecord(String aptID, String aptTitle, String aptDescription, String aptLocation, String aptType,
-                                            Timestamp aptStart, Timestamp aptEnd, int customerID, int userID, int contactID) throws SQLException {
+                                                  Timestamp aptStart, Timestamp aptEnd, int customerID, int userID, int contactID) throws SQLException {
 
         try {
             PreparedStatement ps = JDBC.getConnection().prepareStatement("UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Customer_ID=?, User_ID=?, Contact_ID=? WHERE Appointment_ID = ?;");
@@ -217,7 +210,7 @@ public class AppointmentQuery {
 
             ps.execute();
 
-            if (ps.getUpdateCount() > 0 ) {
+            if (ps.getUpdateCount() > 0) {
                 System.out.println(ps.getUpdateCount() + " rows affected by change.");
             } else {
                 System.out.println("No changes to rows have occurred");
@@ -232,5 +225,39 @@ public class AppointmentQuery {
     }
 
 
+    public static ObservableList<Appointments> pullAppointmentsByCustomerID(int customerID) throws SQLException {
+        ObservableList<Appointments> appointments = FXCollections.observableArrayList();
 
+        PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT * FROM appointments AS a INNER JOIN contacts AS c ON a.Contact_ID = c.Contact_ID WHERE Customer_ID = ? ");
+
+        ps.setInt(1, customerID);
+
+        try {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Appointments apt = new Appointments(
+                        rs.getInt("Appointment_ID"),
+                        rs.getString("Title"),
+                        rs.getString("Description"),
+                        rs.getString("Location"),
+                        rs.getString("Type"),
+                        rs.getTimestamp("Start").toLocalDateTime(),
+                        rs.getTimestamp("End").toLocalDateTime(),
+                        rs.getDate("Create_Date"),
+                        rs.getString("Created_By"),
+                        rs.getDate("Last_Update"),
+                        rs.getString("Last_Updated_By"),
+                        rs.getInt("Customer_ID"),
+                        rs.getInt("User_ID"),
+                        rs.getInt("Contact_ID"));
+                appointments.add(apt);
+            }
+            return appointments;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

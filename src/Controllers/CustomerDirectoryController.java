@@ -75,16 +75,18 @@ public class CustomerDirectoryController implements Initializable {
             alert.setContentText("A customer must be selected first!");
             alert.showAndWait();
         }
+        for (Appointments selectedCustomersAppointments : customerAppointments) {
+            if (selectedCustomersAppointments.getCustomerID() == currentSelectedCustomer.getCustomerID()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Appointments Present");
+                alert.setContentText("The selected customer currently has scheduled appointments! Please delete current appointments prior to deleting customer record!");
+                alert.showAndWait();
+                return;
+            }
+        }
         try {
             int custIDNum = currentSelectedCustomer.getCustomerID();
-            for (Appointments selectedCustomersAppointments : customerAppointments) {
-                if (selectedCustomersAppointments.getCustomerID() == currentSelectedCustomer.getCustomerID()) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Appointments Present");
-                    alert.setContentText("The selected customer currently has scheduled appointments! Please delete current appointments prior to deleting customer record!");
-                    alert.showAndWait();
-                }
-            }
+
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Are You Sure?");
             alert.setContentText("Are you sure you want to delete the customer record?");
