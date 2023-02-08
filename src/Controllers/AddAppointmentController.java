@@ -40,7 +40,16 @@ public class AddAppointmentController implements Initializable {
     public ComboBox<Integer> addAptUserID;
     public TextField addAptIDTextField;
 
-    public static int appointmentIDNum = 0;
+    public static int appointmentIDNum;
+
+    static {
+        try {
+            appointmentIDNum = AppointmentQuery.allAppointmentsList().size() + 1;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public ComboBox<String> startTimeCombo;
     public ComboBox<String> endTimeCombo;
 

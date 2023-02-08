@@ -44,7 +44,7 @@ public class CustomerQuery {
         return allCustList;
     }
 
-    public static void createNewCustomer(String custName, String custAddress, String postalCode, String phoneNum, String division) throws SQLException {
+    public static void createNewCustomer(String id, String custName, String custAddress, String postalCode, String phoneNum, String division) throws SQLException {
 
         Divisions newDivision = DivisionQuery.pullDivisionID(division);
 

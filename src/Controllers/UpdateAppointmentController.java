@@ -95,7 +95,7 @@ public class UpdateAppointmentController implements Initializable {
         String appointmendDescription = updateAptDescriptionTextField.getText();
         String appointmentLocation = updateAptLocationTextField.getText();
         String appointmentType = updateAptTypeTextField.getText();
-        int contacts = updateAptContactComboBox.getValue();
+        int contacts = updateAptContactComboBox.getSelectionModel().getSelectedItem();
         LocalDateTime aptStart = LocalDateTime.of(updateAptStartDate.getValue(), LocalTime.parse(updateAptStartTime.getSelectionModel().getSelectedItem()));
         LocalDateTime aptEnd = LocalDateTime.of(updateAptEndDate.getValue(), LocalTime.parse(updateAptEndTime.getSelectionModel().getSelectedItem()));
         int customerID = updateAptCustomerIdComboBox.getValue();

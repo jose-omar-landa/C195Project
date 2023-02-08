@@ -50,17 +50,7 @@ public class AddCustomerController implements Initializable {
 
     public void onAddCustSaveClicked(ActionEvent actionEvent) throws SQLException {
 
-        int id = 0;
-        for (Customers customer : CustomerQuery.allCustomersList()) {
-            if (customer.getCustomerID() < id) {
-                id = customer.getCustomerID();
-            }
-            else {
-                id++;
-            }
-        }
-
-
+        int id = CustomerQuery.allCustomersList().size() +1 ;
         String customerName = custNameTextField.getText();
         String customerAddress = custAddressTextField.getText();
         String customerPostalCode =addCustPostalCodeTextField.getText() ;
@@ -83,7 +73,7 @@ public class AddCustomerController implements Initializable {
 
                 } else {
                     try {
-                        CustomerQuery.createNewCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber, divisions);
+                        CustomerQuery.createNewCustomer(String.valueOf(id), customerName, customerAddress, customerPostalCode, customerPhoneNumber, divisions);
                         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                         Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/CustomerDirectory.fxml"));
                         stage.setScene(new Scene(scene));
