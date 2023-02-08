@@ -22,6 +22,7 @@
             </Label>
             <Label fx:id="usernameLabel" layoutX="105.0" layoutY="99.0" text="Username:" />
             <Label fx:id="passwordLabel" layoutX="106.0" layoutY="134.0" text="Password:" />
+            <Label fx:id="countryLabel" layoutX="174.0" layoutY="218.0" text="User Country: " />
          </children>
       </Pane>
    </children>

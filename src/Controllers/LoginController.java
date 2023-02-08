@@ -23,6 +23,8 @@ public class LoginController implements Initializable {
     public Label titleDescription;
     public Label usernameLabel;
     public Label passwordLabel;
+    public Label countryLabel;
+    private ResourceBundle resourceBundle;
 
     public void onEnteredUserName(ActionEvent actionEvent) {
     }
@@ -31,20 +33,15 @@ public class LoginController implements Initializable {
     }
 
     private void loginSuccessful() {
-        System.out.println("Welcome!");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Login Successful!");
-        alert.setContentText("Welcome! Login Successful!");
+        alert.setTitle(resourceBundle.getString("successfulLoginTitle"));
+        alert.setContentText(resourceBundle.getString("successfulLoginContext"));
         alert.showAndWait();
     }
 
 
     private void loginFailed() {
-            System.out.println("Invalid Login!");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invalid Login");
-            alert.setContentText("Incorrect Username or Password!");
-            alert.showAndWait();
+
     }
 
 
@@ -56,6 +53,10 @@ public class LoginController implements Initializable {
             titleDescription.setText(resourceBundle.getString("title"));
             usernameLabel.setText(resourceBundle.getString("username"));
             passwordLabel.setText(resourceBundle.getString("password"));
+            loginButton.setText(resourceBundle.getString("loginButton"));
+            enteredUserName.setPromptText(resourceBundle.getString("usernamePrompt"));
+            enteredPassword.setPromptText(resourceBundle.getString("passwordPrompt"));
+            countryLabel.setText(resourceBundle.getString("country"));
         }
 
 
@@ -78,6 +79,13 @@ public class LoginController implements Initializable {
             }
             else {
                 loginFailed();
+
+                if (Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("en")) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle(resourceBundle.getString("failedLoginTitle"));
+                    alert.setContentText(resourceBundle.getString("failedLoginContext"));
+                    alert.showAndWait();
+                }
             }
 
         } catch (Exception e) {
