@@ -37,7 +37,7 @@ public class LoginController implements Initializable {
     }
 
     private void loginSuccessful(String user) throws IOException {
-        FileWriter fileWriter = new FileWriter("login_activity.txt, true");
+        FileWriter fileWriter = new FileWriter("login_activity.txt", true);
         PrintWriter printWriter = new PrintWriter(fileWriter);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime currentTime = LocalDateTime.now();
@@ -50,7 +50,7 @@ public class LoginController implements Initializable {
 
 
     private void loginFailed(String user) throws IOException {
-        FileWriter fileWriter = new FileWriter("login_activity.txt, true");
+        FileWriter fileWriter = new FileWriter("login_activity.txt", true);
         PrintWriter printWriter = new PrintWriter(fileWriter);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime currentTime = LocalDateTime.now();
