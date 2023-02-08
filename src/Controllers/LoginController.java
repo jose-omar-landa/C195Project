@@ -10,7 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -24,7 +29,6 @@ public class LoginController implements Initializable {
     public Label usernameLabel;
     public Label passwordLabel;
     public Label countryLabel;
-    private ResourceBundle resourceBundle;
 
     public void onEnteredUserName(ActionEvent actionEvent) {
     }
@@ -32,16 +36,28 @@ public class LoginController implements Initializable {
     public void onEnteredPassword(ActionEvent actionEvent) {
     }
 
-    private void loginSuccessful() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(resourceBundle.getString("successfulLoginTitle"));
-        alert.setContentText(resourceBundle.getString("successfulLoginContext"));
-        alert.showAndWait();
+    private void loginSuccessful(String user) throws IOException {
+        FileWriter fileWriter = new FileWriter("login_activity.txt, true");
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime currentTime = LocalDateTime.now();
+        String loginAttempt = dateTimeFormatter.format(currentTime);
+
+        printWriter.println(user + " successfully logged in at " + loginAttempt);
+        printWriter.close();
+
     }
 
 
-    private void loginFailed() {
+    private void loginFailed(String user) throws IOException {
+        FileWriter fileWriter = new FileWriter("login_activity.txt, true");
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime currentTime = LocalDateTime.now();
+        String loginAttempt = dateTimeFormatter.format(currentTime);
 
+        printWriter.println(user + " unsuccessfully attempted to log in at " + loginAttempt);
+        printWriter.close();
     }
 
 
@@ -58,36 +74,81 @@ public class LoginController implements Initializable {
             enteredPassword.setPromptText(resourceBundle.getString("passwordPrompt"));
             countryLabel.setText(resourceBundle.getString("country"));
         }
-
-
     }
 
     public void onLoginButtonClicked(ActionEvent actionEvent) {
         try {
-            boolean validLogin = LoginQuery.existingUserAndPassword((enteredUserName.getText()), enteredPassword.getText());
-            if (validLogin) {
-                loginSuccessful();
-                try {
-                    Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-                    Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));
-                    stage.setScene(new Scene(scene));
-                    stage.setTitle("Scheduled Appointments");
-                    stage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            else {
-                loginFailed();
+            String user = enteredUserName.getText();
 
-                if (Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("en")) {
+            if (enteredUserName.getText().isEmpty()) {
+                if (Locale.getDefault().getLanguage().equals("fr")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle(resourceBundle.getString("failedLoginTitle"));
-                    alert.setContentText(resourceBundle.getString("failedLoginContext"));
+                    alert.setTitle("Nom d’utilisateur manquant!");
+                    alert.setContentText("Un nom d’utilisateur valide doit être entré!");
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Missing Username!");
+                    alert.setContentText("A valid username must be entered!");
                     alert.showAndWait();
                 }
-            }
 
+            } else if (enteredPassword.getText().isEmpty()) {
+                if (Locale.getDefault().getLanguage().equals("fr")) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Mot de passe manquant!");
+                    alert.setContentText("Un mot de passe valide doit être saisi!");
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Missing Password!");
+                    alert.setContentText("A valid password must be entered!");
+                    alert.showAndWait();
+                }
+
+            } else {
+                boolean validLogin = LoginQuery.existingUserAndPassword((enteredUserName.getText()), enteredPassword.getText());
+                if (validLogin) {
+                    loginSuccessful(user);
+
+                    if (Locale.getDefault().getLanguage().equals("fr")) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Connexion réussie!");
+                        alert.setContentText("Tentative de connexion réussie ! Bienvenue!");
+                        alert.showAndWait();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Login Successful!");
+                        alert.setContentText("Login attempt successful! Welcome!");
+                        alert.showAndWait();
+                    }
+
+                    try {
+                        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                        Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));
+                        stage.setScene(new Scene(scene));
+                        stage.setTitle("Scheduled Appointments");
+                        stage.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    loginFailed(user);
+
+                    if (Locale.getDefault().getLanguage().equals("fr")) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Échec de la connexion!");
+                        alert.setContentText("Échec de la connexion! Nom d’utilisateur ou mot de passe incorrect!");
+                        alert.showAndWait();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Login Failed!");
+                        alert.setContentText("Login attempt failed! Please try again.");
+                        alert.showAndWait();
+                    }
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
