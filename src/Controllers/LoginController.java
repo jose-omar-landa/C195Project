@@ -162,7 +162,7 @@ public class LoginController implements Initializable {
                 boolean validLogin = LoginQuery.existingUserAndPassword((enteredUserName.getText()), enteredPassword.getText());
                 if (validLogin) {
                     loginSuccessful(user);
-                    pendingAppointmentInFifteenMinutes();
+
 
                     if (Locale.getDefault().getLanguage().equals("fr")) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -175,7 +175,7 @@ public class LoginController implements Initializable {
                         alert.setContentText("Login attempt successful! Welcome!");
                         alert.showAndWait();
                     }
-
+                    pendingAppointmentInFifteenMinutes();
                     try {
                         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                         Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));
