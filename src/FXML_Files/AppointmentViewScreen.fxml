@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="434.0" prefWidth="1037.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AppointmentScreenController">
    <children>
-      <Button fx:id="viewDirectoryButton" layoutX="875.0" layoutY="382.0" mnemonicParsing="false" onAction="#onViewDirectoryButtonClick" text="View Customer Directory" />
+      <Button fx:id="viewDirectoryButton" layoutX="866.0" layoutY="370.0" mnemonicParsing="false" onAction="#onViewDirectoryButtonClick" text="View Customer Directory" />
       <TableView fx:id="tableViewSchedule" layoutX="24.0" layoutY="84.0" prefHeight="256.0" prefWidth="990.0">
          <columns>
             <TableColumn fx:id="tableAptID" prefWidth="101.0" text="Appointment ID" />
@@ -41,5 +41,6 @@
       <Button fx:id="addAptButton" layoutX="335.0" layoutY="370.0" mnemonicParsing="false" onAction="#onAddAptButtonClick" text="Add Appointment" />
       <Button fx:id="updateAptButton" layoutX="454.0" layoutY="370.0" mnemonicParsing="false" onAction="#onUpdateAptButtonClick" text="Update Appointment" />
       <Button fx:id="deleteAptButton" layoutX="589.0" layoutY="370.0" mnemonicParsing="false" onAction="#onDeleteAptButtonClick" text="Delete Appointment" />
+      <Button fx:id="reportsButton" layoutX="957.0" layoutY="400.0" mnemonicParsing="false" onAction="#onReportsButtonClicked" text="Reports" />
    </children>
 </AnchorPane>

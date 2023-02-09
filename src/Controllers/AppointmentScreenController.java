@@ -6,6 +6,7 @@ import Objects.Appointments;
 import Objects.Customers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -17,7 +18,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputMethodEvent;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.lang.reflect.AccessibleObject;
 import java.net.URL;
@@ -50,6 +50,7 @@ public class AppointmentScreenController implements Initializable {
     public Button updateAptButton;
     public Button deleteAptButton;
     public Button viewDirectoryButton;
+    public Button reportsButton;
     private Object Stage;
     public static Appointments selectedAppointmentData;
 
@@ -248,6 +249,19 @@ public class AppointmentScreenController implements Initializable {
             Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/CustomerDirectory.fxml"));
             stage.setScene(new Scene(scene));
             stage.setTitle("Customer Directory");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onReportsButtonClicked(ActionEvent actionEvent) {
+
+        try {
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/ReportsScreen.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.setTitle("Scheduled Appointments");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
