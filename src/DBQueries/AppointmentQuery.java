@@ -162,7 +162,7 @@ public class AppointmentQuery {
             ps.setInt(9, userID);
             ps.setInt(10, contactID);
 
-            ps.execute();
+            ps.executeQuery();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -194,7 +194,7 @@ public class AppointmentQuery {
                                                   Timestamp aptStart, Timestamp aptEnd, int customerID, int userID, int contactID) throws SQLException {
 
         try {
-            PreparedStatement ps = JDBC.getConnection().prepareStatement("UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Customer_ID=?, User_ID=?, Contact_ID=? WHERE Appointment_ID = ?;");
+            PreparedStatement ps = JDBC.getConnection().prepareStatement("UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Customer_ID=?, Contact_ID=?, User_ID=? WHERE Appointment_ID = ?;");
 
 
             ps.setString(1, aptTitle);
@@ -204,8 +204,8 @@ public class AppointmentQuery {
             ps.setTimestamp(5, aptStart);
             ps.setTimestamp(6, aptEnd);
             ps.setInt(7, customerID);
-            ps.setInt(8, userID);
-            ps.setInt(9, contactID);
+            ps.setInt(8, contactID);
+            ps.setInt(9, userID);
             ps.setString(10, aptID);
 
             ps.execute();

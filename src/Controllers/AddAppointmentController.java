@@ -207,6 +207,14 @@ public class AddAppointmentController implements Initializable {
             return false;
         }
 
+        if (addAptType.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Missing Appointment Type!");
+            alert.setContentText("An appointment type is required!");
+            alert.showAndWait();
+            return false;
+        }
+
         if (addAptContact.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Missing Contact ID!");
