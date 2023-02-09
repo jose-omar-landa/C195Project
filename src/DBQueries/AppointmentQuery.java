@@ -162,7 +162,7 @@ public class AppointmentQuery {
             ps.setInt(9, userID);
             ps.setInt(10, contactID);
 
-            ps.executeQuery();
+            ps.execute();
 
         } catch (Exception e) {
             e.printStackTrace();

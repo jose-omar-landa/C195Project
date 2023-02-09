@@ -4,6 +4,7 @@ import DBQueries.AppointmentQuery;
 import DBQueries.CustomerQuery;
 import Objects.Appointments;
 import Objects.Customers;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.lang.reflect.AccessibleObject;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -94,20 +97,17 @@ public class AppointmentScreenController implements Initializable {
     public void onWeeklySelected(javafx.event.ActionEvent actionEvent) {
         aptRadioToggleGroup.getSelectedToggle();
         if (weeklyAptRadio.isSelected()) {
+            titleLabel.setText("Currently Viewing This Week's Appointments:");
             try {
-                titleLabel.setText("Currently Viewing This Week's Appointments:");
+                ObservableList<Appointments> allAppointmentsList = AppointmentQuery.allAppointmentsList();
+                ObservableList<Appointments> weekAppointmentList = FXCollections.observableArrayList();
 
-                tableViewSchedule.setItems(AppointmentQuery.weeklyAppointmentsList());
-                tableAptID.setCellValueFactory(new PropertyValueFactory<>("aptID"));
-                tableAptTitle.setCellValueFactory(new PropertyValueFactory<>("aptTitle"));
-                tableAptDescription.setCellValueFactory(new PropertyValueFactory<>("aptDescription"));
-                tableAptLocation.setCellValueFactory(new PropertyValueFactory<>("aptLocation"));
-                tableContact.setCellValueFactory(new PropertyValueFactory<>("contactID"));
-                tableType.setCellValueFactory(new PropertyValueFactory<>("aptType"));
-                tableStart.setCellValueFactory(new PropertyValueFactory<>("aptStart"));
-                tableEnd.setCellValueFactory(new PropertyValueFactory<>("aptEnd"));
-                tableCustId.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-                tableUserId.setCellValueFactory(new PropertyValueFactory<>("userID"));
+                for (Appointments appointments : allAppointmentsList) {
+                    if (appointments.getAptStart().isAfter(LocalDateTime.now().minusDays(1)) && appointments.getAptStart().isBefore(LocalDateTime.now().plusDays(7))) {
+                        weekAppointmentList.add(appointments);
+                    }
+                }
+                tableViewSchedule.setItems(weekAppointmentList);
             }
             catch (SQLException e){
                 e.printStackTrace();
@@ -118,20 +118,17 @@ public class AppointmentScreenController implements Initializable {
     public void onMonthlySelected(javafx.event.ActionEvent actionEvent) {
         aptRadioToggleGroup.getSelectedToggle();
         if (monthlyAptRadio.isSelected()) {
+            titleLabel.setText("Currently Viewing This Month's Appointments:");
             try {
-                titleLabel.setText("Currently Viewing This Month's Appointments:");
+                ObservableList<Appointments> allAppointmentsList = AppointmentQuery.allAppointmentsList();
+                ObservableList<Appointments> monthAppointmentList = FXCollections.observableArrayList();
 
-                tableViewSchedule.setItems(AppointmentQuery.monthlyAppointmentsList());
-                tableAptID.setCellValueFactory(new PropertyValueFactory<>("aptID"));
-                tableAptTitle.setCellValueFactory(new PropertyValueFactory<>("aptTitle"));
-                tableAptDescription.setCellValueFactory(new PropertyValueFactory<>("aptDescription"));
-                tableAptLocation.setCellValueFactory(new PropertyValueFactory<>("aptLocation"));
-                tableContact.setCellValueFactory(new PropertyValueFactory<>("contactID"));
-                tableType.setCellValueFactory(new PropertyValueFactory<>("aptType"));
-                tableStart.setCellValueFactory(new PropertyValueFactory<>("aptStart"));
-                tableEnd.setCellValueFactory(new PropertyValueFactory<>("aptEnd"));
-                tableCustId.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-                tableUserId.setCellValueFactory(new PropertyValueFactory<>("userID"));
+                for (Appointments appointments : allAppointmentsList) {
+                    if (appointments.getAptStart().getMonth() == LocalDate.now().getMonth()) {
+                        monthAppointmentList.add(appointments);
+                    }
+                }
+                tableViewSchedule.setItems(monthAppointmentList);
             }
             catch (SQLException e){
                 e.printStackTrace();
