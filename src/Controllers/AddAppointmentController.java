@@ -25,6 +25,8 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.util.ResourceBundle;
 
+
+/**This class allows the user the functionality to add an appointment to the schedule within the application.*/
 public class AddAppointmentController implements Initializable {
 
     public Button cancelButton;
@@ -39,9 +41,10 @@ public class AddAppointmentController implements Initializable {
     public ComboBox<Integer> addAptCustomerID;
     public ComboBox<Integer> addAptUserID;
     public TextField addAptIDTextField;
-
     public static int appointmentIDNum;
 
+    /**This method takes the size of the total appointment list and adds 1 to generate a new appointment ID for
+     * the appointment being added. */
     static {
         try {
             appointmentIDNum = AppointmentQuery.allAppointmentsList().size() + 1;
@@ -53,15 +56,18 @@ public class AddAppointmentController implements Initializable {
     public ComboBox<String> startTimeCombo;
     public ComboBox<String> endTimeCombo;
 
-
     private ZoneId zoneID = ZoneId.of("UTC");
     private ZoneId zoneIdEasternStandardTime = ZoneId.of("America/New_York");
     private ZoneId zoneIdDefault = ZoneId.systemDefault();
 
+    /**This method converts the selected time to EST.
+     * @param time The time parameter selects the local time of the user. */
     private ZonedDateTime convertTimeEST(LocalDateTime time) {
         return ZonedDateTime.of(time, ZoneId.of("America/New_York"));
     }
 
+    /**This method adds functionality to the Cancel button on the add appointment page.
+     * This allows the user to return to the appointment schedule view screen. */
     public void onCancelClicked(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -74,10 +80,9 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
+    /**This method creates the functionality for populating the Contact combo box. */
     public void onAddAptContactComboBox() {
-
         ObservableList<Integer> contactComboBox = FXCollections.observableArrayList();
-
         try {
             ObservableList<Contacts> selectContactID = ContactsQuery.allContactsList();
                 for (Contacts contact : selectContactID) {
@@ -87,7 +92,6 @@ public class AddAppointmentController implements Initializable {
             e.printStackTrace();
         }
         addAptContact.setItems(contactComboBox);
-
     }
 
     public void onStartDateTimeBox(ActionEvent actionEvent) {
@@ -96,9 +100,9 @@ public class AddAppointmentController implements Initializable {
     public void onEndDateTimeBox(ActionEvent actionEvent) {
     }
 
+    /**This method creates the functionality to populate the Customer ID combo box. */
     public void onAddAptCustomerIDComboBox() {
         ObservableList<Integer> userIdComboBox = FXCollections.observableArrayList();
-
         try {
         ObservableList<Users> selectedUserID = UsersQuery.allUsersList();
             for (Users users : selectedUserID) {
@@ -110,12 +114,9 @@ public class AddAppointmentController implements Initializable {
         addAptUserID.setItems(userIdComboBox);
     }
 
-
-
+    /**This method creates the functionality to populate the User ID combo box.*/
     public void onAddAptUserIDComboBox() {
-
         ObservableList<Integer> customersComboBox = FXCollections.observableArrayList();
-
         try {
             ObservableList<Customers> selectCustomerId = CustomerQuery.allCustomersList();
             for (Customers customer : selectCustomerId) {
@@ -125,13 +126,13 @@ public class AddAppointmentController implements Initializable {
             e.printStackTrace();
         }
         addAptCustomerID.setItems(customersComboBox);
-
     }
 
-
-
+    /**This method creates the functionality for the Save button. This allows the user to save
+     * the data entered on the text fields that will then populate as an appointment on the
+     * appointment view screen. If the data is saved successfully, the user is returned to the
+     * appointment view screen. */
     public void onAddAptSaveButtonClicked(ActionEvent actionEvent) {
-
         boolean appointmentIsValid = appointmentErrorValidation(addAptTitle.getText(),
                 addAptDescription.getText(),
                 addAptLocation.getText(),
@@ -165,14 +166,24 @@ public class AddAppointmentController implements Initializable {
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
     }
 
+    /**This method checks for errors in the data entry for a new appointment. This will generate an error for
+     * the following reasons:
+     * 1. Any of the fields are left empty.
+     * 2. If the start and end dates are not on the same date.
+     * 3. If the start time is after the end time.
+     * 4. If the appointment overlaps with an existing appointment.
+     * 5. If the appointment is scheduled outside of 0800 and 2200.
+     * @param aptTitle this selects the appointment title from the respective text field.
+     * @param aptDescription this selects the appointment description from the respective text field.
+     * @param aptLocation this selects the appointment location from the respective text field.
+     * @param aptID this selects the appointment ID from the respective text field.
+     * @return returns either true or false depending on if conditions are met. */
     private boolean appointmentErrorValidation(String aptTitle, String aptDescription, String aptLocation, String aptID) {
 
         if (aptTitle.isEmpty()) {
@@ -320,7 +331,6 @@ public class AddAppointmentController implements Initializable {
                     return false;
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -359,22 +369,19 @@ public class AddAppointmentController implements Initializable {
             alert.showAndWait();
             return false;
         }
-
         return true;
     }
 
-
-
-
+    /**This method initializes the Add Appointment screen and pulls an auto generated
+     * appointment ID number. This also runs the methods to populate the combo boxes on
+     * the page. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         addAptIDTextField.setText(Integer.toString(appointmentIDNum));
 
         onAddAptContactComboBox();
         onAddAptCustomerIDComboBox();
         onAddAptUserIDComboBox();
-
 
         ObservableList<String> time = FXCollections.observableArrayList();
         LocalTime startTime = LocalTime.of(7, 0);
@@ -387,9 +394,6 @@ public class AddAppointmentController implements Initializable {
         }
         startTimeCombo.setItems(time);
         endTimeCombo.setItems(time);
-
-
-
     }
 
     public void onStartTimeComboBox() {

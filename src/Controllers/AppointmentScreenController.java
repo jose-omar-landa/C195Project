@@ -28,9 +28,9 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**This class allows the user to view the current schedule of appointments in a table view. */
 public class AppointmentScreenController implements Initializable {
     public TableView<Appointments> tableViewSchedule;
-    
     public TableColumn<Appointments, Integer> tableAptID;
     public TableColumn<Appointments, String> tableAptTitle;
     public TableColumn<Appointments, String> tableAptDescription;
@@ -54,8 +54,8 @@ public class AppointmentScreenController implements Initializable {
     private Object Stage;
     public static Appointments selectedAppointmentData;
 
-
-
+    /**This method will change the label above the appointment view table depending on the
+     * radio button that is selected. */
     public void onChangeLabelText(InputMethodEvent inputMethodEvent) {
         aptRadioToggleGroup.getSelectedToggle();
         if(allAptRadio.isSelected()) {
@@ -69,13 +69,13 @@ public class AppointmentScreenController implements Initializable {
         }
     }
 
-
+    /**This method will populate the appointment view table with all scheduled appointments
+     * that are within the database. */
     public void onAllSelected(javafx.event.ActionEvent actionEvent) {
         aptRadioToggleGroup.getSelectedToggle();
         if(allAptRadio.isSelected()) {
             try {
                 titleLabel.setText("Currently Viewing All Appointments:");
-
                 tableViewSchedule.setItems(AppointmentQuery.allAppointmentsList());
                 tableAptID.setCellValueFactory(new PropertyValueFactory<>("aptID"));
                 tableAptTitle.setCellValueFactory(new PropertyValueFactory<>("aptTitle"));
@@ -94,7 +94,8 @@ public class AppointmentScreenController implements Initializable {
             }
         }
 
-
+    /**This method will populate the appointment view table with appointments that are
+     * scheduled within the current week. */
     public void onWeeklySelected(javafx.event.ActionEvent actionEvent) {
         aptRadioToggleGroup.getSelectedToggle();
         if (weeklyAptRadio.isSelected()) {
@@ -116,6 +117,8 @@ public class AppointmentScreenController implements Initializable {
         }
     }
 
+    /**This method will populate the appointment view table with appointments that are
+     * scheduled within the current month. */
     public void onMonthlySelected(javafx.event.ActionEvent actionEvent) {
         aptRadioToggleGroup.getSelectedToggle();
         if (monthlyAptRadio.isSelected()) {
@@ -137,7 +140,8 @@ public class AppointmentScreenController implements Initializable {
         }
     }
 
-
+    /**This method initializes the Appointment Screen Controller with all appointments shown on the
+     * appointment table. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -160,8 +164,8 @@ public class AppointmentScreenController implements Initializable {
         }
     }
 
-
-
+    /**This method allows the functionality for the Add Appointment button, and loads the
+     * Add Appointment screen for the user. */
     public void onAddAptButtonClick(javafx.event.ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -172,11 +176,13 @@ public class AppointmentScreenController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
+    /**This method allows the functionality for the Update Appointment button, and loads the Update Appointment
+     * Screen for the user. This method will also pull the data from the currently selected appointment
+     * in order to pre-populate the text fields and combo boxes. This method will also generate an error if
+     * an appointment is not already selected. */
     public void onUpdateAptButtonClick(javafx.event.ActionEvent actionEvent) {
-
         selectedAppointmentData = tableViewSchedule.getSelectionModel().getSelectedItem();
 
         try {
@@ -198,6 +204,11 @@ public class AppointmentScreenController implements Initializable {
         }
     }
 
+    /**This method allows the functionality for the Delete Appointment button. An error will generate
+     * if an appointment is not selected prior to clicking the button. If an appointment is selected,
+     * a warning will generate and the user will need to confirm that they want to delete the selected
+     * appointment. If the user clicks yes, the appointment will be deleted from the database and the
+     * appointment view table will be refreshed to reflect the change. */
     public void onDeleteAptButtonClick(javafx.event.ActionEvent actionEvent) throws SQLException{
         Appointments currentSelectedAppointment = tableViewSchedule.getSelectionModel().getSelectedItem();;
         ObservableList<Appointments> allAppointments = AppointmentQuery.allAppointmentsList();
@@ -228,21 +239,20 @@ public class AppointmentScreenController implements Initializable {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-//
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-
+    /**This method obtains the data of the currently selected appointment on the appointment view tabe.
+     * @return returns the selected appointments data. */
     public static Appointments getSelectedAppointmentData() {
         return selectedAppointmentData;
     }
 
-
-
+    /**This method allows the functionality for the View Customer Directory button. When the
+     * button is clicked, the user will be taken to the Customer Directory screen. */
     public void onViewDirectoryButtonClick(javafx.event.ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -255,8 +265,9 @@ public class AppointmentScreenController implements Initializable {
         }
     }
 
+    /**This method allows the functionality for the Reports button. When clicked, the user will
+     * be taken to the Reports View screen. */
     public void onReportsButtonClicked(ActionEvent actionEvent) {
-
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/ReportsScreen.fxml"));
