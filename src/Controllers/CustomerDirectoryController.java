@@ -59,11 +59,18 @@ public class CustomerDirectoryController implements Initializable {
     public void onUpdateCustButtonClicked(ActionEvent actionEvent) {
         getCustomerData = customerDirectoryTable.getSelectionModel().getSelectedItem();
         try {
-            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/UpdateCustomerScreen.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.setTitle("Update Customer Information");
-            stage.show();
+            if (getCustomerData == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("No Customer Selected!");
+                alert.setContentText("An existing customer must be selected!");
+                alert.showAndWait();
+            } else {
+                Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/UpdateCustomerScreen.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.setTitle("Update Customer Information");
+                stage.show();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,35 +91,40 @@ public class CustomerDirectoryController implements Initializable {
             alert.setContentText("A customer must be selected first!");
             alert.showAndWait();
         }
-        for (Appointments selectedCustomersAppointments : customerAppointments) {
-            if (selectedCustomersAppointments.getCustomerID() == currentSelectedCustomer.getCustomerID()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Appointments Present");
-                alert.setContentText("The selected customer currently has scheduled appointments! Please delete current appointments prior to deleting customer record!");
-                alert.showAndWait();
-                return;
+        else {
+            for (Appointments selectedCustomersAppointments : customerAppointments) {
+                if (selectedCustomersAppointments.getCustomerID() == currentSelectedCustomer.getCustomerID()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Appointments Present");
+                    alert.setContentText("The selected customer currently has scheduled appointments! Please delete current appointments prior to deleting customer record!");
+                    alert.showAndWait();
+                    return;
+                }
             }
         }
+
         try {
-            int custIDNum = currentSelectedCustomer.getCustomerID();
+            if (currentSelectedCustomer != null) {
+                int custIDNum = currentSelectedCustomer.getCustomerID();
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Are You Sure?");
-            alert.setContentText("Are you sure you want to delete the customer record?");
-            Optional<ButtonType> deleteCustomerConfirmation = alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Are You Sure?");
+                alert.setContentText("Are you sure you want to delete the customer record?");
+                Optional<ButtonType> deleteCustomerConfirmation = alert.showAndWait();
 
-            if (deleteCustomerConfirmation.isPresent() && deleteCustomerConfirmation.get() == ButtonType.OK) {
-                CustomerQuery.deleteCustomerRecord(custIDNum);
+                if (deleteCustomerConfirmation.isPresent() && deleteCustomerConfirmation.get() == ButtonType.OK) {
+                    CustomerQuery.deleteCustomerRecord(custIDNum);
 
-                customerDirectoryTable.setItems(allCustomers);
-                try {
-                    Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-                    Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/CustomerDirectory.fxml"));
-                    stage.setScene(new Scene(scene));
-                    stage.setTitle("Update Customer Information");
-                    stage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    customerDirectoryTable.setItems(allCustomers);
+                    try {
+                        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                        Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/CustomerDirectory.fxml"));
+                        stage.setScene(new Scene(scene));
+                        stage.setTitle("Update Customer Information");
+                        stage.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         } catch (Exception e) {

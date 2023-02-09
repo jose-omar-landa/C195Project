@@ -209,8 +209,9 @@ public class AppointmentScreenController implements Initializable {
      * a warning will generate and the user will need to confirm that they want to delete the selected
      * appointment. If the user clicks yes, the appointment will be deleted from the database and the
      * appointment view table will be refreshed to reflect the change. */
-    public void onDeleteAptButtonClick(javafx.event.ActionEvent actionEvent) throws SQLException{
-        Appointments currentSelectedAppointment = tableViewSchedule.getSelectionModel().getSelectedItem();;
+    public void onDeleteAptButtonClick(javafx.event.ActionEvent actionEvent) throws SQLException {
+        Appointments currentSelectedAppointment = tableViewSchedule.getSelectionModel().getSelectedItem();
+        ;
         ObservableList<Appointments> allAppointments = AppointmentQuery.allAppointmentsList();
 
         if (currentSelectedAppointment == null) {
@@ -218,30 +219,31 @@ public class AppointmentScreenController implements Initializable {
             alert.setTitle("ERROR!");
             alert.setContentText("An appointment must be selected first!");
             alert.showAndWait();
-        }
-        try {
-            int appointmentID = currentSelectedAppointment.getAptID();
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Are You Sure?");
-            alert.setContentText("Are you sure you want to delete the selected appointment?");
-            Optional<ButtonType> deleteAppointmentConfirmation = alert.showAndWait();
+        } else {
+            try {
+                int appointmentID = currentSelectedAppointment.getAptID();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Are You Sure?");
+                alert.setContentText("Are you sure you want to delete the selected appointment?");
+                Optional<ButtonType> deleteAppointmentConfirmation = alert.showAndWait();
 
-            if (deleteAppointmentConfirmation.isPresent() && deleteAppointmentConfirmation.get() == ButtonType.OK) {
-                AppointmentQuery.deleteAppointmentRecord(appointmentID);
+                if (deleteAppointmentConfirmation.isPresent() && deleteAppointmentConfirmation.get() == ButtonType.OK) {
+                    AppointmentQuery.deleteAppointmentRecord(appointmentID);
 
-                tableViewSchedule.setItems(allAppointments);
-                try {
-                    Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-                    Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));
-                    stage.setScene(new Scene(scene));
-                    stage.setTitle("Update Customer Information");
-                    stage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    tableViewSchedule.setItems(allAppointments);
+                    try {
+                        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                        Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));
+                        stage.setScene(new Scene(scene));
+                        stage.setTitle("Update Customer Information");
+                        stage.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
