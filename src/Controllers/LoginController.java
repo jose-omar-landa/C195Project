@@ -1,7 +1,11 @@
 package Controllers;
 
 
+import DBQueries.AppointmentQuery;
 import DBQueries.LoginQuery;
+import Objects.Appointments;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +18,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -76,6 +81,53 @@ public class LoginController implements Initializable {
         }
     }
 
+    public void pendingAppointmentInFifteenMinutes() throws SQLException {
+        ObservableList<Appointments> appointments = AppointmentQuery.allAppointmentsList();
+        ObservableList<Appointments> pendingAppointments = FXCollections.observableArrayList();
+
+        if (appointments != null) {
+            for (Appointments appointmentInFifteenMinutes : appointments) {
+                LocalDateTime currentTime = LocalDateTime.now();
+                LocalDateTime timeInFifteenMinutes = currentTime.plusMinutes(15);
+
+                if (appointmentInFifteenMinutes.getAptStart().isAfter(currentTime) && appointmentInFifteenMinutes.getAptStart().isBefore(timeInFifteenMinutes)) {
+                    pendingAppointments.add(appointmentInFifteenMinutes);
+                    if (Locale.getDefault().getLanguage().equals("fr")) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Rendez-vous à partir de bientôt!");
+                        alert.setContentText("Un rendez-vous est prévu pour commencer dans les 15 minutes! ID du rendez-vous: " + appointmentInFifteenMinutes.getAptID() + "     Heure de début:" + appointmentInFifteenMinutes.getAptStart());
+                        alert.showAndWait();
+                        return;
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Appointment Starting Soon!");
+                        alert.setContentText("An appointment is scheduled to begin within 15 minutes! Appointment ID: " + appointmentInFifteenMinutes.getAptID() + "     Start Time: " + appointmentInFifteenMinutes.getAptStart());
+                        alert.showAndWait();
+                        return;
+                    }
+                }
+
+            }
+        }
+
+        if (pendingAppointments.size() < 1) {
+            if (Locale.getDefault().getLanguage().equals("fr")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Pas de rendez-vous dans les 15 minutes!");
+                alert.setContentText("Il n’y a pas de rendez-vous prévus dans les 15 prochaines minutes!");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("No Appointments Within 15 Minutes!");
+                alert.setContentText("There are no appointments scheduled within the next 15 minutes!");
+                alert.showAndWait();
+            }
+        }
+
+
+    }
+
+
     public void onLoginButtonClicked(ActionEvent actionEvent) {
         try {
             String user = enteredUserName.getText();
@@ -110,6 +162,7 @@ public class LoginController implements Initializable {
                 boolean validLogin = LoginQuery.existingUserAndPassword((enteredUserName.getText()), enteredPassword.getText());
                 if (validLogin) {
                     loginSuccessful(user);
+                    pendingAppointmentInFifteenMinutes();
 
                     if (Locale.getDefault().getLanguage().equals("fr")) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
