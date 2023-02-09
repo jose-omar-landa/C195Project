@@ -24,8 +24,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
 
+/** This class allows a user to log in to the scheduling application if they
+ * enter an existing username and password. Both successful and unsuccessful
+ * login attempts will be recorded in a text file. The user's region will also
+ * be assessed in order to change the language used in the login screen. Currently
+ * there is only support for English and French. */
+public class LoginController implements Initializable {
 
     public TextField enteredUserName;
     public PasswordField enteredPassword;
@@ -41,31 +46,38 @@ public class LoginController implements Initializable {
     public void onEnteredPassword(ActionEvent actionEvent) {
     }
 
+    /** This method will log a successful login attempt in a text file named login_activity.txt.
+     * If the file does not already exist, the file will be created. If it does exist, the file will
+     * be appended with the new login information. The username and timestamp of the login attempt
+     * will be recorded.
+     * @param user this selected the username that is entered in the textfield. */
     private void loginSuccessful(String user) throws IOException {
         FileWriter fileWriter = new FileWriter("login_activity.txt", true);
         PrintWriter printWriter = new PrintWriter(fileWriter);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime currentTime = LocalDateTime.now();
         String loginAttempt = dateTimeFormatter.format(currentTime);
-
         printWriter.println(user + " successfully logged in at " + loginAttempt);
         printWriter.close();
-
     }
 
-
+    /** This method will log an unsuccessful login attempt in a text file named login_activity.txt.
+     * If the file does not already exist, the file will be created. If it does exist, the file will
+     * be appended with the new login information. The username and timestamp of the login attempt
+     * will be recorded.
+     * @param user this selected the username that is entered in the textfield. */
     private void loginFailed(String user) throws IOException {
         FileWriter fileWriter = new FileWriter("login_activity.txt", true);
         PrintWriter printWriter = new PrintWriter(fileWriter);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime currentTime = LocalDateTime.now();
         String loginAttempt = dateTimeFormatter.format(currentTime);
-
         printWriter.println(user + " unsuccessfully attempted to log in at " + loginAttempt);
         printWriter.close();
     }
 
-
+    /** This method initializes the Login Controller. The user's region will be assessed in order to
+     * provide the correct language support. Currently, there is only suppor for English and French. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
          resourceBundle = ResourceBundle.getBundle("UserLanguage/language", Locale.getDefault());
@@ -81,6 +93,10 @@ public class LoginController implements Initializable {
         }
     }
 
+    /** This method checks to see if any appointments will be starting within fifteen minutes of
+     * the user's login. If yes, a warning will notify the user of the appointment ID and start time.
+     * If there are no appointments beginning within fifteen minutes of the user's login, the user
+     * will be notified as well through a warning pop-up. */
     public void pendingAppointmentInFifteenMinutes() throws SQLException {
         ObservableList<Appointments> appointments = AppointmentQuery.allAppointmentsList();
         ObservableList<Appointments> pendingAppointments = FXCollections.observableArrayList();
@@ -106,7 +122,6 @@ public class LoginController implements Initializable {
                         return;
                     }
                 }
-
             }
         }
 
@@ -123,11 +138,12 @@ public class LoginController implements Initializable {
                 alert.showAndWait();
             }
         }
-
-
     }
 
-
+    /** This method allows functionality to the Login button on the screen. When the button is
+     * clicked, the entered username and password is verified against the existing database users. If the
+     * username and password match an existing user, the login is successful. If the entered username or
+     * password do not match, an error will generate notifying the user that the login was unsuccessful. */
     public void onLoginButtonClicked(ActionEvent actionEvent) {
         try {
             String user = enteredUserName.getText();
@@ -162,7 +178,6 @@ public class LoginController implements Initializable {
                 boolean validLogin = LoginQuery.existingUserAndPassword((enteredUserName.getText()), enteredPassword.getText());
                 if (validLogin) {
                     loginSuccessful(user);
-
 
                     if (Locale.getDefault().getLanguage().equals("fr")) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
