@@ -260,4 +260,95 @@ public class AppointmentQuery {
         }
         return null;
     }
+
+
+    public static String reportForAppointmentsByTypeAndMonth() {
+        try {
+            StringBuilder reportAptTypeMonth = new StringBuilder("REPORT GENERATED BELOW: \n");
+            reportAptTypeMonth.append("\n");
+
+            PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT MONTHNAME(start) as Month, Type, COUNT(*) as Amount FROM appointments GROUP BY MONTH(start), type");
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String month = rs.getString("Month");
+                String type = rs.getString("Type");
+                String amount = rs.getString("Amount");
+
+                reportAptTypeMonth.append("Month: " + month + "\t Type: " + type + "\t Amount: " + amount + "\n" + "\n");
+            }
+            return reportAptTypeMonth.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Report Unable To Generate";
+        }
+    }
+
+
+
+    public static String reportOfScheduleByContact() {
+        try {
+            StringBuilder reportScheduleByContact = new StringBuilder("Report Generated Below:  \n");
+            reportScheduleByContact.append("\n");
+
+            PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT Contact_ID, Appointment_ID, Customer_ID, Title, Type, Description, Start, End FROM appointments ORDER BY Contact_ID");
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int contactID = rs.getInt("Contact_ID");
+                int aptID = rs.getInt("Appointment_ID");
+                int custID = rs.getInt("Customer_ID");
+                String title = rs.getString("Title");
+                String type = rs.getString("Type");
+                String description = rs.getString("Description");
+                LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+
+                reportScheduleByContact.append("Contact ID: " + contactID + "\t Appointment ID: " + aptID + "\t Customer ID: " + custID + "\t Title: " + title + "\t Type: " + type + "\t Description: " + description + "\t Start: " + start + "\t End: " + end + "\n" + "\n");
+            }
+            return reportScheduleByContact.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Report Unable To Generate";
+        }
+    }
+
+
+
+    public static String reportAppointmentsByUser() {
+        try {
+            StringBuilder reportAptByUser = new StringBuilder("Report Generated Below:  \n");
+            reportAptByUser.append("\n");
+
+            PreparedStatement ps = JDBC.getConnection().prepareStatement("SELECT User_ID, Contact_ID, Appointment_ID, Customer_ID, Title, Type, Description, Start, End FROM appointments ORDER BY User_ID");
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int userID = rs.getInt("User_ID");
+                int contactID = rs.getInt("Contact_ID");
+                int aptID = rs.getInt("Appointment_ID");
+                int custID = rs.getInt("Customer_ID");
+                String title = rs.getString("Title");
+                String type = rs.getString("Type");
+                String description = rs.getString("Description");
+                LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+
+                reportAptByUser.append("User ID: " + userID +"\t Contact ID: " + contactID + "\t Appointment ID: " + aptID + "\t Customer ID: " + custID + "\t Title: " + title + "\t Type: " + type + "\t Description: " + description + "\t Start: " + start + "\t End: " + end + "\n" + "\n");
+            }
+            return reportAptByUser.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Report Unable To Generate";
+        }
+    }
+
+
+
+
+
+
 }

@@ -1,5 +1,6 @@
 package Controllers;
 
+import DBQueries.AppointmentQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -35,5 +36,29 @@ public class ReportsController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void onAptByTypeAndMonthSelected(ActionEvent actionEvent) {
+
+        if (aptByTypeRadio.isSelected()) {
+            reportTextArea.setText(AppointmentQuery.reportForAppointmentsByTypeAndMonth());
+        }
+
+    }
+
+    public void onScheduleByContactSelected(ActionEvent actionEvent) {
+
+        if (scheduleByContactRadio.isSelected()) {
+            reportTextArea.setText(AppointmentQuery.reportOfScheduleByContact());
+        }
+
+    }
+
+    public void onAptByUserSelected(ActionEvent actionEvent) {
+
+        if (aptByUserRadio.isSelected()) {
+            reportTextArea.setText(AppointmentQuery.reportAppointmentsByUser());
+        }
+
     }
 }

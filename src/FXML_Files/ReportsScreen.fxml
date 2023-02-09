@@ -8,17 +8,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="430.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ReportsController">
    <children>
       <TextArea fx:id="reportTextArea" editable="false" layoutX="14.0" layoutY="52.0" prefHeight="263.0" prefWidth="570.0" />
-      <RadioButton fx:id="aptByTypeRadio" layoutX="14.0" layoutY="335.0" mnemonicParsing="false" text="Customer Appointments by Type and Month Report">
+      <RadioButton fx:id="aptByTypeRadio" layoutX="14.0" layoutY="335.0" mnemonicParsing="false" onAction="#onAptByTypeAndMonthSelected" text="Customer Appointments by Type and Month Report">
          <toggleGroup>
             <ToggleGroup fx:id="reportsToggle" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="scheduleByContactRadio" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" text="Schedule by Contact Report" toggleGroup="$reportsToggle" />
-      <RadioButton fx:id="aptByUserRadio" layoutX="14.0" layoutY="388.0" mnemonicParsing="false" text="Appointments By User" toggleGroup="$reportsToggle" />
+      <RadioButton fx:id="scheduleByContactRadio" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#onScheduleByContactSelected" text="Schedule by Contact Report" toggleGroup="$reportsToggle" />
+      <RadioButton fx:id="aptByUserRadio" layoutX="14.0" layoutY="388.0" mnemonicParsing="false" onAction="#onAptByUserSelected" text="Appointments By User" toggleGroup="$reportsToggle" />
       <Button fx:id="cancelButton" layoutX="532.0" layoutY="393.0" mnemonicParsing="false" onAction="#onCancelButtonClicked" text="Cancel" />
       <Label fx:id="titleLable" alignment="CENTER" layoutX="280.0" layoutY="21.0" text="Reports" textAlignment="CENTER">
          <font>
