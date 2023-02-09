@@ -3,6 +3,8 @@ package DBConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/** This class allows the application to establish a connection and
+ * close a connection with the database. */
 public abstract class JDBC {
 
  private static final String protocol = "jdbc";
@@ -15,6 +17,7 @@ public abstract class JDBC {
     private static String password = "Passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
+    /** This method establishes a connection with the database. */
     public static void openConnection()
     {
         try {
@@ -28,10 +31,13 @@ public abstract class JDBC {
         }
     }
 
+    /** This method allows a database query to establish a connection with the database.
+     * @return returns an open connection to the database. */
     public static Connection getConnection() {
         return connection;
     }
 
+    /** This method closes the connection with the database. */
     public static void closeConnection() {
         try {
             connection.close();

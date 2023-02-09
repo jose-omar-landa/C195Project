@@ -25,6 +25,9 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.util.ResourceBundle;
 
+/** This class allows the user to update an existing appointment within the
+ * schedule. Existing appointment data is pulled over from the table and
+ * pre-populates the text fields and combo boxes. */
 public class UpdateAppointmentController implements Initializable {
     public Button cancelButton;
     public ComboBox<Integer> updateAptContactComboBox;
@@ -45,20 +48,15 @@ public class UpdateAppointmentController implements Initializable {
     private ZoneId zoneIdEasternStandardTime = ZoneId.of("America/New_York");
     private ZoneId zoneIdDefault = ZoneId.systemDefault();
 
-
+    /** This method converts the timezone to EST.
+     * @param time selects the user's current local date and local time.
+     * @return returns the user's time in EST. */
     private ZonedDateTime convertTimeEST(LocalDateTime time) {
         return ZonedDateTime.of(time, ZoneId.of("America/New_York"));
     }
 
-
-    private ZonedDateTime convertToEastern(LocalDateTime time) {
-        return ZonedDateTime.of(time, ZoneId.of("America/New_York"));
-    }
-
-    private ZonedDateTime convertToTimeZone(LocalDateTime time, String zoneID) {
-        return ZonedDateTime.of(time, ZoneId.of(zoneID));
-    }
-
+    /** This method allows functionality of the Cancel button. When the
+     * button is clicked, the user is taken back to the Appointment View screen. */
     public void onCancelClicked(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -71,10 +69,9 @@ public class UpdateAppointmentController implements Initializable {
         }
     }
 
+    /** This method populates the Contact combo box. */
     public void onUpdateAptContactComboBoxClicked() {
-
         ObservableList<Integer> contactComboBox = FXCollections.observableArrayList();
-
         try {
             ObservableList<Contacts> selectContactID = ContactsQuery.allContactsList();
             for (Contacts contact : selectContactID) {
@@ -84,8 +81,6 @@ public class UpdateAppointmentController implements Initializable {
             e.printStackTrace();
         }
         updateAptContactComboBox.setItems(contactComboBox);
-
-
     }
 
     public void onUpdateAptStartDateClicked(ActionEvent actionEvent) {
@@ -94,8 +89,11 @@ public class UpdateAppointmentController implements Initializable {
     public void onUpdateAptEndDateClicked(ActionEvent actionEvent) {
     }
 
+    /** This method allows functionality of the Save button. When the button is clicked,
+     * the data within the text fields and combo boxes is saved into the database and
+     * into the appointment view table on the Appointment View Screen. The user is taken
+     * back to the Appointment View Screen when data is saved successfully. */
     public void onUpdateAptSaveButtonClicked(ActionEvent actionEvent) {
-
         boolean appointmentIsValid = appointmentErrorValidation(updateAptTitleTextField.getText(),
                 updateAptDescriptionTextField.getText(),
                 updateAptLocationTextField.getText(),
@@ -118,7 +116,6 @@ public class UpdateAppointmentController implements Initializable {
                 Timestamp endTimeStamp = Timestamp.valueOf(endUTC.toLocalDateTime());
 
                 try {
-
                     AppointmentQuery.updateAppointmentRecord(appointmentID, appointmentTitle, appointmentDescription, appointmentLocation, appointmentType, startTimeStamp, endTimeStamp, customerID, userID, contacts);
                     Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                     Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));
@@ -132,12 +129,21 @@ public class UpdateAppointmentController implements Initializable {
                 e.printStackTrace();
             }
         }
-
     }
 
-
+    /** This method checks for errors in the data entry for updating an appointment. This will
+     * generate an error for the following reasons:
+     * 1. Any of the fields are left empty.
+     * 2. If the start and end dates are not on the same date.
+     * 3. If the start time is after the end time.
+     * 4. If the appointment overlaps with an existing appointment.
+     * 5. If the appointment is scheduled outside of 0800 and 2200.
+     * @param aptTitle this selects the appointment title from the respective text field.
+     * @param aptDescription this selects the appointment description from the respective text field.
+     * @param aptLocation this selects the appointment location from the respective text field.
+     * @param aptID this selects the appointment ID from the respective text field.
+     * @return returns either true or false depending on if conditions are met.*/
     private boolean appointmentErrorValidation(String aptTitle, String aptDescription, String aptLocation, String aptID) {
-
         if (aptTitle.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Missing Appointment Title!");
@@ -263,7 +269,6 @@ public class UpdateAppointmentController implements Initializable {
         LocalDateTime requestedEnd;
 
         try {
-
             ObservableList<Appointments> appointments = AppointmentQuery.pullAppointmentsByCustomerID(updateAptCustomerIdComboBox.getSelectionModel().getSelectedItem());
             for (Appointments currentAppointments : appointments) {
                 requestedStart = currentAppointments.getAptStart();
@@ -283,7 +288,6 @@ public class UpdateAppointmentController implements Initializable {
                     return false;
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -322,19 +326,12 @@ public class UpdateAppointmentController implements Initializable {
             alert.showAndWait();
             return false;
         }
-
         return true;
     }
 
-
-
-
-
-
+    /** This method populates the Customer ID combo box. */
     public void onUpdateAptCustomerIDComboBoxClicked() {
-
         ObservableList<Integer> userIdComboBox = FXCollections.observableArrayList();
-
         try {
             ObservableList<Users> selectedUserID = UsersQuery.allUsersList();
             for (Users users : selectedUserID) {
@@ -344,13 +341,11 @@ public class UpdateAppointmentController implements Initializable {
             e.printStackTrace();
         }
         updateAptCustomerIdComboBox.setItems(userIdComboBox);
-
     }
 
+    /** This method populates the User ID combo box. */
     public void onUpdateAptUserIDComboBoxClicked() {
-
         ObservableList<Integer> customersComboBox = FXCollections.observableArrayList();
-
         try {
             ObservableList<Customers> selectCustomerId = CustomerQuery.allCustomersList();
             for (Customers customer : selectCustomerId) {
@@ -360,8 +355,6 @@ public class UpdateAppointmentController implements Initializable {
             e.printStackTrace();
         }
         updateAptUserIdComboBox.setItems(customersComboBox);
-
-
     }
 
     public void onUpdateAptStartTimeComboClicked(ActionEvent actionEvent) {
@@ -370,6 +363,9 @@ public class UpdateAppointmentController implements Initializable {
     public void onUpdateAptEndTimeComboClicked(ActionEvent actionEvent) {
     }
 
+    /** This method initializes the Update Appointment Controller and pulls the selected appointment
+     * data in order to pre-populate the data in the text fields and combo boxes. The methods for
+     * the combo box choices are also called in this method in order to provide proper functionality. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -390,10 +386,7 @@ public class UpdateAppointmentController implements Initializable {
         updateAptEndTime.setItems(time);
 
         try {
-
             Appointments selectedAppointment = AppointmentScreenController.getSelectedAppointmentData();
-
-
             updateAptIDTextField.setText(String.valueOf(selectedAppointment.getAptID()));
             updateAptDescriptionTextField.setText(String.valueOf(selectedAppointment.getAptDescription()));
             updateAptTitleTextField.setText(String.valueOf(selectedAppointment.getAptTitle()));
@@ -406,12 +399,8 @@ public class UpdateAppointmentController implements Initializable {
             updateAptEndDate.setValue(selectedAppointment.getAptEnd().toLocalDate());
             updateAptStartTime.setValue(String.valueOf(selectedAppointment.getAptStart().toLocalTime()));
             updateAptEndTime.setValue(String.valueOf(selectedAppointment.getAptEnd().toLocalTime()));
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
