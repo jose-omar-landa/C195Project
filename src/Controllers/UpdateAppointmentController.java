@@ -104,7 +104,7 @@ public class UpdateAppointmentController implements Initializable {
             try {
                 String appointmentID = updateAptIDTextField.getText();
                 String appointmentTitle = updateAptTitleTextField.getText();
-                String appointmendDescription = updateAptDescriptionTextField.getText();
+                String appointmentDescription = updateAptDescriptionTextField.getText();
                 String appointmentLocation = updateAptLocationTextField.getText();
                 String appointmentType = updateAptTypeTextField.getText();
                 int contacts = updateAptContactComboBox.getSelectionModel().getSelectedItem();
@@ -119,7 +119,7 @@ public class UpdateAppointmentController implements Initializable {
 
                 try {
 
-                    AppointmentQuery.updateAppointmentRecord(appointmentID, appointmentTitle, appointmendDescription, appointmentLocation, appointmentType, startTimeStamp, endTimeStamp, customerID, userID, contacts);
+                    AppointmentQuery.updateAppointmentRecord(appointmentID, appointmentTitle, appointmentDescription, appointmentLocation, appointmentType, startTimeStamp, endTimeStamp, customerID, userID, contacts);
                     Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                     Parent scene = FXMLLoader.load(getClass().getResource("../FXML_Files/AppointmentViewScreen.fxml"));
                     stage.setScene(new Scene(scene));
