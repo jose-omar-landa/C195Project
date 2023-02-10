@@ -24,7 +24,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -37,8 +39,8 @@ public class AppointmentScreenController implements Initializable {
     public TableColumn<Appointments, String> tableAptLocation;
     public TableColumn<Appointments, Integer> tableContact;
     public TableColumn<Appointments, String> tableType;
-    public TableColumn<Appointments, Date> tableStart;
-    public TableColumn<Appointments, Date> tableEnd;
+    public TableColumn<Appointments, LocalDateTime> tableStart;
+    public TableColumn<Appointments, LocalDateTime> tableEnd;
     public TableColumn<Appointments, Integer> tableCustId;
     public TableColumn<Appointments, Integer> tableUserId;
     public RadioButton allAptRadio;
@@ -158,6 +160,41 @@ public class AppointmentScreenController implements Initializable {
             tableEnd.setCellValueFactory(new PropertyValueFactory<>("aptEnd"));
             tableCustId.setCellValueFactory(new PropertyValueFactory<>("customerID"));
             tableUserId.setCellValueFactory(new PropertyValueFactory<>("userID"));
+
+            //lambda #1
+            tableStart.setCellFactory(column ->  {
+                TableCell<Appointments, LocalDateTime> columnFormat = new TableCell<Appointments, LocalDateTime>() {
+                    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+                    @Override
+                    protected void updateItem(LocalDateTime item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setText(null);
+                        } else {
+                            setText(dateTimeFormatter.format(item));
+                        }
+                    }
+                };
+                return columnFormat;
+            });
+
+            tableEnd.setCellFactory(column ->  {
+                TableCell<Appointments, LocalDateTime> columnFormat = new TableCell<Appointments, LocalDateTime>() {
+                    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+                    @Override
+                    protected void updateItem(LocalDateTime item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setText(null);
+                        } else {
+                            setText(dateTimeFormatter.format(item));
+                        }
+                    }
+                };
+                return columnFormat;
+            });
         }
         catch (SQLException e){
             e.printStackTrace();
