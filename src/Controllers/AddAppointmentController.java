@@ -26,7 +26,9 @@ import java.time.*;
 import java.util.ResourceBundle;
 
 
-/**This class allows the user the functionality to add an appointment to the schedule within the application.*/
+/**This class allows the user the functionality to add an appointment to the schedule within the application.
+ *
+ * Lambda expressions are used from Line 404 to Line 420. */
 public class AddAppointmentController implements Initializable {
 
     public Button cancelButton;
@@ -374,7 +376,12 @@ public class AddAppointmentController implements Initializable {
 
     /**This method initializes the Add Appointment screen and pulls an auto generated
      * appointment ID number. This also runs the methods to populate the combo boxes on
-     * the page. */
+     * the page.
+     *
+     * Lambda expressions are used from Line 404 to Line 420. These lambda expressions allowed me to
+     * easily create a function that prevents the user from scheduling an appointment on a day before
+     * the current date. All dates prior to the current dates are disabled. A lambda expression is used
+     * on both the start date picker and the end date picker to achieve this goal.*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         addAptIDTextField.setText(Integer.toString(appointmentIDNum));
@@ -394,6 +401,26 @@ public class AddAppointmentController implements Initializable {
         }
         startTimeCombo.setItems(time);
         endTimeCombo.setItems(time);
+
+        //lambda expression
+        addAptStartDateTime.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate aptStartDate, boolean empty) {
+                super.updateItem(aptStartDate, empty);
+                setDisable(
+                        empty || aptStartDate.isBefore(LocalDate.now()));
+            }
+        });
+        //lambda expression
+        addAptEndDateTime.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate aptEndDate, boolean empty) {
+                super.updateItem(aptEndDate, empty);
+                setDisable(
+                        empty || aptEndDate.isBefore(LocalDate.now()));
+            }
+        });
+
     }
 
     public void onStartTimeComboBox() {

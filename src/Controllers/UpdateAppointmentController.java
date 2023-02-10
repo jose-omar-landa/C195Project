@@ -27,7 +27,9 @@ import java.util.ResourceBundle;
 
 /** This class allows the user to update an existing appointment within the
  * schedule. Existing appointment data is pulled over from the table and
- * pre-populates the text fields and combo boxes. */
+ * pre-populates the text fields and combo boxes.
+ *
+ * Lambda expressions are used on Line 396 through Line 407*/
 public class UpdateAppointmentController implements Initializable {
     public Button cancelButton;
     public ComboBox<Integer> updateAptContactComboBox;
@@ -365,7 +367,12 @@ public class UpdateAppointmentController implements Initializable {
 
     /** This method initializes the Update Appointment Controller and pulls the selected appointment
      * data in order to pre-populate the data in the text fields and combo boxes. The methods for
-     * the combo box choices are also called in this method in order to provide proper functionality. */
+     * the combo box choices are also called in this method in order to provide proper functionality.
+     *
+     * Lambda expressions are used from Line 396 to Line 407. These lambda expressions allowed me to
+     * easily create a function that prevents the user from scheduling an appointment on a day before
+     * the current date. All dates prior to the current dates are disabled. A lambda expression is used
+     * on both the start date picker and the end date picker to achieve this goal. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -384,6 +391,25 @@ public class UpdateAppointmentController implements Initializable {
         }
         updateAptStartTime.setItems(time);
         updateAptEndTime.setItems(time);
+
+        //lambda expression
+        updateAptStartDate.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate aptStartDate, boolean empty) {
+                super.updateItem(aptStartDate, empty);
+                setDisable(
+                        empty || aptStartDate.isBefore(LocalDate.now()));
+            }
+        });
+        //lambda expression
+        updateAptEndDate.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate aptEndDate, boolean empty) {
+                super.updateItem(aptEndDate, empty);
+                setDisable(
+                        empty || aptEndDate.isBefore(LocalDate.now()));
+            }
+        });
 
         try {
             Appointments selectedAppointment = AppointmentScreenController.getSelectedAppointmentData();

@@ -30,7 +30,9 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-/**This class allows the user to view the current schedule of appointments in a table view. */
+/**This class allows the user to view the current schedule of appointments in a table view.
+ *
+ * Lambda expressions are used below from Line 168 to Line 200. */
 public class AppointmentScreenController implements Initializable {
     public TableView<Appointments> tableViewSchedule;
     public TableColumn<Appointments, Integer> tableAptID;
@@ -143,7 +145,10 @@ public class AppointmentScreenController implements Initializable {
     }
 
     /**This method initializes the Appointment Screen Controller with all appointments shown on the
-     * appointment table. */
+     * appointment table.
+     *
+     * Lambda expressions are used below from Line 168 to Line 200 to create a function that changes the
+     * format of the start and end times of appointments in order to make the time format easier to read. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -161,7 +166,7 @@ public class AppointmentScreenController implements Initializable {
             tableCustId.setCellValueFactory(new PropertyValueFactory<>("customerID"));
             tableUserId.setCellValueFactory(new PropertyValueFactory<>("userID"));
 
-            //lambda #1
+            //lambda expression
             tableStart.setCellFactory(column ->  {
                 TableCell<Appointments, LocalDateTime> columnFormat = new TableCell<Appointments, LocalDateTime>() {
                     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -178,7 +183,7 @@ public class AppointmentScreenController implements Initializable {
                 };
                 return columnFormat;
             });
-
+            //lambda expression
             tableEnd.setCellFactory(column ->  {
                 TableCell<Appointments, LocalDateTime> columnFormat = new TableCell<Appointments, LocalDateTime>() {
                     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

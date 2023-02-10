@@ -5,6 +5,10 @@ import DBQueries.CustomerQuery;
 import Objects.Appointments;
 import Objects.Countries;
 import Objects.Customers;
+import Objects.Divisions;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -152,6 +156,8 @@ public class CustomerDirectoryController implements Initializable {
         return getCustomerData;
     }
 
+
+
     /** This method initializes the Customer Directory Controller and populates the Customer
      * Directory table with the customers that exist within the database table. */
     @Override
@@ -165,8 +171,10 @@ public class CustomerDirectoryController implements Initializable {
             tablePhoneNumber.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
             tableDivision.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
             tableCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
+
+
         }
-        catch (SQLException e){
+        catch (Exception e){
             e.printStackTrace();
         }
     }
