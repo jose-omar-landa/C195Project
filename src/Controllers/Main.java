@@ -12,7 +12,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**This class creates an application that displays appointments, a customer directory, and allows the user
- * to add, update, or delete appointments and to add, update, or delete customer records. */
+ * to add, update, or delete appointments and to add, update, or delete customer records.
+ *
+ * Lambda expressions are located in the following controllers:
+ * 1. AppointmentScreenController Lines 168-200
+ * 2. AddAppointmentController Lines 404-420
+ * 3. UpdateAppointmentController Lines 396-407 */
 
 public class Main extends Application {
 
