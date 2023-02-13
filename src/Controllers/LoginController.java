@@ -20,9 +20,11 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 
 /** This class allows a user to log in to the scheduling application if they
@@ -39,6 +41,7 @@ public class LoginController implements Initializable {
     public Label usernameLabel;
     public Label passwordLabel;
     public Label countryLabel;
+    public Label timeZoneLabel;
 
     public void onEnteredUserName(ActionEvent actionEvent) {
     }
@@ -90,6 +93,7 @@ public class LoginController implements Initializable {
             enteredUserName.setPromptText(resourceBundle.getString("usernamePrompt"));
             enteredPassword.setPromptText(resourceBundle.getString("passwordPrompt"));
             countryLabel.setText(resourceBundle.getString("country"));
+            timeZoneLabel.setText((resourceBundle.getString("timeZoneLabel") + ZoneId.of(TimeZone.getDefault().getID())));
         }
     }
 
