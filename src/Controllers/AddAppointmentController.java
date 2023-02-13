@@ -168,11 +168,14 @@ public class AddAppointmentController implements Initializable {
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         }
-    }
+
 
     /**This method checks for errors in the data entry for a new appointment. This will generate an error for
      * the following reasons:
@@ -306,32 +309,39 @@ public class AddAppointmentController implements Initializable {
             return false;
         }
 
-        LocalDateTime selectedStartDateTime = enteredStartDate.atTime(enteredStartTime);
-        LocalDateTime selectedEndDateTime = enteredEndDate.atTime(enteredEndTime);
-
-        LocalDateTime requestedStart;
-        LocalDateTime requestedEnd;
-
         try {
+            LocalDateTime aptStart = LocalDateTime.of(addAptStartDateTime.getValue(), LocalTime.parse(startTimeCombo.getSelectionModel().getSelectedItem()));
+            LocalDateTime aptEnd = LocalDateTime.of(addAptEndDateTime.getValue(), LocalTime.parse(endTimeCombo.getSelectionModel().getSelectedItem()));
+            ZonedDateTime startUTC = aptStart.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
+            ZonedDateTime endUTC = aptEnd.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
+            Timestamp startTimeStamp = Timestamp.valueOf(startUTC.toLocalDateTime());
+            Timestamp endTimeStamp = Timestamp.valueOf(endUTC.toLocalDateTime());
 
-            ObservableList<Appointments> appointments = AppointmentQuery.pullAppointmentsByCustomerID(addAptCustomerID.getSelectionModel().getSelectedItem());
-            for (Appointments currentAppointments : appointments) {
-                requestedStart = currentAppointments.getAptStart();
-                requestedEnd = currentAppointments.getAptEnd();
+            try {
+                ObservableList<Appointments> appointments = AppointmentQuery.pullAppointmentsByCustomerID(addAptCustomerID.getSelectionModel().getSelectedItem());
+                for (Appointments currentAppointments : appointments) {
+                    LocalDateTime currentAptStart = currentAppointments.getAptStart();
+                    LocalDateTime curretAptEnd = currentAppointments.getAptEnd();
+                    Timestamp aptStartTimeStamp = Timestamp.valueOf(currentAptStart);
+                    Timestamp aptEndTimeStamp = Timestamp.valueOf(curretAptEnd);
+                    LocalDate startDate = addAptStartDateTime.getValue();
+                    LocalDate endDate = addAptEndDateTime.getValue();
 
-                if (requestedStart.isAfter(selectedStartDateTime) && requestedStart.isBefore(selectedEndDateTime)) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error!");
-                    alert.setContentText("Requested appointment must not overlap with an existing appointment!");
-                    alert.showAndWait();
-                    return false;
-                } else if (requestedEnd.isAfter(selectedStartDateTime) && requestedEnd.isBefore(selectedEndDateTime)) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error!");
-                    alert.setContentText("Requested appointment must not overlap with an existing appointment!");
-                    alert.showAndWait();
-                    return false;
+                    if (startTimeStamp.after(aptStartTimeStamp) && startTimeStamp.before(aptEndTimeStamp) ||
+                            endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp) ||
+                            startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp) ||
+                            startTimeStamp.equals(aptStartTimeStamp) && endTimeStamp.equals(aptEndTimeStamp) ||
+                            startTimeStamp.equals(aptStartTimeStamp) || endTimeStamp.equals(aptStartTimeStamp) ||
+                            endTimeStamp.before(startTimeStamp) || endDate.isAfter(startDate)) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Appointment Date Or Time Error!");
+                        alert.setContentText("Appointment must not overlap with existing appointment! Appointment start and end dates must be on the same day!");
+                        alert.showAndWait();
+                        return false;
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         } catch (Exception e) {
             e.printStackTrace();

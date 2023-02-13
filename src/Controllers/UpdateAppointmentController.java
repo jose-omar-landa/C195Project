@@ -264,31 +264,40 @@ public class UpdateAppointmentController implements Initializable {
             return false;
         }
 
-        LocalDateTime selectedStartDateTime = enteredStartDate.atTime(enteredStartTime);
-        LocalDateTime selectedEndDateTime = enteredEndDate.atTime(enteredEndTime);
-
-        LocalDateTime requestedStart;
-        LocalDateTime requestedEnd;
 
         try {
-            ObservableList<Appointments> appointments = AppointmentQuery.pullAppointmentsByCustomerID(updateAptCustomerIdComboBox.getSelectionModel().getSelectedItem());
-            for (Appointments currentAppointments : appointments) {
-                requestedStart = currentAppointments.getAptStart();
-                requestedEnd = currentAppointments.getAptEnd();
+            LocalDateTime aptStart = LocalDateTime.of(updateAptStartDate.getValue(), LocalTime.parse(updateAptStartTime.getSelectionModel().getSelectedItem()));
+            LocalDateTime aptEnd = LocalDateTime.of(updateAptEndDate.getValue(), LocalTime.parse(updateAptEndTime.getSelectionModel().getSelectedItem()));
+            ZonedDateTime startUTC = aptStart.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
+            ZonedDateTime endUTC = aptEnd.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
+            Timestamp startTimeStamp = Timestamp.valueOf(startUTC.toLocalDateTime());
+            Timestamp endTimeStamp = Timestamp.valueOf(endUTC.toLocalDateTime());
 
-                if (requestedStart.isAfter(selectedStartDateTime) && requestedStart.isBefore(selectedEndDateTime)) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error!");
-                    alert.setContentText("Requested appointment must not overlap with an existing appointment!");
-                    alert.showAndWait();
-                    return false;
-                } else if (requestedEnd.isAfter(selectedStartDateTime) && requestedEnd.isBefore(selectedEndDateTime)) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error!");
-                    alert.setContentText("Requested appointment must not overlap with an existing appointment!");
-                    alert.showAndWait();
-                    return false;
+            try {
+                ObservableList<Appointments> appointments = AppointmentQuery.pullAppointmentsByCustomerID(updateAptCustomerIdComboBox.getSelectionModel().getSelectedItem());
+                for (Appointments currentAppointments : appointments) {
+                    LocalDateTime currentAptStart = currentAppointments.getAptStart();
+                    LocalDateTime curretAptEnd = currentAppointments.getAptEnd();
+                    Timestamp aptStartTimeStamp = Timestamp.valueOf(currentAptStart);
+                    Timestamp aptEndTimeStamp = Timestamp.valueOf(curretAptEnd);
+                    LocalDate startDate = updateAptStartDate.getValue();
+                    LocalDate endDate = updateAptEndDate.getValue();
+
+                    if (startTimeStamp.after(aptStartTimeStamp) && startTimeStamp.before(aptEndTimeStamp) ||
+                            endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp) ||
+                            startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp) ||
+                            startTimeStamp.equals(aptStartTimeStamp) && endTimeStamp.equals(aptEndTimeStamp) ||
+                            startTimeStamp.equals(aptStartTimeStamp) || endTimeStamp.equals(aptStartTimeStamp) ||
+                            endTimeStamp.before(startTimeStamp) || endDate.isAfter(startDate)) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Appointment Date Or Time Error!");
+                        alert.setContentText("Appointment must not overlap with existing appointment! Appointment start and end dates must be on the same day!");
+                        alert.showAndWait();
+                        return false;
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         } catch (Exception e) {
             e.printStackTrace();
