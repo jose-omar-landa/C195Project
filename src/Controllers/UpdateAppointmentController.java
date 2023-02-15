@@ -283,17 +283,20 @@ public class UpdateAppointmentController implements Initializable {
                     LocalDate startDate = updateAptStartDate.getValue();
                     LocalDate endDate = updateAptEndDate.getValue();
 
-                    if (startTimeStamp.after(aptStartTimeStamp) && startTimeStamp.before(aptEndTimeStamp) ||
-                            endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp) ||
-                            startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp) ||
-                            startTimeStamp.equals(aptStartTimeStamp) && endTimeStamp.equals(aptEndTimeStamp) ||
-                            startTimeStamp.equals(aptStartTimeStamp) || endTimeStamp.equals(aptStartTimeStamp) ||
-                            endTimeStamp.before(startTimeStamp) || endDate.isAfter(startDate)) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Appointment Date Or Time Error!");
-                        alert.setContentText("Appointment must not overlap with existing appointment! Appointment start and end dates must be on the same day!");
-                        alert.showAndWait();
-                        return false;
+                    if (!startTimeStamp.equals(aptStartTimeStamp) || !endTimeStamp.equals(aptEndTimeStamp)) {
+
+                        if (startTimeStamp.after(aptStartTimeStamp) && startTimeStamp.before(aptEndTimeStamp) ||
+                                endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp) ||
+                                startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp) ||
+                                startTimeStamp.equals(aptStartTimeStamp) && endTimeStamp.equals(aptEndTimeStamp) ||
+                                startTimeStamp.equals(aptStartTimeStamp) || endTimeStamp.equals(aptStartTimeStamp) ||
+                                endTimeStamp.before(startTimeStamp) || endDate.isAfter(startDate)) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Appointment Date Or Time Error!");
+                            alert.setContentText("Appointment must not overlap with existing appointment! Appointment start and end dates must be on the same day!");
+                            alert.showAndWait();
+                            return false;
+                        }
                     }
                 }
             } catch (Exception e) {
