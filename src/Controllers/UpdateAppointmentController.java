@@ -277,25 +277,27 @@ public class UpdateAppointmentController implements Initializable {
                 ObservableList<Appointments> appointments = AppointmentQuery.pullAppointmentsByCustomerID(updateAptCustomerIdComboBox.getSelectionModel().getSelectedItem());
                 for (Appointments currentAppointments : appointments) {
                     LocalDateTime currentAptStart = currentAppointments.getAptStart();
-                    LocalDateTime curretAptEnd = currentAppointments.getAptEnd();
+                    LocalDateTime currentAptEnd = currentAppointments.getAptEnd();
                     Timestamp aptStartTimeStamp = Timestamp.valueOf(currentAptStart);
-                    Timestamp aptEndTimeStamp = Timestamp.valueOf(curretAptEnd);
+                    Timestamp aptEndTimeStamp = Timestamp.valueOf(currentAptEnd);
                     LocalDate startDate = updateAptStartDate.getValue();
                     LocalDate endDate = updateAptEndDate.getValue();
 
+
                     if (!startTimeStamp.equals(aptStartTimeStamp) || !endTimeStamp.equals(aptEndTimeStamp)) {
 
-                        if (startTimeStamp.after(aptStartTimeStamp) && startTimeStamp.before(aptEndTimeStamp) ||
-                                endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp) ||
-                                startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp) ||
-                                startTimeStamp.equals(aptStartTimeStamp) && endTimeStamp.equals(aptEndTimeStamp) ||
-                                startTimeStamp.equals(aptStartTimeStamp) || endTimeStamp.equals(aptStartTimeStamp) ||
-                                endTimeStamp.before(startTimeStamp) || endDate.isAfter(startDate)) {
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setTitle("Appointment Date Or Time Error!");
-                            alert.setContentText("Appointment must not overlap with existing appointment! Appointment start and end dates must be on the same day!");
-                            alert.showAndWait();
-                            return false;
+                            if (startTimeStamp.after(aptStartTimeStamp) && startTimeStamp.before(aptEndTimeStamp) ||
+                                    endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp) ||
+                                    startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp) ||
+                                    startTimeStamp.equals(aptStartTimeStamp) && endTimeStamp.equals(aptEndTimeStamp) ||
+                                    startTimeStamp.equals(aptStartTimeStamp) || endTimeStamp.equals(aptStartTimeStamp) ||
+                                    endTimeStamp.before(startTimeStamp) || endDate.isAfter(startDate)) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Appointment Date Or Time Error!");
+                                alert.setContentText("Appointment must not overlap with existing appointment! Appointment start and end dates must be on the same day!");
+                                alert.showAndWait();
+                                return false;
+
                         }
                     }
                 }
@@ -345,20 +347,6 @@ public class UpdateAppointmentController implements Initializable {
 
     /** This method populates the Customer ID combo box. */
     public void onUpdateAptCustomerIDComboBoxClicked() {
-        ObservableList<Integer> userIdComboBox = FXCollections.observableArrayList();
-        try {
-            ObservableList<Users> selectedUserID = UsersQuery.allUsersList();
-            for (Users users : selectedUserID) {
-                userIdComboBox.add(users.getUserID());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        updateAptCustomerIdComboBox.setItems(userIdComboBox);
-    }
-
-    /** This method populates the User ID combo box. */
-    public void onUpdateAptUserIDComboBoxClicked() {
         ObservableList<Integer> customersComboBox = FXCollections.observableArrayList();
         try {
             ObservableList<Customers> selectCustomerId = CustomerQuery.allCustomersList();
@@ -368,7 +356,21 @@ public class UpdateAppointmentController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        updateAptUserIdComboBox.setItems(customersComboBox);
+        updateAptCustomerIdComboBox.setItems(customersComboBox);
+    }
+
+    /** This method populates the User ID combo box. */
+    public void onUpdateAptUserIDComboBoxClicked() {
+        ObservableList<Integer> userIdComboBox = FXCollections.observableArrayList();
+        try {
+            ObservableList<Users> selectedUserID = UsersQuery.allUsersList();
+            for (Users users : selectedUserID) {
+                userIdComboBox.add(users.getUserID());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        updateAptUserIdComboBox.setItems(userIdComboBox);
     }
 
     public void onUpdateAptStartTimeComboClicked(ActionEvent actionEvent) {
@@ -430,8 +432,8 @@ public class UpdateAppointmentController implements Initializable {
             updateAptTitleTextField.setText(String.valueOf(selectedAppointment.getAptTitle()));
             updateAptTypeTextField.setText(String.valueOf(selectedAppointment.getAptType()));
             updateAptLocationTextField.setText(String.valueOf(selectedAppointment.getAptLocation()));
-            updateAptContactComboBox.getSelectionModel().select(selectedAppointment.getContactID());
-            updateAptUserIdComboBox.getSelectionModel().select(selectedAppointment.getUserID());
+            updateAptContactComboBox.getSelectionModel().select(Integer.valueOf(selectedAppointment.getContactID()));
+            updateAptUserIdComboBox.getSelectionModel().select(Integer.valueOf(selectedAppointment.getUserID()));
             updateAptCustomerIdComboBox.getSelectionModel().select(Integer.valueOf(selectedAppointment.getCustomerID()));
             updateAptStartDate.setValue(selectedAppointment.getAptStart().toLocalDate());
             updateAptEndDate.setValue(selectedAppointment.getAptEnd().toLocalDate());
