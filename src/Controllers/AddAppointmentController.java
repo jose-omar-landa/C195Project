@@ -327,10 +327,10 @@ public class AddAppointmentController implements Initializable {
                     LocalDate startDate = addAptStartDateTime.getValue();
                     LocalDate endDate = addAptEndDateTime.getValue();
 
-                    if (startTimeStamp.after(aptStartTimeStamp) && startTimeStamp.before(aptEndTimeStamp) ||
-                            endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp) ||
-                            startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp) ||
-                            startTimeStamp.equals(aptStartTimeStamp) && endTimeStamp.equals(aptEndTimeStamp) ||
+                    if ((startTimeStamp.after(aptStartTimeStamp) && startTimeStamp.before(aptEndTimeStamp)) ||
+                            (endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp)) ||
+                            (startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp)) ||
+                            (startTimeStamp.equals(aptStartTimeStamp) && endTimeStamp.equals(aptEndTimeStamp)) ||
                             startTimeStamp.equals(aptStartTimeStamp) ||
                             endTimeStamp.before(startTimeStamp) ||
                             endDate.isAfter(startDate)) {
