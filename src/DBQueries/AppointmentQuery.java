@@ -111,7 +111,7 @@ public class AppointmentQuery {
      * @param userID provides the user ID.
      * @param contactID provides the contact ID.
      * @return returns true if the update is successful and false if the update is unsuccessful. */
-    public static boolean updateAppointmentRecord(String aptID, String aptTitle, String aptDescription, String aptLocation, String aptType,
+    public static boolean updateAppointmentRecord(int aptID, String aptTitle, String aptDescription, String aptLocation, String aptType,
                                                   Timestamp aptStart, Timestamp aptEnd, int customerID, int userID, int contactID) throws SQLException {
         try {
             PreparedStatement ps = JDBC.getConnection().prepareStatement("UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Customer_ID=?, Contact_ID=?, User_ID=? WHERE Appointment_ID = ?;");
@@ -124,7 +124,7 @@ public class AppointmentQuery {
             ps.setInt(7, customerID);
             ps.setInt(8, contactID);
             ps.setInt(9, userID);
-            ps.setString(10, aptID);
+            ps.setInt(10, aptID);
             ps.execute();
             if (ps.getUpdateCount() > 0) {
                 System.out.println(ps.getUpdateCount() + " rows affected by change.");

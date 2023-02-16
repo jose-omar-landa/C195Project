@@ -96,22 +96,26 @@ public class UpdateAppointmentController implements Initializable {
      * into the appointment view table on the Appointment View Screen. The user is taken
      * back to the Appointment View Screen when data is saved successfully. */
     public void onUpdateAptSaveButtonClicked(ActionEvent actionEvent) {
-        boolean appointmentIsValid = appointmentErrorValidation(updateAptTitleTextField.getText(),
-                updateAptDescriptionTextField.getText(),
-                updateAptLocationTextField.getText(),
-                updateAptIDTextField.getText());
+
+        int appointmentID = Integer.parseInt(updateAptIDTextField.getText());
+        String appointmentTitle = updateAptTitleTextField.getText();
+        String appointmentDescription = updateAptDescriptionTextField.getText();
+        String appointmentLocation = updateAptLocationTextField.getText();
+        String appointmentType = updateAptTypeTextField.getText();
+        int contacts = updateAptContactComboBox.getSelectionModel().getSelectedItem();
+        LocalDateTime aptStart = LocalDateTime.of(updateAptStartDate.getValue(), LocalTime.parse(updateAptStartTime.getSelectionModel().getSelectedItem()));
+        LocalDateTime aptEnd = LocalDateTime.of(updateAptEndDate.getValue(), LocalTime.parse(updateAptEndTime.getSelectionModel().getSelectedItem()));
+        int customerID = updateAptCustomerIdComboBox.getValue();
+        int userID = updateAptUserIdComboBox.getValue();
+
+        boolean appointmentIsValid = appointmentErrorValidation(appointmentTitle,
+                appointmentDescription,
+                appointmentLocation,
+                appointmentID,
+                customerID);
         if (appointmentIsValid) {
             try {
-                String appointmentID = updateAptIDTextField.getText();
-                String appointmentTitle = updateAptTitleTextField.getText();
-                String appointmentDescription = updateAptDescriptionTextField.getText();
-                String appointmentLocation = updateAptLocationTextField.getText();
-                String appointmentType = updateAptTypeTextField.getText();
-                int contacts = updateAptContactComboBox.getSelectionModel().getSelectedItem();
-                LocalDateTime aptStart = LocalDateTime.of(updateAptStartDate.getValue(), LocalTime.parse(updateAptStartTime.getSelectionModel().getSelectedItem()));
-                LocalDateTime aptEnd = LocalDateTime.of(updateAptEndDate.getValue(), LocalTime.parse(updateAptEndTime.getSelectionModel().getSelectedItem()));
-                int customerID = updateAptCustomerIdComboBox.getValue();
-                int userID = updateAptUserIdComboBox.getValue();
+
                 ZonedDateTime startUTC = aptStart.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
                 ZonedDateTime endUTC = aptEnd.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
                 Timestamp startTimeStamp = Timestamp.valueOf(startUTC.toLocalDateTime());
@@ -145,7 +149,7 @@ public class UpdateAppointmentController implements Initializable {
      * @param aptLocation this selects the appointment location from the respective text field.
      * @param aptID this selects the appointment ID from the respective text field.
      * @return returns either true or false depending on if conditions are met.*/
-    private boolean appointmentErrorValidation(String aptTitle, String aptDescription, String aptLocation, String aptID) {
+    private boolean appointmentErrorValidation(String aptTitle, String aptDescription, String aptLocation, int aptID, int customerID) {
         if (aptTitle.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Missing Appointment Title!");
@@ -166,14 +170,6 @@ public class UpdateAppointmentController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Missing Appointment Location!");
             alert.setContentText("An appointment location is required!");
-            alert.showAndWait();
-            return false;
-        }
-
-        if (aptID.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Missing Appointment ID!");
-            alert.setContentText("An appointment ID is required!");
             alert.showAndWait();
             return false;
         }
@@ -264,18 +260,27 @@ public class UpdateAppointmentController implements Initializable {
             return false;
         }
 
+        LocalDateTime aptStart = LocalDateTime.of(updateAptStartDate.getValue(), LocalTime.parse(updateAptStartTime.getSelectionModel().getSelectedItem()));
+        LocalDateTime aptEnd = LocalDateTime.of(updateAptEndDate.getValue(), LocalTime.parse(updateAptEndTime.getSelectionModel().getSelectedItem()));
+        ZonedDateTime startUTC = aptStart.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
+        ZonedDateTime endUTC = aptEnd.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
+        Timestamp startTimeStamp = Timestamp.valueOf(startUTC.toLocalDateTime());
+        Timestamp endTimeStamp = Timestamp.valueOf(endUTC.toLocalDateTime());
 
-        try {
-            LocalDateTime aptStart = LocalDateTime.of(updateAptStartDate.getValue(), LocalTime.parse(updateAptStartTime.getSelectionModel().getSelectedItem()));
-            LocalDateTime aptEnd = LocalDateTime.of(updateAptEndDate.getValue(), LocalTime.parse(updateAptEndTime.getSelectionModel().getSelectedItem()));
-            ZonedDateTime startUTC = aptStart.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
-            ZonedDateTime endUTC = aptEnd.atZone(zoneID).withZoneSameInstant(ZoneId.of("UTC"));
-            Timestamp startTimeStamp = Timestamp.valueOf(startUTC.toLocalDateTime());
-            Timestamp endTimeStamp = Timestamp.valueOf(endUTC.toLocalDateTime());
+        if (endTimeStamp.before(startTimeStamp)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Appointment Date Or Time Error!");
+            alert.setContentText("Appointment start time must be before the end time!");
+            alert.showAndWait();
+            return false;
+        }
 
             try {
                 ObservableList<Appointments> appointments = AppointmentQuery.pullAppointmentsByCustomerID(updateAptCustomerIdComboBox.getSelectionModel().getSelectedItem());
                 for (Appointments currentAppointments : appointments) {
+                    if (currentAppointments.getAptID() == aptID || currentAppointments.getCustomerID() != customerID) {
+                        continue;
+                    }
                     LocalDateTime currentAptStart = currentAppointments.getAptStart();
                     LocalDateTime currentAptEnd = currentAppointments.getAptEnd();
                     Timestamp aptStartTimeStamp = Timestamp.valueOf(currentAptStart);
@@ -284,14 +289,11 @@ public class UpdateAppointmentController implements Initializable {
                     LocalDate endDate = updateAptEndDate.getValue();
 
 
-//                    if (!startTimeStamp.equals(aptStartTimeStamp) || !endTimeStamp.equals(aptEndTimeStamp)) {
 
-                            if (startTimeStamp.after(aptStartTimeStamp) && startTimeStamp.before(aptEndTimeStamp) ||     //new start time between existing start and end time
-                                    endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp) ||     //new end time between existing start and end time
-                                    startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp) || //new start time before existing start and new end time after existing start
-                                    startTimeStamp.equals(aptStartTimeStamp) && endTimeStamp.equals(aptEndTimeStamp) ||  //new times equals existing start and end times
-                                    startTimeStamp.equals(aptStartTimeStamp) ||                                          //new start time equals existing start time
-                                    endTimeStamp.before(startTimeStamp) ||                                               //new end time is before new start time
+                            if ((startTimeStamp.after(aptStartTimeStamp) && startTimeStamp.before(aptEndTimeStamp))||     //new start time between existing start and end time
+                                    (endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp)) ||     //new end time between existing start and end time
+                                    (startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp)) || //new start time before existing start and new end time after existing start
+                                    (startTimeStamp.equals(aptStartTimeStamp) || endTimeStamp.equals(aptEndTimeStamp)) ||  //new times equals existing start and end times
                                     endDate.isAfter(startDate)) {
                                 Alert alert = new Alert(Alert.AlertType.ERROR);
                                 alert.setTitle("Appointment Date Or Time Error!");
@@ -301,13 +303,10 @@ public class UpdateAppointmentController implements Initializable {
 
                         }
                     }
-//                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         ZonedDateTime startTimeConversion = convertTimeEST(LocalDateTime.of(updateAptStartDate.getValue(), LocalTime.parse(updateAptStartTime.getSelectionModel().getSelectedItem())));
         ZonedDateTime endTimeConversion = convertTimeEST(LocalDateTime.of(updateAptEndDate.getValue(), LocalTime.parse(updateAptEndTime.getSelectionModel().getSelectedItem())));
