@@ -284,14 +284,15 @@ public class UpdateAppointmentController implements Initializable {
                     LocalDate endDate = updateAptEndDate.getValue();
 
 
-                    if (!startTimeStamp.equals(aptStartTimeStamp) || !endTimeStamp.equals(aptEndTimeStamp)) {
+//                    if (!startTimeStamp.equals(aptStartTimeStamp) || !endTimeStamp.equals(aptEndTimeStamp)) {
 
-                            if (startTimeStamp.after(aptStartTimeStamp) && startTimeStamp.before(aptEndTimeStamp) ||
-                                    endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp) ||
-                                    startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp) ||
-                                    startTimeStamp.equals(aptStartTimeStamp) && endTimeStamp.equals(aptEndTimeStamp) ||
-                                    startTimeStamp.equals(aptStartTimeStamp) || endTimeStamp.equals(aptStartTimeStamp) ||
-                                    endTimeStamp.before(startTimeStamp) || endDate.isAfter(startDate)) {
+                            if (startTimeStamp.after(aptStartTimeStamp) && startTimeStamp.before(aptEndTimeStamp) ||     //new start time between existing start and end time
+                                    endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp) ||     //new end time between existing start and end time
+                                    startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp) || //new start time before existing start and new end time after existing start
+                                    startTimeStamp.equals(aptStartTimeStamp) && endTimeStamp.equals(aptEndTimeStamp) ||  //new times equals existing start and end times
+                                    startTimeStamp.equals(aptStartTimeStamp) ||                                          //new start time equals existing start time
+                                    endTimeStamp.before(startTimeStamp) ||                                               //new end time is before new start time
+                                    endDate.isAfter(startDate)) {
                                 Alert alert = new Alert(Alert.AlertType.ERROR);
                                 alert.setTitle("Appointment Date Or Time Error!");
                                 alert.setContentText("Appointment must not overlap with existing appointment! Appointment start and end dates must be on the same day!");
@@ -300,7 +301,7 @@ public class UpdateAppointmentController implements Initializable {
 
                         }
                     }
-                }
+//                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -372,6 +373,7 @@ public class UpdateAppointmentController implements Initializable {
         }
         updateAptUserIdComboBox.setItems(userIdComboBox);
     }
+
 
     public void onUpdateAptStartTimeComboClicked(ActionEvent actionEvent) {
     }

@@ -18,9 +18,9 @@
             <TableColumn fx:id="tableAptTitle" prefWidth="98.0" text="Title" />
             <TableColumn fx:id="tableAptDescription" minWidth="0.0" prefWidth="112.0" text="Description" />
             <TableColumn fx:id="tableAptLocation" minWidth="0.0" prefWidth="142.0" text="Location" />
-            <TableColumn fx:id="tableContact" minWidth="0.0" prefWidth="85.0" text="Contact" />
-            <TableColumn fx:id="tableType" minWidth="0.0" prefWidth="111.0" text="Type" />
-            <TableColumn fx:id="tableStart" minWidth="0.0" prefWidth="98.0" text="Start Date/Time" />
+            <TableColumn fx:id="tableContact" minWidth="0.0" prefWidth="72.0" text="Contact" />
+            <TableColumn fx:id="tableType" minWidth="0.0" prefWidth="104.0" text="Type" />
+            <TableColumn fx:id="tableStart" minWidth="0.0" prefWidth="118.0" text="Start Date/Time" />
             <TableColumn fx:id="tableEnd" minWidth="0.0" prefWidth="110.0" text="End Date/Time" />
             <TableColumn fx:id="tableCustId" minWidth="0.0" prefWidth="77.0" text="Customer ID" />
             <TableColumn fx:id="tableUserId" minWidth="0.0" prefWidth="55.0" text="User ID" />

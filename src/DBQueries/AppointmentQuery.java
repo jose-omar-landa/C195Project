@@ -5,6 +5,7 @@ import Objects.Appointments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -253,5 +254,6 @@ public class AppointmentQuery {
             return "Report Unable To Generate";
         }
     }
+
 
 }

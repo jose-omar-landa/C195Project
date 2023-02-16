@@ -331,8 +331,9 @@ public class AddAppointmentController implements Initializable {
                             endTimeStamp.after(aptStartTimeStamp) && endTimeStamp.before(aptEndTimeStamp) ||
                             startTimeStamp.before(aptStartTimeStamp) && endTimeStamp.after(aptStartTimeStamp) ||
                             startTimeStamp.equals(aptStartTimeStamp) && endTimeStamp.equals(aptEndTimeStamp) ||
-                            startTimeStamp.equals(aptStartTimeStamp) || endTimeStamp.equals(aptStartTimeStamp) ||
-                            endTimeStamp.before(startTimeStamp) || endDate.isAfter(startDate)) {
+                            startTimeStamp.equals(aptStartTimeStamp) ||
+                            endTimeStamp.before(startTimeStamp) ||
+                            endDate.isAfter(startDate)) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Appointment Date Or Time Error!");
                         alert.setContentText("Appointment must not overlap with existing appointment! Appointment start and end dates must be on the same day!");
