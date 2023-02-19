@@ -61,8 +61,8 @@ public class UpdateCustomerController implements Initializable {
             updateCustomerID.setText(String.valueOf(selectedCustomerData.getCustomerID()));
             updateCustomerName.setText(selectedCustomerData.getCustomerName());
             updateCustomerAddress.setText(selectedCustomerData.getCustomerAddress());
-            updateCustomerPhoneNumber.setText(selectedCustomerData.getCustomerAddress());
-            updateCustomerPostalCode.setText(selectedCustomerData.getCustomerAddress());
+            updateCustomerPhoneNumber.setText(selectedCustomerData.getCustomerPhone());
+            updateCustomerPostalCode.setText(selectedCustomerData.getPostalCode());
             updateCustomerCountry.getSelectionModel().select(selectedCustomerData.getCountry());
             updateCustomerDivision.getSelectionModel().select(selectedCustomerData.getDivision());
 
